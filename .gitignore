@@ -1,0 +1,54 @@
+# Ambiente virtual
+venv/
+.env
+
+# Cache de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+*.egg-info/
+*.egg
+*.spec
+
+# Cache de Django
+db.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.mo
+
+# Migrations (mantém arquivos de migração, mas ignora cache)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+
+# Arquivos estáticos compilados
+staticfiles/
+static/
+
+# Media uploads (caso não queira versionar)
+media/
+
+# VSCode, Pycharm, JetBrains
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Builds e distros
+build/
+dist/
+
+# Docker
+docker-compose.override.yml
+*.pid
+
+# Node / front-end opcional
+node_modules/
+npm-debug.log
+yarn-error.log
