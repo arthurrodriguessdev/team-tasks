@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title>Document</title>{% endblock %}
+</head>
+<body>
+    <div class="tela-box">
+        <div class="box-esquerdo">
+            <div class="box-esquerdo-textos">
+                <h1 class="box-esquerdo-titulo">{{ titulo }}</h1>
+                <p class="box-esquerdo-paragrafo">{{ paragrafo }}</p>
+            </div>
+        </div>
+
+        <div class="box-direito">
+            <h2 class="titulo-formulario">{{ titulo_form }}</h2>
+            <div class="card-formulario">
+                <form action="{% url url_view %}" method="POST">
+                    {% csrf_token %}
+                    {% block inputs %}{% endblock %}
+
+                    <div class="botoes-formulario">
+                        {% block botoes %}{% endblock %}
+                    </div>
+
+                </form>
+                <div class="botoes-formulario">
+                    {% block botoes_extras %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
