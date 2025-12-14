@@ -44,7 +44,8 @@ def login_usuario(request):
             'form': form,
             'url_view': 'login_usuario',
             'titulo': 'Bem-vindo novamente!',
-            'paragrafo': 'Caso seja sua primeira vez por aqui, clique na opção de criar conta ao lado. '
+            'paragrafo': 'Caso seja sua primeira vez por aqui, clique na opção de criar conta ao lado.',
+            'titulo_form': 'Login'
         }
 
     return render(request, 'login_usuario.html', contexto)
