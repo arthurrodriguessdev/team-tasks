@@ -1,8 +1,8 @@
 from django.urls import path
-from comum.views import login_usuario, registrar_usuario
+from comum.views import login_usuario, cadastrar_usuario
 
 
 urlpatterns = [
-    path('login', login_usuario, name='login_usuario'),
-    path('cadastro', registrar_usuario, name='registrar_usuario')
+    path('', login_usuario, name='login_usuario'),
+    path('cadastro/', cadastrar_usuario, name='cadastro_usuario')
 ]

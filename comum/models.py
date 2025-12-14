@@ -3,9 +3,14 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+
 class Usuario(AbstractUser):
-    nome = models.CharField(max_length=120, blank=False, null=False, default='Não informado', help_text='Informe seu nome')
-    email = models.EmailField(_("email address"), blank=False)
+    nome = models.CharField(max_length=120, blank=False, help_text='Informe seu nome')
+    email = models.EmailField(blank=False, verbose_name='E-mail', unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'nome']
+
     is_staff = models.BooleanField(
         ("staff status"),
         default=False,
