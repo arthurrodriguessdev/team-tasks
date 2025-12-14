@@ -8,9 +8,6 @@ class Usuario(AbstractUser):
     nome = models.CharField(max_length=120, blank=False, help_text='Informe seu nome')
     email = models.EmailField(blank=False, verbose_name='E-mail', unique=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'nome']
-
     is_staff = models.BooleanField(
         ("staff status"),
         default=False,

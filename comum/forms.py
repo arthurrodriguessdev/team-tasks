@@ -13,26 +13,44 @@ class UsuarioCadastroForm(forms.ModelForm):
         model = Usuario
         fields = ('nome', 'email', 'password', 'username', 'password_confirmacao')
 
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        usuarios_existente = Usuario.objects.filter(username=username)
+
+        if usuarios_existente.exists():
+            raise forms.ValidationError('Este nome de usuário já existe.')
+        
+        return username
+          
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        email_existente = Usuario.objects.filter(email=email)
+
+        if email_existente.exists():
+            raise forms.ValidationError('O e-mail informado já existe.')
+        
+        return email
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+
+        if password and ' ' in password:
+            raise forms.ValidationError('A senha não deve conter espaço em branco.')
+
+        if password and len(password) < 8:
+            raise forms.ValidationError('A senha deve ter, no mínimo, 8 caracteres.')
+        
+        return password
+    
     def clean(self):
         cleaned_data = super().clean()
 
         password = cleaned_data.get('password')
         password_confirmacao = cleaned_data.get('password_confirmacao')
-        username = cleaned_data.get('username')
-
-        usuarios_existentes = Usuario.objects.filter(username=username)
-
-        if usuarios_existentes.exists():
-            return self.add_error('username', 'Este nome de usuário já existe.')
-        
-        if password and ' ' in password:
-            self.add_error('password', 'A senha não deve conter espaço em branco.')
-
-        if password and len(password) < 8:
-            return self.add_error('password', 'A senha deve ter, no mínimo, 8 caracteres.')
         
         if password and password_confirmacao and password != password_confirmacao:
-            return self.add_error('password_confirmacao', 'As senhas não coincidem.')
+            self.add_error('password_confirmacao', 'As senhas não coincidem.')
+            return cleaned_data
         
         return cleaned_data
     
@@ -52,4 +70,4 @@ class UsuarioCadastroForm(forms.ModelForm):
 class UsuarioLoginForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ('email', 'password')
+        fields = ('username', 'password')

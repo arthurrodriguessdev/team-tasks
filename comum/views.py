@@ -37,24 +37,19 @@ def cadastrar_usuario(request):
 
 def login_usuario(request):
     if request.method == 'POST':
-        form = UsuarioLoginForm(request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            print(email)
+        # arthurx18 == 18011801
+        usuario = authenticate(request, username=username, password=password)
 
-            usuario = authenticate(request, email=email, password=password)
-            print(usuario)
-
-
-            if usuario is not None:
-                login(request, usuario)
-                return HttpResponse('Logou')
-            
-            else:
-                messages.error(request, 'Email ou senha inválidos. Verifique os dados e tente novamente.')
-                return redirect('login_usuario')
+        if usuario is not None:
+            login(request, usuario)
+            return HttpResponse('Logou')
+        
+        else:
+            messages.error(request, 'Email ou senha inválidos. Verifique os dados e tente novamente.')
+            return redirect('login_usuario')
 
     else:
         form = UsuarioLoginForm()
