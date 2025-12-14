@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/base_cadastro_login.css' %}">
-    {% block title %}<title>Document</title>{% endblock %}
+    <title>{{ titulo_pagina }}</title>
 </head>
 <body>
     <div class="tela-box">
@@ -24,11 +24,19 @@
                     {% csrf_token %}
                     {% block inputs %}{% endblock %}
 
+                    {% if link_adicional %}
+                        <a class="link-adicional" href="{% url url_link %}">{{ link_adicional }}</a>
+                    {% endif %}
+
                     <div class="botoes-formulario">
                         {% block botoes %}{% endblock %}
                     </div>
-
                 </form>
+
+                {% if texto_divisor %}
+                    <p class="texto-divisor">{{ texto_divisor }}</p>
+                {% endif %}
+
                 <div class="botoes-formulario">
                     {% block botoes_extras %}{% endblock %}
                 </div>

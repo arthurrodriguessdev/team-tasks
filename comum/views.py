@@ -4,6 +4,7 @@ from django.contrib import messages
 from comum.forms import UsuarioCadastroForm, UsuarioLoginForm
 from comum.models import Usuario
 
+
 def registrar_usuario(request):
     if request.method == 'POST':
         form = UsuarioCadastroForm(request.POST)
@@ -41,12 +42,20 @@ def login_usuario(request):
     else:
         form = UsuarioLoginForm()
         contexto = {
+            'titulo_pagina': 'Team Task | Entrar',
             'form': form,
             'url_view': 'login_usuario',
             'titulo': 'Bem-vindo novamente!',
             'paragrafo': 'Caso seja sua primeira vez por aqui, clique na opção de criar conta ao lado.',
-            'titulo_form': 'Login'
+            'titulo_form': 'Login',
+            'url_link': 'login_usuario',
+            'link_adicional': 'Esqueci minha senha',
+            'texto_divisor': 'ou',
         }
 
     return render(request, 'login_usuario.html', contexto)
+
+def logout_usuario(request):
+    logout(request)
+    return redirect('login_usuario')
     
