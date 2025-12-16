@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block title %}<title>Document</title>{% endblock %}
+</head>
+<body>
+    <div class="sidebar-box">
+        <div class="sidebar-opcoes">
+            <ul class="sidebar-menu-box">
+                <li><a class="sidebar-opcao-primaria" href="">Dashboard</a></li>
+
+                <li><a class="sidebar-opcao-primaria" href="">Tarefas</a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="">Minhas Tarefas</a></li>
+                        <li><a href="">Criar Tarefa</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -65,8 +65,8 @@ def login_usuario(request):
         'link_adicional': 'Esqueci minha senha',
         'texto_divisor': 'ou',
     }
-
-    return render(request, 'login_usuario.html', contexto)
+    # return render(request, 'login_usuario.html', contexto)
+    return render(request, 'base_site.html')
 
 def logout_usuario(request):
     logout(request)
