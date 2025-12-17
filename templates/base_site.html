@@ -13,7 +13,13 @@
             <ul class="sidebar-menu-box">
                 <li><a class="sidebar-opcao-primaria" href="">Dashboard</a></li>
 
-                <li><a class="sidebar-opcao-primaria" href="">Tarefas</a>
+                <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="">Minhas Tarefas</a></li>
+                        <li><a href="">Criar Tarefa</a></li>
+                    </ul>
+                </li>
+                <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
                     <ul class="sidebar-submenu">
                         <li><a href="">Minhas Tarefas</a></li>
                         <li><a href="">Criar Tarefa</a></li>
@@ -23,4 +29,23 @@
         </div>
     </div>
 </body>
+
+<script>
+    var opcoes_submenu = window.document.getElementsByClassName('tem-submenu');
+    var menus_selecionados = window.document.getElementsByClassName('sidebar-opcao-primaria');
+
+    for(var i = 0; i < opcoes_submenu.length; i++){
+        opcoes_submenu[i].addEventListener("click", function abrir_submenus(e){
+            e.preventDefault();
+            this.classList.toggle('aberto');
+        })
+    }
+
+    for(var j = 0; j < menus_selecionados.length; j++){
+        menus_selecionados[j].addEventListener("click", function menu_aberto(e){
+            e.preventDefault();
+            this.classList.toggle('selecionado');
+        })
+    }
+</script>
 </html>
