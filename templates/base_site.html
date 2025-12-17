@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% block title %}<title>Document</title>{% endblock %}
+
 </head>
 <body>
+    <!-- sidebar base -->
     <div class="sidebar-box">
         <div class="sidebar-opcoes">
             <ul class="sidebar-menu-box">
@@ -19,13 +22,26 @@
                         <li><a href="">Criar Tarefa</a></li>
                     </ul>
                 </li>
+
                 <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
                     <ul class="sidebar-submenu">
                         <li><a href="">Minhas Tarefas</a></li>
                         <li><a href="">Criar Tarefa</a></li>
                     </ul>
                 </li>
+                
             </ul>
+        </div>
+    </div>
+
+    <!-- navbar base -->
+    <div class="navbar">
+        <h2 class="saudacao-navbar">Bom dia, Arthur!</h2>
+        <div class="navbar-icones">
+            <a class="logout-icone" href="{% url 'logout_usuario' %}">
+                <i class="fa fa-sign-out"></i>
+                <span>Sair</span>
+            </a>
         </div>
     </div>
 </body>
