@@ -37,7 +37,6 @@
     <!-- navbar base -->
     <div class="navbar">
         {% if hora_atual %}
-        
             {% if hora_atual >= 6 and hora_atual <= 12 %}
                 <h2 class="saudacao-navbar">Bom dia, Arthur!</h2>
             {% elif hora_atual >= 13 and hora_atual <= 17 %}
@@ -45,15 +44,27 @@
             {% else %}
                 <h2 class="saudacao-navbar">Boa noite, Arthur!</h2>
             {% endif %}
-            
         {% endif %}
+
         <div class="navbar-icones">
             <a class="logout-icone" href="{% url 'logout_usuario' %}">
                 <i class="fa fa-sign-out"></i>
                 <span>Sair</span>
             </a>
+
+            <a class="perfil-icone" href="{% url 'logout_usuario' %}">
+                <i class="fa fa-user"></i>
+                <span>Meu Perfil</span>
+            </a>
         </div>
     </div>
+
+    <main class="layout-conteudo-principal">
+        <div class="conteudo-principal">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
 </body>
 
 <script>

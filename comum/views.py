@@ -38,7 +38,7 @@ def cadastrar_usuario(request):
 
 def login_usuario(request):
 
-    # hora_atual = timezone.datetime.now().hour TO DO: Passar hora atual para alterar saudação
+    hora_atual = timezone.datetime.now().hour # TO DO: Passar hora atual para alterar saudação
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -68,7 +68,7 @@ def login_usuario(request):
         'url_link': 'login_usuario',
         'link_adicional': 'Esqueci minha senha',
         'texto_divisor': 'ou',
-        # 'hora_atual': hora_atual
+        'hora_atual': hora_atual
     }
     # return render(request, 'login_usuario.html', contexto)
     return render(request, 'base_site.html', contexto)
