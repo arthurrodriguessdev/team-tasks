@@ -5,6 +5,14 @@
 {% block content %}
     <h2 class="titulo-pagina">{{ titulo }}</h2>
 
+    {% block pesquisa %}
+        <form action="{% url url_pesquisa %}" method="GET">
+            <div class="barra-pesquisa-default">
+                <input type="text" placeholder="Pesquisar" name="q">
+            </div>
+        </form>
+    {% endblock %}
+
     <section>
         <div class="listagem-tabela">
             <table>
