@@ -1,0 +1,27 @@
+{% extends 'base_site.html' %}
+
+<!-- tabela default é o template utilizado por todo o sistema quando se trata de LISTAGEM de itens -->
+ 
+{% block content %}
+    <h2 class="titulo-pagina">{{ titulo }}</h2>
+
+    <section>
+        <div class="listagem-tabela">
+            <table>
+                <thead>
+                    <tr>
+                        {% block tabela_head %}
+                        {% endblock %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% block tabela_body %}
+                    {% endblock %}
+                </tbody>
+            </table>
+        </div>
+        {% block paginacao %}
+        {% endblock %}
+    </section>
+{% endblock %}

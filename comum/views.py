@@ -37,9 +37,6 @@ def cadastrar_usuario(request):
     return render(request, 'cadastro_usuario.html', contexto)
 
 def login_usuario(request):
-
-    hora_atual = timezone.datetime.now().hour # TO DO: Passar hora atual para alterar saudação
-
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -49,7 +46,7 @@ def login_usuario(request):
 
         if usuario is not None:
             login(request, usuario)
-            return HttpResponse('Logou')
+            return redirect('listagem_tarefas')
         
         else:
             messages.error(request, 'Email ou senha inválidos. Verifique os dados e tente novamente.')
@@ -68,10 +65,9 @@ def login_usuario(request):
         'url_link': 'login_usuario',
         'link_adicional': 'Esqueci minha senha',
         'texto_divisor': 'ou',
-        'hora_atual': hora_atual
     }
-    # return render(request, 'login_usuario.html', contexto)
-    return render(request, 'base_site.html', contexto)
+
+    return render(request, 'login_usuario.html', contexto)
 
 def logout_usuario(request):
     logout(request)

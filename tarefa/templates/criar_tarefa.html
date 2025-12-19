@@ -1,1 +1,10 @@
 {% extends 'base_site.html' %}
+
+{% block content %}
+
+<form action="{% url 'adicionar_tarefa' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Criar</button>
+
+{% endblock %}
