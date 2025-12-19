@@ -15,7 +15,7 @@ class Tarefa(models.Model):
     status = models.CharField(choices=STATUS, default=STATUS[0])
     criada_em = models.DateTimeField(auto_now_add=True)
     equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='tarefa_equipe', blank=True, null=True)
-    responsaveis = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='responsaveis_tarefa')
+    responsaveis = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='responsaveis_tarefa') # adc blank true e null true
 
     def __str__(self):
         return self.titulo
