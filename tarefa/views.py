@@ -3,6 +3,7 @@ from tarefa.models import Tarefa
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from tarefa.forms import TarefaForm
+from comum.utils import pesquisar_objetos
 
 
 @login_required
@@ -23,9 +24,9 @@ def criar_tarefa(request):
 
 @login_required
 def listar_tarefas(request):
-    tarefas = Tarefa.objects.filter(
-        Q(criada_por=request.user.pk)
-    )
+    tarefas = Tarefa.objects.filter(Q(criada_por=request.user.pk))
+
+    tarefas = pesquisar_objetos(request.GET.get('q'), tarefas, ['titulo', 'descricao'])
 
     cabecalhos_tabela = ['Título', 'Descrição', 'Prazo', 'Status']
     contexto = {
