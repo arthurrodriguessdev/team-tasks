@@ -1,0 +1,15 @@
+{% extends 'base_site.html' %}
+
+{% block content %}
+    {{ block.super }}
+
+    {% block form %}
+        <div class="form-default">
+            <form action="{% url url_view %}" method="POST">
+                {% csrf_token %}
+
+                {% block inputs %}{% endblock %}
+            </form>
+        </div>
+    {% endblock %}
+{% endblock %}

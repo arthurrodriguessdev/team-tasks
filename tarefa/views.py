@@ -17,14 +17,22 @@ def criar_tarefa(request):
 
     form = TarefaForm(request=request)
     contexto = {
+        'titulo': 'Cadastrar Tarefa',
+        'botoes': [
+            {'url': 'listagem_tarefas',
+             'classe': 'visualizar-editar-botao',
+             'nome': 'Voltar'
+            },
+        ],
+        'url_view': 'adicionar_tarefa',
         'form': form
     }
 
-    return render(request, 'criar_tarefa.html', contexto)
+    return render(request, 'adicionar_tarefa.html', contexto)
 
 @login_required
 def listar_tarefas(request):
-    tarefas = Tarefa.objects.filter(Q(criada_por=request.user.pk))
+    tarefas = Tarefa.objects.filter(Q(criada_por=request.user.pk)) #TO DO: Adicionar filtros do request.user como PARTICIPANTE também
 
     tarefas = pesquisar_objetos(request.GET.get('q'), tarefas, ['titulo', 'descricao'])
 
