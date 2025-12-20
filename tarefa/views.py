@@ -33,7 +33,13 @@ def listar_tarefas(request):
         'titulo': 'Minhas Tarefas',
         'tarefas': tarefas,
         'cabecalhos': cabecalhos_tabela,
-        'url_pesquisa': 'listagem_tarefas'
+        'url_pesquisa': 'listagem_tarefas',
+        'botoes': [
+            {'url': 'adicionar_tarefa',
+             'classe': 'adicionar-botao',
+             'nome': 'Adicionar Tarefa'
+            },
+        ]
     }
 
     return render(request, 'listagem_tarefas.html', contexto)

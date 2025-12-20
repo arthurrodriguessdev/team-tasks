@@ -3,7 +3,7 @@
 <!-- tabela default é o template utilizado por todo o sistema quando se trata de LISTAGEM de itens -->
  
 {% block content %}
-    <h2 class="titulo-pagina">{{ titulo }}</h2>
+    {{ block.super }}
 
     {% block pesquisa %}
         <form action="{% url url_pesquisa %}" method="GET">

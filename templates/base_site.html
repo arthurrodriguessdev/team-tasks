@@ -36,7 +36,7 @@
 
     <!-- navbar base -->
     <div class="navbar">
-        <h2 class="saudacao-navbar">Olá, {{ request.user.nome }}!</h2>
+        <h2 class="saudacao-navbar">Olá, {{ request.user.nome|title }}!</h2>
         
         <div class="navbar-icones">
             <a class="logout-icone" href="{% url 'logout_usuario' %}">
@@ -54,6 +54,16 @@
     <main class="layout-conteudo-principal">
         <div class="conteudo-principal">
             {% block content %}
+
+                <div class="acoes-pagina">
+                    {% block acoes %}
+                        {% for botao in botoes %}
+                            <a href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+
+                <h2 class="titulo-pagina">{{ titulo }}</h2>
             {% endblock %}
         </div>
     </main>
