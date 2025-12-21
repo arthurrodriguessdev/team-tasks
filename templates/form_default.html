@@ -6,8 +6,12 @@
     {% block form %}
         <div class="form-default">
             <form action="{% url url_view %}" method="POST">
-                {% csrf_token %}
 
+                {% if titulo_formulario %}
+                    <h3 class="titulo-formulario-default">{{ titulo_formulario }}</h3>
+                {% endif %}
+
+                {% csrf_token %}
                 {% block inputs %}{% endblock %}
             </form>
         </div>

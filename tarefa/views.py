@@ -25,7 +25,8 @@ def criar_tarefa(request):
             },
         ],
         'url_view': 'adicionar_tarefa',
-        'form': form
+        'form': form,
+        'titulo_formulario': 'Dados da Tarefa'
     }
 
     return render(request, 'adicionar_tarefa.html', contexto)
