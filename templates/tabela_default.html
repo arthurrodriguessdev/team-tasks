@@ -5,6 +5,10 @@
 {% block content %}
     {{ block.super }}
 
+    {% if messages %}
+        {% include 'messages.html' %}
+    {% endif %}
+
     {% block pesquisa %}
         <form action="{% url url_pesquisa %}" method="GET">
             <div class="barra-pesquisa-default">

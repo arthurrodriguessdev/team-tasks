@@ -16,6 +16,10 @@ class Tarefa(models.Model):
     criada_em = models.DateTimeField(auto_now_add=True)
     equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='tarefa_equipe', blank=True, null=True)
     responsaveis = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='responsaveis_tarefa', verbose_name='Responsáveis') # adc blank true e null true
+    em_equipe = models.BooleanField(
+        verbose_name='Tarefa de equipe',
+        null=True,
+        blank=True)
 
     def __str__(self):
         return self.titulo

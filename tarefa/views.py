@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from tarefa.models import Tarefa
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -14,6 +15,9 @@ def criar_tarefa(request):
         if form.is_valid():
             form.full_clean()
             form.save()
+
+            messages.success(request, 'Tarefa criada com sucesso.')
+            return redirect('listagem_tarefas')
 
     form = TarefaForm(request=request)
     contexto = {

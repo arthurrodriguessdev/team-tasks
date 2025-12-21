@@ -3,3 +3,38 @@
 {% block inputs %}
     {{ form.as_p }}
 {% endblock %}
+
+{% block js_extra %}
+
+<!-- adicionar dinamicamente campos -->
+<script>
+    var flag = window.document.getElementById('id_em_equipe')
+    var equipe_selecao = window.document.getElementById('id_equipe')
+    var responsaveis_selecao = window.document.getElementById('id_responsaveis')
+    var label_equipe_selecao = window.document.querySelector('label[for="id_equipe"]')
+    var label_responsaveis_selecao = window.document.querySelector('label[for="id_responsaveis"]')
+
+    esconder_campos();
+
+    function esconder_campos(){
+        equipe_selecao.style.display = 'none'
+        responsaveis_selecao.style.display = 'none'
+        label_equipe_selecao.style.display = 'none'
+        label_responsaveis_selecao.style.display = 'none'
+    }
+
+    flag.addEventListener("change", function mostrar_campos(){
+        console.log(flag.checked)
+
+        if(flag.checked){
+            equipe_selecao.style.display = ''
+            responsaveis_selecao.style.display = ''
+            label_equipe_selecao.style.display = ''
+            label_responsaveis_selecao.style.display = ''
+
+        } else{
+            esconder_campos();
+        }
+    });
+</script>
+{% endblock %}

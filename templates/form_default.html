@@ -3,6 +3,10 @@
 {% block content %}
     {{ block.super }}
 
+    <!-- {% if messages %}
+        {% include 'messages.html' %}
+    {% endif %} -->
+
     {% block form %}
         <div class="form-default">
             <form action="{% url url_view %}" method="POST">
