@@ -1,3 +1,5 @@
 from django.contrib import admin
+from comum.models import Equipe, MembroEquipe
 
-# Register your models here.
+admin.site.register(Equipe)
+admin.site.register(MembroEquipe)

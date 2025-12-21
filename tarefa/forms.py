@@ -8,12 +8,6 @@ class TarefaForm(forms.ModelForm):
     prazo = forms.DateField(
         required=False
     )
-    
-    # responsaveis = forms.ModelChoiceField(
-    #     queryset=Equipe,
-    #     widget=Select2Widget,
-    #     required=False
-    # )
 
     em_equipe = forms.BooleanField(
         required=False,
@@ -22,23 +16,25 @@ class TarefaForm(forms.ModelForm):
 
     equipe = forms.ModelChoiceField(
         queryset=Equipe.objects.all(),
-        widget=Select2Widget,
-        required=False
-    )
+        widget=Select2Widget(attrs={
+            'class': 'select2-widget'
+        },
+        # required=False,
+    ))
 
     class Meta:
         model = Tarefa
-        fields = ('titulo', 'descricao', 'prazo', 'em_equipe', 'equipe', 'responsaveis')
+        fields = ('titulo', 'descricao', 'prazo', 'em_equipe', 'equipe')
 
+    # TO DO: Revisar esse método inteiro (lembrar que cada equipe pode ter VÁRIOS membros)
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
         super().__init__(*args, **kwargs)
 
-        equipe_usuario = MembroEquipe.objects.filter(membro=self.request.user.pk).values_list('equipe', flat=True).first()
+        equipes_user = MembroEquipe.objects.filter(membro=self.request.user.pk).values_list('equipe', flat=True)
+        equipes = Equipe.objects.filter(id__in=equipes_user)
 
-        if equipe_usuario is None:
-            self.fields['equipe'].disabled = True
-            # self.fields['responsaveis'].disabled = True DESCOMENTAR
+        self.fields['equipe'].queryset = equipes
         
     def save(self, commit = True):
         tarefa = super().save(commit=False)

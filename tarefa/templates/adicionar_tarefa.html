@@ -8,33 +8,51 @@
 
 <!-- adicionar dinamicamente campos -->
 <script>
-    var flag = window.document.getElementById('id_em_equipe')
-    var equipe_selecao = window.document.getElementById('id_equipe')
-    var responsaveis_selecao = window.document.getElementById('id_responsaveis')
-    var label_equipe_selecao = window.document.querySelector('label[for="id_equipe"]')
-    var label_responsaveis_selecao = window.document.querySelector('label[for="id_responsaveis"]')
+document.addEventListener('DOMContentLoaded', function () {
+    var flag = document.getElementById('id_em_equipe');
+    var select = document.getElementById('id_equipe');
+    var label = document.querySelector('label[for="id_equipe"]');
 
-    esconder_campos();
-
-    function esconder_campos(){
-        equipe_selecao.style.display = 'none'
-        responsaveis_selecao.style.display = 'none'
-        label_equipe_selecao.style.display = 'none'
-        label_responsaveis_selecao.style.display = 'none'
+    function getContainer() {
+        return select.nextElementSibling;
     }
 
-    flag.addEventListener("change", function mostrar_campos(){
-        console.log(flag.checked)
+    function esconder_campos() {
+        var container = getContainer();
+        if (!container) return;
 
+        container.style.display = 'none';
+        label.style.display = 'none';
+        select.required = false;
+    }
+
+    function mostrar_campos() {
+        var container = getContainer();
+        if (!container) return;
+
+        container.style.display = '';
+        label.style.display = '';
+        select.required = true;
+    }
+
+    var tentativas = 0;
+    var intervalo = setInterval(function () {
+        if (getContainer()) {
+            clearInterval(intervalo);
+            esconder_campos();
+        }
+        tentativas++;
+        if (tentativas > 20) clearInterval(intervalo);
+    }, 50);
+
+    flag.addEventListener('change', function () {
         if(flag.checked){
-            equipe_selecao.style.display = ''
-            responsaveis_selecao.style.display = ''
-            label_equipe_selecao.style.display = ''
-            label_responsaveis_selecao.style.display = ''
-
+            mostrar_campos();
         } else{
             esconder_campos();
         }
     });
+});
 </script>
+
 {% endblock %}

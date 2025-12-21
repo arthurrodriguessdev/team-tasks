@@ -27,7 +27,8 @@ class Usuario(AbstractUser):
         verbose_name_plural = 'Usuários'
 
     def __str__(self):
-        return self.nome.capitalize()
+        return f'{self.nome.capitalize()} - {self.username}'
+        # return self.nome.capitalize()
 
 
 class Equipe(models.Model):
@@ -41,5 +42,8 @@ class Equipe(models.Model):
 class MembroEquipe(models.Model):
     equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='membros_equipe')
     membro = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f'{self.membro.nome} - {self.equipe.nome}'
 
 
