@@ -24,9 +24,11 @@ def criar_tarefa(request):
              'nome': 'Voltar'
             },
         ],
+        
         'url_view': 'adicionar_tarefa',
         'form': form,
-        'titulo_formulario': 'Dados da Tarefa'
+        'titulo_formulario': 'Dados da Tarefa',
+        'titulo_botao_form': 'Cadastrar'
     }
 
     return render(request, 'adicionar_tarefa.html', contexto)

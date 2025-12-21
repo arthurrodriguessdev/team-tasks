@@ -36,3 +36,9 @@ class Equipe(models.Model):
 
     def __str__(self):
         return self.nome
+    
+# class MembroEquipe(models.Model):
+#     equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='membros_equipe')
+#     membro = models.ForeignKey(Usuario)
+
+

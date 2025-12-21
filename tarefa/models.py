@@ -9,13 +9,13 @@ class Tarefa(models.Model):
     ]
 
     criada_por = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='usuario_criador_tarefa')
-    titulo = models.CharField(max_length=100, null=False, blank=False)
-    descricao = models.TextField()
-    prazo = models.DateField(null=True, blank=True)
+    titulo = models.CharField(max_length=100, null=False, blank=False, verbose_name='Título')
+    descricao = models.TextField(verbose_name='Descrição da tarefa')
+    prazo = models.DateField(null=True, blank=True, verbose_name='Prazo de entrega')
     status = models.CharField(choices=STATUS, default=STATUS[0])
     criada_em = models.DateTimeField(auto_now_add=True)
     equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='tarefa_equipe', blank=True, null=True)
-    responsaveis = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='responsaveis_tarefa') # adc blank true e null true
+    responsaveis = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='responsaveis_tarefa', verbose_name='Responsáveis') # adc blank true e null true
 
     def __str__(self):
         return self.titulo

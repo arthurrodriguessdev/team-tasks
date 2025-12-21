@@ -13,6 +13,7 @@
 
                 {% csrf_token %}
                 {% block inputs %}{% endblock %}
+                <button type="submit" class="adicionar-botao form">{{ titulo_botao_form }}</button>
             </form>
         </div>
     {% endblock %}

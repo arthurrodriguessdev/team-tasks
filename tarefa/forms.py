@@ -1,9 +1,23 @@
 from django import forms
+from django_select2.forms import Select2Widget
+from comum.models import Equipe
 from tarefa.models import Tarefa
 
 
 class TarefaForm(forms.ModelForm):
     prazo = forms.DateField(
+        required=False
+    )
+    
+    # responsaveis = forms.ModelChoiceField(
+    #     queryset=Equipe,
+    #     widget=Select2Widget,
+    #     required=False
+    # )
+
+    equipe = forms.ModelChoiceField(
+        queryset=Equipe.objects.all(),
+        widget=Select2Widget,
         required=False
     )
 
