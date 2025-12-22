@@ -16,10 +16,10 @@ class TarefaForm(forms.ModelForm):
 
     equipe = forms.ModelChoiceField(
         queryset=Equipe.objects.all(),
+        required=False,
         widget=Select2Widget(attrs={
             'class': 'select2-widget'
         },
-        # required=False,
     ))
 
     class Meta:

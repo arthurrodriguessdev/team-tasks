@@ -1,3 +1,5 @@
 from django.contrib import admin
+from tarefa.models import Tarefa
 
-# Register your models here.
+
+admin.site.register(Tarefa)

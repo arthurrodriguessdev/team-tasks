@@ -12,7 +12,7 @@ class Tarefa(models.Model):
     titulo = models.CharField(max_length=100, null=False, blank=False, verbose_name='Título')
     descricao = models.TextField(verbose_name='Descrição da tarefa')
     prazo = models.DateField(null=True, blank=True, verbose_name='Prazo de entrega')
-    status = models.CharField(choices=STATUS, default=STATUS[0])
+    status = models.CharField(choices=STATUS, default='criada')
     criada_em = models.DateTimeField(auto_now_add=True)
     equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='tarefa_equipe', blank=True, null=True)
     responsaveis = models.ForeignKey(
@@ -23,7 +23,7 @@ class Tarefa(models.Model):
         blank=True,
         null=True
     ) 
-    
+
     em_equipe = models.BooleanField(
         verbose_name='Tarefa de equipe',
         null=True,

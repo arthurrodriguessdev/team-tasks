@@ -12,7 +12,7 @@
             <td>{{ tarefa.titulo }}</td>
             <td>{{ tarefa.descricao }}</td>
             <td>{{ tarefa.prazo }}</td>
-            <td>{{ tarefa.status }}</td>
+            <td>{{ tarefa.get_status_display }}</td>
         </tr>
     {% endfor %}
 {% endblock %}
