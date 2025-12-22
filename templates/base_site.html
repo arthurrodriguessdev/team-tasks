@@ -77,8 +77,10 @@
                         {% endfor %}
                     {% endblock %}
                 </div>
-
-                <h2 class="titulo-pagina">{{ titulo }}</h2>
+            
+                {% if titulo %}
+                    <h2 class="titulo-pagina">{{ titulo }}</h2>
+                {% endif %}
             {% endblock %}
         </div>
     </main>

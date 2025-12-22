@@ -1,8 +1,9 @@
 from django.urls import path
-from tarefa.views import criar_tarefa, listar_tarefas
+from tarefa.views import criar_tarefa, listar_tarefas, visualizar_tarefa
 
 
 urlpatterns = [
     path('minhas_tarefas/', listar_tarefas, name='listagem_tarefas'),
-    path('adicionar_tarefa/', criar_tarefa, name='adicionar_tarefa')
+    path('adicionar_tarefa/', criar_tarefa, name='adicionar_tarefa'),
+    path('visualizar_tarefa/<int:pk>', visualizar_tarefa, name='visualizar_tarefa')
 ]

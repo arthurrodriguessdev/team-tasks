@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from tarefa.models import Tarefa
 from django.db.models import Q
@@ -58,3 +58,50 @@ def listar_tarefas(request):
     }
 
     return render(request, 'listagem_tarefas.html', contexto)
+
+@login_required
+def visualizar_tarefa(request, pk):
+    tarefa = get_object_or_404(Tarefa, pk=pk)
+
+    dados = {
+        'Título': tarefa.titulo,
+        'Descrição': tarefa.descricao,
+        'Prazo': tarefa.prazo,
+    }
+
+    contexto = {
+        'titulo': f'Detalhes da Tarefa: {tarefa.pk}',
+        'tarefa': tarefa,
+        'titulo_visualizar': 'Dados da Tarefa',
+        'dados': dados,
+
+        'botoes':[
+            {   
+                'url': 'listagem_tarefas',
+                'nome': 'Excluir Tarefa',
+                'classe': 'excluir-botao'
+            },
+
+            {   
+                'url': 'listagem_tarefas',
+                'nome': 'Voltar',
+                'classe': 'visualizar-editar-botao'
+            }
+        ]
+    }
+
+    if tarefa.em_equipe:
+        dados.update(
+            {'Tarefa da Equipe': tarefa.equipe, 
+             'Responsáveis pela Tarefa': tarefa.responsaveis
+            }
+        )
+
+        if tarefa.equipe:
+            contexto['botoes'].insert(0,{
+                'url': 'listagem_tarefas',
+                'nome': 'Vincular Responsáveis',
+                'classe': 'adicionar-botao'
+            })
+
+    return render(request, 'visualizar_tarefas.html', contexto)

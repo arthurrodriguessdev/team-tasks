@@ -1,0 +1,22 @@
+{% extends 'base_site.html' %}
+
+{% block content %}
+    {{ block.super }}
+
+    {% block visualizar %}
+        <div class="container-visualizacao">
+            {% if titulo_visualizar %}
+                <h3 class="titulo-visualizacao">{{ titulo_visualizar }}</h3>
+            {% endif %}
+
+            {% block informacoes %}
+                <div class="container-visualizacao-informacoes">
+                    {% for label, campo in dados.items %}
+                        <p class="label-visualizacao">{{ label }}:</p>
+                        <p class="campo-visualizacao">{{ campo }}</p>
+                    {% endfor %}
+                </div>
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endblock %}

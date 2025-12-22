@@ -9,18 +9,18 @@
 {% block tabela_body %}
     {% for tarefa in tarefas %}
         <tr>
-            <td>{{ tarefa.titulo|capfirst }}</td>
+            <td><a href="{% url 'visualizar_tarefa' tarefa.pk %}">{{ tarefa.titulo|capfirst }}</a></td>
 
             {% if tarefa.equipe %}
                 <td>{{ tarefa.equipe }}</td>
             {% else %}
-                <td>Tarefa individual</td>
+                <td></td>
             {% endif %}
 
             {% if tarefa.prazo %} 
                 <td>{{ tarefa.prazo }}</td>
             {% else %}
-                <td>Sem prazo</td>
+                <td></td>
             {% endif %}
 
             <td>{{ tarefa.get_status_display }}</td>
