@@ -43,7 +43,7 @@ def listar_tarefas(request):
 
     tarefas = pesquisar_objetos(request.GET.get('q'), tarefas, ['titulo', 'descricao'])
 
-    cabecalhos_tabela = ['Título', 'Descrição', 'Prazo', 'Status']
+    cabecalhos_tabela = ['Título', 'Equipe', 'Prazo', 'Status']
     contexto = {
         'titulo': 'Minhas Tarefas',
         'tarefas': tarefas,

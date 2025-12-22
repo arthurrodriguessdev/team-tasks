@@ -6,7 +6,12 @@ from tarefa.models import Tarefa
 
 class TarefaForm(forms.ModelForm):
     prazo = forms.DateField(
-        required=False
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'type':'date',
+            }
+        )
     )
 
     em_equipe = forms.BooleanField(
