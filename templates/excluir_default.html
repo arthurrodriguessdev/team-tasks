@@ -5,11 +5,56 @@
 
     {% block confirmacao_exclusao %}
         <div class="container-exclusao">
+            {% if titulo_exibicao_dados %}
+                <h3 class="titulo-confirmacao">{{ titulo_exibicao_dados }}</h3>
+
+                <!-- área de exibição dos dados do objeto para conferência -->
+                <div class="container-visualizacao-informacoes">
+                    {% for label, campo in dados.items %}
+                        <p class="label-visualizacao">{{ label }}:</p>
+                        <p class="campo-visualizacao">{{ campo }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <h3 class="titulo-confirmacao">{{ titulo_confirmacao }}</h3>
-        </div>
-        
-        {% for i, v in dados_afetados.items %}
-            <h2>p</h2>
-        {% endfor %}
+
+            <!-- <div class="alerta-exclusao">
+                <strong>Atenção:</strong> esta ação não pode ser desfeita.
+            </div> -->
+
+            {% if dados_afetados %}
+                {% for grupo in dados_afetados %}
+                    <div class="dados-afetados-exclusao">
+                        <p>{{ grupo.titulo }} ({{ grupo.quantidade }})</p>
+                        <ul>
+                            {% for obj in grupo.objetos %}
+                                <li>{{ obj }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+        {% else %}
+            <div class="nenhum-dado-afetado">
+                <p>Esta exclusão não afetará outros registros.</p>
+            </div>
+        {% endif %}
+
+        {% if botoes_inferiores %}
+            <div class="acoes-inferior-pagina">
+                {% for botao in botoes_inferiores %}
+                    {% if botao.id_item %}
+                        <a href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                    {% else %}
+                        <a href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                <!-- <form action="{% url 'excluir_tarefa' tarefa.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="adicionar-botao form">{{ titulo_botao_form }}</button>
+                </form> -->
+            </div>
+        {% endif %}
     {% endblock %}
 {% endblock %}

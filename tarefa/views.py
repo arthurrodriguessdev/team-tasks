@@ -114,10 +114,32 @@ def excluir_tarefa(request, pk):
 
     collector = Collector(using=router.db_for_write(Tarefa))
     collector.collect([tarefa])
-    print(collector.data)
+    objetos_relacionados = []
 
-    # for c, v in collector.data.items():
-    #     print('-> ', c, '=', v)
+    for model, objetos in collector.data.items():
+        if model == Tarefa:
+            continue
+
+        if objetos:
+            objetos_relacionados.append({
+                'titulo': model._meta.verbose_name_plural.capitalize(),
+                'quantidade': len(objetos),
+                'objetos': list(objetos)
+            })
+
+    dados = {
+        'Título': tarefa.titulo,
+        'Descrição': tarefa.descricao,
+        'Prazo': tarefa.prazo,
+        'Criada por': tarefa.criada_por,
+        'Criada em': tarefa.criada_em,
+    }
+
+    if tarefa.em_equipe:
+        dados.update({'Equipe': tarefa.equipe})
+
+        if tarefa.responsaveis:
+            dados.update({'Responsáveis': tarefa.responsaveis})
     
     contexto = {
         'tarefa':tarefa,
@@ -130,9 +152,27 @@ def excluir_tarefa(request, pk):
                 'id_item': tarefa.pk
             },
         ],
-        'dados_afetados': collector.data,
-        'titulo_confirmacao': 'Confira os dados da tarefa antes de confirmar a exclusão:'
+
+        'botoes_inferiores':[
+            {   
+                'url': 'listagem_tarefas',
+                'nome': 'Cancelar',
+                'classe': 'excluir-botao'
+            },
+        ],
+
+        'dados_afetados': objetos_relacionados,
+        'titulo_exibicao_dados': 'Confira os dados da tarefa antes de confirmar a exclusão:',
+        'titulo_confirmacao': 'Serão apagados também, os seguintes itens:',
+        'dados': dados
     }
 
     if request.method == 'GET':
         return render(request, 'excluir_tarefa.html', contexto)
+    
+    if request.method == 'POST':
+        tarefa.delete()
+        tarefa.save()
+
+        messages.success(request, 'A tarefa foi excluída com sucesso.')
+        return redirect('listagem_tarefas')
