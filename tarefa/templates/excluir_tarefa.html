@@ -1,0 +1,11 @@
+{% extends 'excluir_default.html' %}
+
+{% block content %}
+    {{ block.super }}
+
+    {% block confirmacao_exclusao %}
+        {% for i, v in dados_afetados.items %}
+            <h2>p</h2>
+        {% endfor %}
+    {% endblock %}
+{% endblock %}

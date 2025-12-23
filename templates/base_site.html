@@ -73,7 +73,11 @@
                 <div class="acoes-pagina">
                     {% block acoes %}
                         {% for botao in botoes %}
-                            <a href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                            {% if botao.id_item %}
+                                <a href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                            {% else %}
+                                <a href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                            {% endif %}
                         {% endfor %}
                     {% endblock %}
                 </div>

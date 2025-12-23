@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from tarefa.models import Tarefa
+from django.db import router
 from django.db.models import Q
+from django.db.models.deletion import Collector
 from django.contrib.auth.decorators import login_required
 from tarefa.forms import TarefaForm
 from comum.utils import pesquisar_objetos
@@ -77,7 +79,8 @@ def visualizar_tarefa(request, pk):
 
         'botoes':[
             {   
-                'url': 'listagem_tarefas',
+                'url': 'excluir_tarefa',
+                'id_item': tarefa.id,
                 'nome': 'Excluir Tarefa',
                 'classe': 'excluir-botao'
             },
@@ -105,3 +108,30 @@ def visualizar_tarefa(request, pk):
             })
 
     return render(request, 'visualizar_tarefas.html', contexto)
+
+def excluir_tarefa(request, pk):
+    tarefa = get_object_or_404(Tarefa, pk=pk)
+
+    collector = Collector(using=router.db_for_write(Tarefa))
+    collector.collect([tarefa])
+    print(collector.data)
+
+    # for c, v in collector.data.items():
+    #     print('-> ', c, '=', v)
+    
+    contexto = {
+        'tarefa':tarefa,
+        'titulo': f'Confirmação de Exclusão da Tarefa: {tarefa.pk}',
+        'botoes':[
+            {   
+                'url': 'visualizar_tarefa',
+                'nome': 'Voltar',
+                'classe': 'visualizar-editar-botao',
+                'id_item': tarefa.pk
+            },
+        ],
+        'dados_afetados': collector.data
+    }
+
+    if request.method == 'GET':
+        return render(request, 'excluir_tarefa.html', contexto)
