@@ -130,7 +130,8 @@ def excluir_tarefa(request, pk):
                 'id_item': tarefa.pk
             },
         ],
-        'dados_afetados': collector.data
+        'dados_afetados': collector.data,
+        'titulo_confirmacao': 'Confira os dados da tarefa antes de confirmar a exclusão:'
     }
 
     if request.method == 'GET':

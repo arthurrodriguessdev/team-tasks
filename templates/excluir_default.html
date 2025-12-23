@@ -1,1 +1,15 @@
 {% extends 'base_site.html' %}
+
+{% block content %}
+    {{ block.super }}
+
+    {% block confirmacao_exclusao %}
+        <div class="container-exclusao">
+            <h3 class="titulo-confirmacao">{{ titulo_confirmacao }}</h3>
+        </div>
+        
+        {% for i, v in dados_afetados.items %}
+            <h2>p</h2>
+        {% endfor %}
+    {% endblock %}
+{% endblock %}
