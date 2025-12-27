@@ -7,6 +7,7 @@ from django.db.models.deletion import Collector
 from django.contrib.auth.decorators import login_required
 from tarefa.forms import TarefaForm
 from comum.utils import pesquisar_objetos
+from comum.models import Usuario
 
 
 @login_required
@@ -41,7 +42,7 @@ def criar_tarefa(request):
 
 @login_required
 def listar_tarefas(request):
-    tarefas = Tarefa.objects.filter(Q(criada_por=request.user.pk)) #TO DO: Adicionar filtros do request.user como PARTICIPANTE também
+    tarefas = Tarefa.objects.filter(Q(criada_por=request.user.pk) | Q(responsaveis=request.user.pk)).distinct()
 
     tarefas = pesquisar_objetos(request.GET.get('q'), tarefas, ['titulo', 'descricao'])
 
@@ -102,20 +103,31 @@ def visualizar_tarefa(request, pk):
 
     if tarefa.em_equipe:
         dados.update(
-            {'Tarefa da Equipe': tarefa.equipe, 
-             'Responsáveis pela Tarefa': tarefa.responsaveis
+            {
+                'Tarefa da Equipe': tarefa.equipe, 
+                'Responsáveis pela Tarefa': 'Não há responsáveis atribuídos para essa tarefa'
             }
         )
 
         if tarefa.equipe:
+            if tarefa.responsaveis.exists():
+                responsaveis = tarefa.responsaveis.values_list('id')
+                responsaveis = Usuario.objects.filter(id__in=responsaveis)
+
+                dados.update({
+                    'Responsáveis pela Tarefa': responsaveis
+                })
+
             contexto['botoes'].insert(0,{
-                'url': 'listagem_tarefas',
+                'url': 'vincular_responsaveis_tarefa',
+                'id_item': tarefa.id,
                 'nome': 'Vincular Responsáveis',
                 'classe': 'adicionar-botao'
             })
 
     return render(request, 'visualizar_tarefas.html', contexto)
 
+@login_required
 def excluir_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
 
@@ -150,7 +162,7 @@ def excluir_tarefa(request, pk):
     if tarefa.em_equipe:
         dados.update({'Equipe': tarefa.equipe})
 
-        if tarefa.responsaveis:
+        if tarefa.responsaveis.exists():
             dados.update({'Responsáveis': tarefa.responsaveis})
     
     contexto = {
@@ -182,6 +194,7 @@ def excluir_tarefa(request, pk):
 
     return render(request, 'excluir_tarefa.html', contexto)
 
+@login_required
 def editar_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
 
@@ -196,7 +209,7 @@ def editar_tarefa(request, pk):
             return redirect('listagem_tarefas')
     else:
         form = TarefaForm(instance=tarefa, request=request)
-        
+
     contexto = {
         'tarefa': tarefa,
         'form': form,

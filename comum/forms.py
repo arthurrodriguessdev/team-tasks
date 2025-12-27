@@ -1,6 +1,8 @@
 from django.core.exceptions import ValidationError
+from django_select2.forms import Select2MultipleWidget, Select2Widget
 from django import forms
-from comum.models import Usuario
+from comum.models import Usuario, MembroEquipe
+from tarefa.models import Tarefa
 
 class UsuarioCadastroForm(forms.ModelForm):
     password_confirmacao = forms.CharField(
@@ -71,3 +73,36 @@ class UsuarioLoginForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ('username', 'password')
+
+
+class VincularResponsaveisForm(forms.ModelForm):
+    responsaveis = forms.ModelMultipleChoiceField(
+        queryset=Usuario.objects.all(),
+        label='Responsáveis pela tarefa',
+        widget=Select2MultipleWidget(attrs={
+            'class': 'select2-widget',
+            'placeholder': 'teste'
+        })
+    )
+
+    class Meta:
+        model = Tarefa
+        fields = ('responsaveis',)
+    
+    def __init__(self, *args, **kwargs):
+        self.tarefa = kwargs.pop('tarefa')
+        super().__init__(*args, **kwargs)
+
+        if self.tarefa.em_equipe and self.tarefa.equipe:
+            participantes_equipe = MembroEquipe.objects.filter(
+                equipe=self.tarefa.equipe
+            ).values_list('membro', flat=True).distinct()
+
+            participantes_equipe = Usuario.objects.filter(id__in=participantes_equipe)
+
+            self.fields['responsaveis'].queryset = participantes_equipe
+            self.fields['responsaveis'].label = f'Responsáveis pela tarefa {self.tarefa.pk}'
+
+        else:
+            self.fields['responsaveis'].queryset = Usuario.objects.none()
+        

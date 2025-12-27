@@ -15,13 +15,11 @@ class Tarefa(models.Model):
     status = models.CharField(choices=STATUS, default='criada')
     criada_em = models.DateTimeField(auto_now_add=True)
     equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='tarefa_equipe', blank=True, null=True)
-    responsaveis = models.ForeignKey(
+    responsaveis = models.ManyToManyField(
         Usuario, 
-        on_delete=models.PROTECT, 
         related_name='responsaveis_tarefa', 
         verbose_name='Responsáveis',
         blank=True,
-        null=True
     ) 
 
     em_equipe = models.BooleanField(
