@@ -112,6 +112,11 @@ def visualizar_tarefa(request, pk):
 def excluir_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
 
+    if request.method == 'POST':
+        tarefa.delete()
+        messages.success(request, 'A tarefa foi excluída com sucesso.')
+        return redirect('listagem_tarefas')
+    
     collector = Collector(using=router.db_for_write(Tarefa))
     collector.collect([tarefa])
     objetos_relacionados = []
@@ -164,15 +169,8 @@ def excluir_tarefa(request, pk):
         'dados_afetados': objetos_relacionados,
         'titulo_exibicao_dados': 'Confira os dados da tarefa antes de confirmar a exclusão:',
         'titulo_confirmacao': 'Serão apagados também, os seguintes itens:',
+        'titulo_botao_form': 'Confirmar',
         'dados': dados
     }
 
-    if request.method == 'GET':
-        return render(request, 'excluir_tarefa.html', contexto)
-    
-    if request.method == 'POST':
-        tarefa.delete()
-        tarefa.save()
-
-        messages.success(request, 'A tarefa foi excluída com sucesso.')
-        return redirect('listagem_tarefas')
+    return render(request, 'excluir_tarefa.html', contexto)
