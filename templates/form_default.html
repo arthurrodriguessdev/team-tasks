@@ -9,8 +9,7 @@
 
     {% block form %}
         <div class="form-default">
-            <form action="{% url url_view %}" method="POST">
-
+            <form action="{% if id_url %}{% url url_view id_url %}{% else %}{% url url_view %}{% endif %}" method="POST">
                 {% if titulo_formulario %}
                     <h3 class="titulo-formulario-default">{{ titulo_formulario }}</h3>
                 {% endif %}

@@ -73,10 +73,20 @@
                 <div class="acoes-pagina">
                     {% block acoes %}
                         {% for botao in botoes %}
-                            {% if botao.id_item %}
-                                <a href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                            <!-- ícone -->
+                            {% if botao.classe_icone %}
+                                <a href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">
+                                    <i class="{{ botao.classe_icone }}"></i>
+                                </a>
                             {% else %}
+                                <!-- link que necessita de id de objeto -->
+                                {% if botao.id_item %}
+                                    <a href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                                {% else %}
+
+                                <!-- link que NÃO necessita de id de objeto -->
                                 <a href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     {% endblock %}

@@ -36,15 +36,21 @@ class TarefaForm(forms.ModelForm):
         self.request = kwargs.pop('request')
         super().__init__(*args, **kwargs)
 
-        equipes_user = MembroEquipe.objects.filter(membro=self.request.user.pk).values_list('equipe', flat=True)
-        equipes = Equipe.objects.filter(id__in=equipes_user)
+        if self.instance.pk:
+            self.fields.pop('em_equipe')
+            self.fields.pop('equipe')
+            
+        else:
+            equipes_user = MembroEquipe.objects.filter(membro=self.request.user.pk).values_list('equipe', flat=True)
+            equipes = Equipe.objects.filter(id__in=equipes_user)
 
-        self.fields['equipe'].queryset = equipes
+            self.fields['equipe'].queryset = equipes
         
     def save(self, commit = True):
         tarefa = super().save(commit=False)
 
-        tarefa.criada_por = self.request.user
+        if not tarefa.pk:
+            tarefa.criada_por = self.request.user
 
         if commit:
             tarefa.save()

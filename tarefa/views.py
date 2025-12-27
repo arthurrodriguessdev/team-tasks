@@ -78,6 +78,13 @@ def visualizar_tarefa(request, pk):
         'dados': dados,
 
         'botoes':[
+            {
+                'url': 'editar_tarefa',
+                'classe_icone': 'fa fa-edit',
+                'id_item': tarefa.pk,
+                'classe': 'visualizar-editar-botao'
+            },
+
             {   
                 'url': 'excluir_tarefa',
                 'id_item': tarefa.id,
@@ -89,7 +96,7 @@ def visualizar_tarefa(request, pk):
                 'url': 'listagem_tarefas',
                 'nome': 'Voltar',
                 'classe': 'visualizar-editar-botao'
-            }
+            },
         ]
     }
 
@@ -174,3 +181,39 @@ def excluir_tarefa(request, pk):
     }
 
     return render(request, 'excluir_tarefa.html', contexto)
+
+def editar_tarefa(request, pk):
+    tarefa = get_object_or_404(Tarefa, pk=pk)
+
+    if request.method == 'POST':
+        form = TarefaForm(request.POST, instance=tarefa, request=request)
+
+        if form.is_valid():
+            form.full_clean()
+            form.save()
+
+            messages.success(request, 'Tarefa atualizada com sucesso.')
+            return redirect('listagem_tarefas')
+    else:
+        form = TarefaForm(instance=tarefa, request=request)
+        
+    contexto = {
+        'tarefa': tarefa,
+        'form': form,
+
+        'titulo': 'Atualizar Tarefa',
+        'botoes': [
+            {
+                'url': 'listagem_tarefas',
+                'classe': 'visualizar-editar-botao',
+                'nome': 'Voltar'
+            },
+        ],
+        
+        'url_view': 'editar_tarefa',
+        'id_url': tarefa.pk,
+        'titulo_formulario': 'Dados da Tarefa',
+        'titulo_botao_form': 'Salvar'
+    }
+
+    return render(request, 'editar_tarefa.html', contexto)
