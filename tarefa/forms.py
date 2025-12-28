@@ -1,6 +1,7 @@
 from django import forms
 from django_select2.forms import Select2Widget
-from comum.models import Equipe, MembroEquipe
+from comum.models import MembroEquipe
+from equipe.models import Equipe
 from tarefa.models import Tarefa
 
 

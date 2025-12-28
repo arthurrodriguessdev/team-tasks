@@ -29,14 +29,6 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f'{self.nome.capitalize()} - {self.username}'
         # return self.nome.capitalize()
-
-
-class Equipe(models.Model):
-    responsavel = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='responsavel_equipe')
-    nome = models.CharField(max_length=50, null=False, blank=False)
-
-    def __str__(self):
-        return self.nome
     
 
 class MembroEquipe(models.Model):

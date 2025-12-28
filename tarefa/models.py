@@ -1,5 +1,6 @@
 from django.db import models
-from comum.models import Usuario, Equipe
+from comum.models import Usuario
+from equipe.models import Equipe
 
 class Tarefa(models.Model):
     STATUS = [
