@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django_select2',
     'comum',
     'tarefa',
+    'equipe',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +67,7 @@ WSGI_APPLICATION = 'team_task.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'team_tasks',
+        'NAME': 'task_team_dev',
         'USER': 'postgres',
         'PASSWORD': '1801',
         'HOST': 'localhost'

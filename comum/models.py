@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-
 class Usuario(AbstractUser):
     nome = models.CharField(max_length=120, blank=False, help_text='Informe seu nome')
     email = models.EmailField(blank=False, verbose_name='E-mail', unique=True)
@@ -32,7 +31,7 @@ class Usuario(AbstractUser):
     
 
 class MembroEquipe(models.Model):
-    equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, related_name='membros_equipe')
+    equipe = models.ForeignKey('equipe.Equipe', on_delete=models.PROTECT, related_name='membros_equipe')
     membro = models.ForeignKey(Usuario, on_delete=models.PROTECT)
 
     def __str__(self):
