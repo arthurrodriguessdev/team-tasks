@@ -34,7 +34,7 @@
                 <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
                     <ul class="sidebar-submenu">
                         <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>
-                        <li><a href="">Criar Tarefa</a></li>
+                        <li><a href="{% url 'adicionar_tarefa' %}">Nova Tarefa</a></li>
                     </ul>
                 </li>
 
@@ -101,20 +101,12 @@
 </body>
 
 <script>
-    var opcoes_submenu = window.document.getElementsByClassName('tem-submenu');
-    var menus_selecionados = window.document.getElementsByClassName('sidebar-opcao-primaria');
+    var opcoes_submenu = window.document.querySelectorAll('.tem-submenu > .sidebar-opcao-primaria');
 
     for(var i = 0; i < opcoes_submenu.length; i++){
         opcoes_submenu[i].addEventListener("click", function abrir_submenus(e){
             e.preventDefault();
-            this.classList.toggle('aberto');
-        })
-    }
-
-    for(var j = 0; j < menus_selecionados.length; j++){
-        menus_selecionados[j].addEventListener("click", function menu_aberto(e){
-            e.preventDefault();
-            this.classList.toggle('selecionado');
+            this.parentElement.classList.toggle('aberto');
         })
     }
 </script>
