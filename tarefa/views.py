@@ -111,12 +111,8 @@ def visualizar_tarefa(request, pk):
 
         if tarefa.equipe:
             if tarefa.responsaveis.exists():
-                responsaveis = tarefa.responsaveis.values_list('id')
-                responsaveis = Usuario.objects.filter(id__in=responsaveis)
-
-                dados.update({
-                    'Responsáveis pela Tarefa': responsaveis
-                })
+                responsaveis = tarefa.responsaveis.values_list('username', flat=True)
+                dados['Responsáveis pela Tarefa'] = ', '.join(responsaveis)
 
             contexto['botoes'].insert(0,{
                 'url': 'vincular_responsaveis_tarefa',

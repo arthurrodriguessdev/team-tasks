@@ -1,17 +1,1 @@
 {% extends 'visualizar_default.html' %}
-
-{% block informacoes %}
-    <div class="container-visualizacao-informacoes">
-        {% for label, campo in dados.items %}
-            {% if label == 'Responsáveis pela Tarefa' %}
-                <p class="label-visualizacao">{{ label }}:</p>
-                {% for responsavel in campo %}
-                    <p class="campo-visualizacao">{{ responsavel }}</p>
-                {% endfor %}
-            {% else %}
-                <p class="label-visualizacao">{{ label }}:</p>
-                <p class="campo-visualizacao">{{ campo }}</p>
-            {% endif %}
-        {% endfor %}
-    </div>
-{% endblock %}

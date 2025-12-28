@@ -96,4 +96,3 @@ def vincular_responsaveis(request, pk):
     }
 
     return render(request, 'vincular_responsaveis.html', contexto)
-    
