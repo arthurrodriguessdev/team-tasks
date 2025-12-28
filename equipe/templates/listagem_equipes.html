@@ -1,0 +1,18 @@
+{% extends 'tabela_default.html' %}
+
+{% block tabela_head %}
+    {% for cabecalho in cabecalhos %}
+        <th>{{ cabecalho }}</th>
+    {% endfor %}
+{% endblock %}
+
+{% block tabela_body %}
+    {% for equipe in equipes %}
+        <tr>
+            <td>{{ equipe.nome }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block pesquisa %}
+{% endblock %}
