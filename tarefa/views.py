@@ -181,6 +181,8 @@ def excluir_tarefa(request, pk):
             },
         ],
 
+        'url': 'excluir_tarefa',
+        'id_item': tarefa.pk,
         'dados_afetados': objetos_relacionados,
         'titulo_exibicao_dados': 'Confira os dados da tarefa antes de confirmar a exclusão:',
         'titulo_confirmacao': 'Serão apagados também, os seguintes itens:',

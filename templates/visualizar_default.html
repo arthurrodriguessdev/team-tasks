@@ -3,6 +3,10 @@
 {% block content %}
     {{ block.super }}
 
+    {% if messages %}
+        {% include 'messages.html' %}
+    {% endif %}
+
     {% block visualizar %}
         <div class="container-visualizacao">
             {% if titulo_visualizar %}

@@ -50,7 +50,7 @@
                     {% endif %}
                 {% endfor %}
                 
-                <form action="{% url 'excluir_tarefa' tarefa.pk %}" method="POST">
+                <form action="{% url url id_item %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="adicionar-botao">{{ titulo_botao_form }}</button>
                 </form>
