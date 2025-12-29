@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.urls import reverse_lazy, reverse
 from django.db.models.deletion import Collector, ProtectedError
 from django.db import router
+from django.db.models import Q
 from django.contrib import messages
 from django.views import generic
 from equipe.models import Equipe
@@ -51,6 +53,11 @@ class CriarEquipe(generic.CreateView):
         self.object = Equipe
         return super().form_valid(form)
     
+    def post(self, request, *args, **kwargs):
+        post = super().post(request, *args, **kwargs)
+        messages.success(request, 'Equipe criada com sucesso.')
+        return post
+    
 
 class ListarEquipes(generic.ListView):
     model = Equipe
@@ -60,7 +67,9 @@ class ListarEquipes(generic.ListView):
         contexto = super().get_context_data(**kwargs)
 
         equipes_participante = MembroEquipe.objects.filter(membro=self.request.user).values_list('equipe', flat=True)
-        equipes_usuario = Equipe.objects.filter(id__in=equipes_participante)
+        equipes_usuario = Equipe.objects.filter(
+            Q(id__in=equipes_participante) | Q(responsavel=self.request.user)
+        )
 
         contexto.update({
             'cabecalhos': ['Nome da Equipe', 'Criador da Equipe'],
@@ -133,7 +142,7 @@ class VisualizarEquipe(generic.DetailView):
 class ExcluirEquipe(generic.DeleteView):
     model = Equipe
     template_name = 'excluir_equipe.html'
-    success_url = 'listagem_equipes'
+    success_url = reverse_lazy('listagem_equipes')
 
     def get_context_data(self, **kwargs):
         contexto = super().get_context_data(**kwargs)
@@ -183,6 +192,7 @@ class ExcluirEquipe(generic.DeleteView):
 
             'url': 'excluir_equipe',
             'id_item': equipe.pk,
+            'pode_ter_dados_afetados': 1,
 
             'botoes': [
                 {
@@ -190,14 +200,17 @@ class ExcluirEquipe(generic.DeleteView):
                     'id_item': equipe.pk,
                     'classe': 'visualizar-editar-botao',
                     'nome': 'Voltar'
-                },
-                {
-                    'url': 'listagem_equipes',
-                    'classe': 'adicionar-botao',
-                    'nome': 'Remover todos os membros'
                 }
             ]
         })
+
+        if membros:
+            contexto['botoes'].insert(0,{
+                'url': 'remover_todos_membros',
+                'id_item': equipe.id,
+                'nome': 'Remover todos membros',
+                'classe': 'excluir-botao'
+            })
 
         return contexto
     
@@ -205,8 +218,46 @@ class ExcluirEquipe(generic.DeleteView):
         equipe = self.get_object()
 
         try:
-            return super().post(request, *args, **kwargs)
+            post = super().post(request, *args, **kwargs)
+            messages.success(request, 'Equipe excluída com sucesso.')
+            return post
         
         except ProtectedError:
             messages.error(request, 'Não é possível excluir esta equipe porque ainda existem membros ou tarefas vinculadas.')
             return redirect('visualizar_equipe', equipe.pk)
+        
+def remover_todos_membros(request, pk):
+    equipe = get_object_or_404(Equipe, pk=pk)
+    membros = equipe.membros_equipe.all()
+
+    if request.method == 'POST':
+        membros.delete()
+        messages.success(request, 'Todos os membros da equipe foram excluídos.')
+
+        return redirect('visualizar_equipe', equipe.pk)
+    
+    contexto = {
+        'titulo': f'Confirmar exclusão de TODOS os membros da equipe: {equipe.pk}',
+        'botoes':[
+            {
+                'url': 'excluir_equipe',
+                'id_item': equipe.pk,
+                'classe': 'visualizar-editar-botao',
+                'nome': 'Voltar'
+            }
+        ],
+
+        'url': 'remover_todos_membros',
+        'id_item': equipe.pk,
+        'titulo_botao_form': 'Confirmar',
+        'titulo_exibicao_dados': 'ATENÇÃO:',
+        'texto_informativo': f'Após a confirmação serão excluídos TODOS os {membros.count()} membros da equipe. Esta ação não pode ser desfeita.',
+        'botoes_inferiores':[
+            {
+                'url': 'listagem_equipes',
+                'classe': 'excluir-botao',
+                'nome': 'Cancelar'
+            }
+        ]
+    }
+    return render(request, 'excluir_todos_membros.html', contexto)

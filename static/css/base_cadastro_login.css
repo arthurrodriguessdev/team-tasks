@@ -1,0 +1,127 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.tela-box{
+    display: flex;
+}
+
+/* lado esquerdo */
+.box-esquerdo{
+    flex: 1;
+    height: 100vh;
+    background-color: #1C4045;
+}
+
+.box-esquerdo-textos{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: center;
+    height: 100%;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* subindo um poouco mais os textos */
+.box-esquerdo-textos h1,
+.box-esquerdo-textos p{
+    transform: translateY(-145px);
+}
+
+.box-esquerdo-titulo{
+    color: #fff;
+    font-size: 44px;
+}
+
+.box-esquerdo-paragrafo{
+    width: 400px;
+    color: #fff;
+    font-size: 20px;
+}
+
+/* lado direito */
+.box-direito{
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    justify-content: center;
+    /* transform: translateY(-60px); */
+}
+
+.card-formulario form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-formulario form input{
+    background-color: #FAFAFA;
+    border-radius: 7px;
+    width: 300px;
+    padding: 8px;
+    border: solid 1px #C9C9C9;
+    transition: all 0.3s ease;
+}
+
+.card-formulario form input:focus{
+    border-radius: 10px;
+    border: solid 1px #1C4045;
+}
+
+.titulo-formulario{
+    color: #1C4045;
+    font-size: 44px;
+}
+
+.botoes-formulario{
+    margin-top: 5px;
+}
+
+.botoes-formulario button,
+.botoes-formulario a{
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    background-color: #1C4045;
+    color: #fff;
+    border-radius: 7px;
+    width: 300px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.botoes-formulario button:hover,
+.botoes-formulario a:hover{
+    background-color: #1C4045;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.link-adicional{
+    font-size: 14px;
+    text-align: end;
+    text-decoration: none;
+    color: #000;
+    transition: all 0.2s ease;
+}
+
+.link-adicional:hover{
+    color: #888;
+}
+
+.texto-divisor{
+    margin: 10px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #000;
+}

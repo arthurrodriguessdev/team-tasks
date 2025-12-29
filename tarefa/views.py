@@ -187,7 +187,8 @@ def excluir_tarefa(request, pk):
         'titulo_exibicao_dados': 'Confira os dados da tarefa antes de confirmar a exclusão:',
         'titulo_confirmacao': 'Serão apagados também, os seguintes itens:',
         'titulo_botao_form': 'Confirmar',
-        'dados': dados
+        'dados': dados,
+        'pode_ter_dados_afetados': 1,
     }
 
     return render(request, 'excluir_tarefa.html', contexto)

@@ -10,14 +10,20 @@
 
                 <!-- área de exibição dos dados do objeto para conferência -->
                 <div class="container-visualizacao-informacoes">
+                    {% if texto_informativo %}
+                        <p class="texto-informativo" style="text-align: center;">{{ texto_informativo }}</p>
+                    {% endif %}
+
                     {% for label, campo in dados.items %}
                         <p class="label-visualizacao">{{ label }}:</p>
                         <p class="campo-visualizacao">{{ campo }}</p>
                     {% endfor %}
                 </div>
             {% endif %}
-
-            <h3 class="titulo-confirmacao">{{ titulo_confirmacao }}</h3>
+                
+            {% if titulo_confirmacao %}
+                <h3 class="titulo-confirmacao">{{ titulo_confirmacao }}</h3>
+            {% endif %}
 
             <!-- <div class="alerta-exclusao">
                 <strong>Atenção:</strong> esta ação não pode ser desfeita.
@@ -34,11 +40,13 @@
                         </ul>
                     </div>
                 {% endfor %}
-        {% else %}
-            <div class="nenhum-dado-afetado">
-                <p>Esta exclusão não afetará outros registros.</p>
-            </div>
-        {% endif %}
+            {% else %}
+                {% if pode_ter_dados_afetados %}
+                    <div class="nenhum-dado-afetado">
+                        <p>Esta exclusão não afetará outros registros.</p>
+                    </div>
+                {% endif %}
+            {% endif %}
 
         {% if botoes_inferiores %}
             <div class="acoes-inferior-pagina">

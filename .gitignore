@@ -27,7 +27,7 @@ db.sqlite3
 
 # Arquivos estáticos compilados
 staticfiles/
-static/
+# static/
 
 # Media uploads (caso não queira versionar)
 media/
