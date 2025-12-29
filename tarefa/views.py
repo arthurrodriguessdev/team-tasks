@@ -81,7 +81,7 @@ def visualizar_tarefa(request, pk):
         'botoes':[
             {
                 'url': 'editar_tarefa',
-                'classe_icone': 'fa fa-edit',
+                'nome': 'Editar',
                 'id_item': tarefa.pk,
                 'classe': 'visualizar-editar-botao'
             },
