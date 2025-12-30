@@ -96,8 +96,7 @@ class VisualizarEquipe(generic.DetailView):
         contexto = super().get_context_data(**kwargs)
         equipe = self.get_object()
 
-        id_participantes = MembroEquipe.objects.filter(equipe=equipe).values_list('membro', flat=True)
-        participantes = Usuario.objects.filter(id__in=id_participantes).values_list('username', flat=True)
+        participantes = MembroEquipe.get_usuarios_membros_equipe(equipe).values_list('username', flat=True)
 
         dados = {
             'Nome': equipe.nome,
@@ -133,8 +132,9 @@ class VisualizarEquipe(generic.DetailView):
                     'id_item': equipe.pk
                 },
                 {
-                    'url': 'listagem_equipes',
+                    'url': 'editar_equipe',
                     'nome': 'Editar',
+                    'id_item': equipe.pk,
                     'classe': 'visualizar-editar-botao'
                 }
             ]
@@ -151,7 +151,7 @@ class ExcluirEquipe(generic.DeleteView):
         contexto = super().get_context_data(**kwargs)
         equipe = self.get_object()
         
-        id_participantes = MembroEquipe.objects.filter(equipe=equipe).values_list('membro', flat=True)
+        participantes = MembroEquipe.get_usuarios_membros_equipe(equipe).values_list('username', flat=True)
 
         membros = equipe.membros_equipe.all()
         tarefas = equipe.tarefa_equipe.filter(equipe__isnull=False)
@@ -175,8 +175,17 @@ class ExcluirEquipe(generic.DeleteView):
             'Nome da Equipe': equipe.nome,
             'Responsável pela Equipe': equipe.responsavel,
             'Equipe criada por': equipe.criada_por,
-            'Participantes da Equipe': ', '.join(Usuario.objects.filter(id__in=id_participantes).values_list('username', flat=True))
         }
+
+        if participantes:
+            dados.update({
+                'Participantes da Equipe': ', '.join(participantes)
+            })
+
+        else:
+            dados.update({
+                'Participantes da Equipe': 'A equipe não possui participantes.'
+            })
 
         contexto.update({
             'titulo': f'Confirmação de Exclusão da Equipe: {equipe.pk}',
@@ -235,6 +244,42 @@ class ExcluirEquipe(generic.DeleteView):
         except ProtectedError:
             messages.error(request, 'Não é possível excluir esta equipe porque ainda existem membros ou tarefas vinculadas.')
             return redirect('visualizar_equipe', equipe.pk)
+        
+
+class EditarEquipe(generic.UpdateView):
+    model = Equipe
+    template_name = 'editar_equipe.html'
+    success_url = reverse_lazy('listagem_equipes')
+    form_class = EquipeForm
+
+    def get_context_data(self, **kwargs):
+        contexto = super().get_context_data(**kwargs)
+        equipe = self.get_object()
+
+        contexto.update({
+            'url_view': 'editar_equipe',
+            'id_url': equipe.pk,
+
+            'titulo': 'Atualizar Equipe',
+            'botoes': [{
+                'url': 'visualizar_equipe',
+                'id_item': equipe.pk,
+                'classe': 'visualizar-editar-botao',
+                'nome': 'Voltar'
+            }],
+
+            'titulo_formulario': 'Dados da Equipe',
+            'titulo_botao_form': 'Salvar'
+        })
+        
+        return contexto
+
+    def post(self, request, *args, **kwargs):
+        post = super().post(request, *args, **kwargs)
+
+        if post:
+            messages.success(request, 'A equipe foi atualizada com sucesso.')
+        return post
         
 def remover_todos_membros(request, pk):
     equipe = get_object_or_404(Equipe, pk=pk)

@@ -77,7 +77,7 @@ class UsuarioLoginForm(forms.ModelForm):
 
 class VincularResponsaveisForm(forms.ModelForm):
     responsaveis = forms.ModelMultipleChoiceField(
-        queryset=Usuario.objects.all(),
+        queryset=None,
         label='Responsáveis pela tarefa',
         widget=Select2MultipleWidget(attrs={
             'class': 'select2-widget',
@@ -94,13 +94,7 @@ class VincularResponsaveisForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.tarefa.em_equipe and self.tarefa.equipe:
-            participantes_equipe = MembroEquipe.objects.filter(
-                equipe=self.tarefa.equipe
-            ).values_list('membro', flat=True).distinct()
-
-            participantes_equipe = Usuario.objects.filter(id__in=participantes_equipe)
-
-            self.fields['responsaveis'].queryset = participantes_equipe
+            self.fields['responsaveis'].queryset = MembroEquipe.get_usuarios_membros_equipe(self.tarefa.equipe)
             self.fields['responsaveis'].label = f'Responsáveis pela tarefa {self.tarefa.pk}'
 
         else:

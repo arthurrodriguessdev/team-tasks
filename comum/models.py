@@ -32,9 +32,14 @@ class Usuario(AbstractUser):
 
 class MembroEquipe(models.Model):
     equipe = models.ForeignKey('equipe.Equipe', on_delete=models.PROTECT, related_name='membros_equipe')
-    membro = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    membro = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='usuarios_membros')
 
     def __str__(self):
         return f'{self.membro.nome} - {self.equipe.nome}'
+    
+    @classmethod
+    def get_usuarios_membros_equipe(cls, equipe_id):
+        id_membros = cls.objects.filter(equipe=equipe_id).values_list('membro', flat=True)
+        queryset = Usuario.objects.filter(id__in=id_membros)
 
-
+        return queryset
