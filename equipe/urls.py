@@ -7,5 +7,6 @@ urlpatterns = [
     path('visualizar_equipe/<int:pk>', views.VisualizarEquipe.as_view(), name='visualizar_equipe'),
     path('excluir_equipe/<int:pk>', views.ExcluirEquipe.as_view(), name='excluir_equipe'),
 
-    path('excluir_membros/<int:pk>', views.remover_todos_membros, name='remover_todos_membros')
+    path('excluir_membros/<int:pk>', views.remover_todos_membros, name='remover_todos_membros'),
+    path('excluir_tarefas/<int:pk>', views.remover_todas_tarefas_equipe, name='remover_todas_tarefas_equipe')
 ]

@@ -106,7 +106,10 @@ class VisualizarEquipe(generic.DetailView):
             'Responsável pela Equipe': equipe.responsavel,
         }
 
-        dados['Participantes da Equipe'] = ', '.join(participantes)
+        if participantes:
+            dados['Participantes da Equipe'] = ', '.join(participantes)
+        else:
+            dados['Participantes da Equipe'] = 'A equipe não possui participantes.'
 
         contexto.update({
             'titulo': 'Detalhes da Equipe',
@@ -177,7 +180,7 @@ class ExcluirEquipe(generic.DeleteView):
 
         contexto.update({
             'titulo': f'Confirmação de Exclusão da Equipe: {equipe.pk}',
-            'titulo_confirmacao': 'Serão apagados também, os seguintes itens:',
+            'titulo_confirmacao': 'Para excluir a equipe, exclua primeiro os seguintes itens:',
             'dados': dados,
             'titulo_exibicao_dados': 'Confira os dados da equipe antes de confirmar a exclusão:',
             'titulo_botao_form': 'Confirmar',
@@ -193,24 +196,31 @@ class ExcluirEquipe(generic.DeleteView):
             'url': 'excluir_equipe',
             'id_item': equipe.pk,
             'pode_ter_dados_afetados': 1,
-
-            'botoes': [
-                {
-                    'url': 'visualizar_equipe',
-                    'id_item': equipe.pk,
-                    'classe': 'visualizar-editar-botao',
-                    'nome': 'Voltar'
-                }
-            ]
+            'botoes': []
         })
 
+        if tarefas:
+            contexto['botoes'].append({
+                'url': 'remover_todas_tarefas_equipe',
+                'id_item': equipe.id,
+                'nome': 'Remover todas as tarefas',
+                'classe': 'excluir-botao'
+            })
+
         if membros:
-            contexto['botoes'].insert(0,{
+            contexto['botoes'].append({
                 'url': 'remover_todos_membros',
                 'id_item': equipe.id,
                 'nome': 'Remover todos membros',
                 'classe': 'excluir-botao'
             })
+
+        contexto['botoes'].append({ 
+            'url': 'visualizar_equipe',
+            'id_item': equipe.pk,
+            'classe': 'visualizar-editar-botao',
+            'nome': 'Voltar'     
+        })
 
         return contexto
     
@@ -261,3 +271,39 @@ def remover_todos_membros(request, pk):
         ]
     }
     return render(request, 'excluir_todos_membros.html', contexto)
+
+def remover_todas_tarefas_equipe(request, pk):
+    equipe = get_object_or_404(Equipe, pk=pk)
+    tarefas_equipe = equipe.tarefa_equipe.all()
+
+    if request.method == 'POST':
+        tarefas_equipe.delete()
+        messages.success(request, 'Todas as tarefas da equipe foram excluídas.')
+
+        return redirect('visualizar_equipe', equipe.pk)
+
+    contexto = {
+        'titulo': f'Confirmar exclusão de TODAS as tarefas vinculadas à equipe: {equipe.pk}',
+        'botoes':[
+            {
+                'url': 'excluir_equipe',
+                'id_item': equipe.pk,
+                'classe': 'visualizar-editar-botao',
+                'nome': 'Voltar'
+            }
+        ],
+
+        'url': 'remover_todas_tarefas_equipe',
+        'id_item': equipe.pk,
+        'titulo_botao_form': 'Confirmar',
+        'titulo_exibicao_dados': 'ATENÇÃO:',
+        'texto_informativo': f'Após a confirmação serão excluídos TODAS as {tarefas_equipe.count()} tarefas vinculadas à esta equipe. Esta ação não pode ser desfeita.',
+        'botoes_inferiores':[
+            {
+                'url': 'listagem_equipes',
+                'classe': 'excluir-botao',
+                'nome': 'Cancelar'
+            }
+        ]
+    }
+    return render(request, 'excluir_todas_tarefas.html', contexto)
