@@ -6,6 +6,7 @@ from django.contrib import messages
 from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsaveisForm
 from comum.models import Usuario
 from tarefa.models import Tarefa
+from comum.utils import criar_codigo_usuario
 
 
 def cadastrar_usuario(request):
@@ -13,14 +14,9 @@ def cadastrar_usuario(request):
         form = UsuarioCadastroForm(request.POST)
 
         if form.is_valid():
-            Usuario.objects.create_user(
-                username=form.cleaned_data['username'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password'],
-                nome=form.cleaned_data['nome']
-            )
-
+            form.save()
             messages.success(request, 'Usuário criado com sucesso.')
+
             return redirect('login_usuario')
         
     else:
@@ -47,6 +43,7 @@ def login_usuario(request):
 
         if usuario is not None:
             login(request, usuario)
+            criar_codigo_usuario(usuario)
             return redirect('listagem_tarefas')
         
         else:

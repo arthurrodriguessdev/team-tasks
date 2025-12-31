@@ -15,6 +15,22 @@
                 {% endif %}
 
                 {% csrf_token %}
+
+                <!-- TO DO: VERIFICAR SE NECESSITA DESSE BLOCK (já existe em tabela default) -->
+                {% if url_pesquisa %}
+                    {% block pesquisa %}
+                        <form action="{% if id_url_pesquisa %}{% url url_pesquisa id_url_pesquisa %}{% else %}{% url url_pesquisa %}{% endif %}" method="GET">
+                            <div class="barra-pesquisa-default">
+                                <input type="text" placeholder="Pesquisar" name="q">
+                                <button type="submit" class="pesquisar-btn">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    {% endblock %}
+                {% endif %}
+                <!-- fim bloco TO DO -->
+            
                 {% block inputs %}{% endblock %}
                 <button type="submit" class="adicionar-botao form">{{ titulo_botao_form }}</button>
             </form>

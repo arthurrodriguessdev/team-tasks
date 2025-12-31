@@ -20,6 +20,7 @@ class Usuario(AbstractUser):
     )
 
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
+    codigo = models.CharField(max_length=6, blank=True, null=True) #TO DO: Verificar se PODE ficar em branco e nulo mesmo
 
     class Meta:
         verbose_name = 'Usuário'

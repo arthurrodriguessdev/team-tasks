@@ -1,6 +1,7 @@
 # Funções utilitárias e genéricas
 
 from django.db.models import Q
+import random
 
 def pesquisar_objetos(termo, queryset, campos):
     if not termo:
@@ -14,3 +15,13 @@ def pesquisar_objetos(termo, queryset, campos):
         )
 
     return queryset.filter(buscar)
+
+def criar_codigo_usuario(usuario):
+    if not usuario.codigo is None:
+        return ''
+    
+    codigo_usuario = str(random.random())
+    codigo_usuario = str(usuario.pk) + (codigo_usuario[14:])
+
+    usuario.codigo = codigo_usuario
+    usuario.save()

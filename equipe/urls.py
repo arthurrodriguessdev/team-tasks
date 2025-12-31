@@ -9,5 +9,6 @@ urlpatterns = [
     path('editar_equipe/<int:pk>', views.EditarEquipe.as_view(), name='editar_equipe'),
 
     path('excluir_membros/<int:pk>', views.remover_todos_membros, name='remover_todos_membros'),
-    path('excluir_tarefas/<int:pk>', views.remover_todas_tarefas_equipe, name='remover_todas_tarefas_equipe')
+    path('excluir_tarefas/<int:pk>', views.remover_todas_tarefas_equipe, name='remover_todas_tarefas_equipe'),
+    path('adicionar_participantes/<int:pk>', views.adicionar_participantes, name='adicionar_participantes')
 ]

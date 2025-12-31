@@ -121,9 +121,10 @@ class VisualizarEquipe(generic.DetailView):
                     'classe': 'visualizar-editar-botao'
                 },
                 {
-                    'url': 'listagem_equipes',
+                    'url': 'adicionar_participantes',
                     'nome': 'Adicionar Participantes',
-                    'classe': 'adicionar-botao'
+                    'classe': 'adicionar-botao',
+                    'id_item': equipe.pk
                 },
                 {
                     'url': 'excluir_equipe',
@@ -352,3 +353,25 @@ def remover_todas_tarefas_equipe(request, pk):
         ]
     }
     return render(request, 'excluir_todas_tarefas.html', contexto)
+
+def adicionar_participantes(request, pk):
+    equipe = get_object_or_404(Equipe, pk=pk)
+
+    if request.method == 'POST':
+        usuario = Usuario.objects.filter(codigo=request.POST.get('q')).first()
+
+        if usuario:
+            print('foi')
+        else:
+            print('Ainda não há')
+
+    contexto = {
+        'url_view': 'adicionar_participantes',
+        'id_url': equipe.pk,
+        'titulo_formulario': 'Adicionar Participantes',
+        'titulo_botao_form': 'Adicionar',
+        'url_pesquisa': 'adicionar_participantes',
+        'id_url_pesquisa': equipe.pk
+    }
+
+    return render(request, 'adicionar_participantes.html', contexto)

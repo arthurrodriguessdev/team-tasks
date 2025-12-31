@@ -5,9 +5,13 @@ from comum.models import Usuario, MembroEquipe
 from tarefa.models import Tarefa
 
 class UsuarioCadastroForm(forms.ModelForm):
+    password = forms.CharField(
+        widget=forms.PasswordInput,
+        label='Senha'
+    )
+
     password_confirmacao = forms.CharField(
-        max_length=128,
-        required=True,
+        widget=forms.PasswordInput,
         label='Confirme sua senha:'
     )
 
@@ -59,11 +63,10 @@ class UsuarioCadastroForm(forms.ModelForm):
     def save(self, commit=True):
         usuario = super().save(commit=False)
 
-        usuario.nome = usuario.nome.title()
         usuario.username = usuario.username.strip()
+        usuario.set_password(self.cleaned_data['password'])
 
         if usuario:
-            usuario.full_clean()
             usuario.save()
 
         return usuario
