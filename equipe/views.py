@@ -356,22 +356,22 @@ def remover_todas_tarefas_equipe(request, pk):
 
 def adicionar_participantes(request, pk):
     equipe = get_object_or_404(Equipe, pk=pk)
+    usuario = None
+    pesquisou = 0
 
     if request.method == 'POST':
         usuario = Usuario.objects.filter(codigo=request.POST.get('q')).first()
-
-        if usuario:
-            print('foi')
-        else:
-            print('Ainda não há')
+        pesquisou = 1
 
     contexto = {
         'url_view': 'adicionar_participantes',
         'id_url': equipe.pk,
         'titulo_formulario': 'Adicionar Participantes',
-        'titulo_botao_form': 'Adicionar',
         'url_pesquisa': 'adicionar_participantes',
-        'id_url_pesquisa': equipe.pk
+        'id_url_pesquisa': equipe.pk,
+        'usuario': usuario,
+        'placeholder': 'Insira o código do usuário',
+        'pesquisou': pesquisou
     }
 
     return render(request, 'adicionar_participantes.html', contexto)

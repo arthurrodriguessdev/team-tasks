@@ -3,10 +3,6 @@
 {% block content %}
     {{ block.super }}
 
-    <!-- {% if messages %}
-        {% include 'messages.html' %}
-    {% endif %} -->
-
     {% block form %}
         <div class="form-default">
             <form action="{% if id_url %}{% url url_view id_url %}{% else %}{% url url_view %}{% endif %}" method="POST">
@@ -21,7 +17,7 @@
                     {% block pesquisa %}
                         <form action="{% if id_url_pesquisa %}{% url url_pesquisa id_url_pesquisa %}{% else %}{% url url_pesquisa %}{% endif %}" method="GET">
                             <div class="barra-pesquisa-default">
-                                <input type="text" placeholder="Pesquisar" name="q">
+                                <input type="text" placeholder="{{ placeholder }}" name="q">
                                 <button type="submit" class="pesquisar-btn">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -32,7 +28,10 @@
                 <!-- fim bloco TO DO -->
             
                 {% block inputs %}{% endblock %}
-                <button type="submit" class="adicionar-botao form">{{ titulo_botao_form }}</button>
+
+                {% if titulo_botao_form %}
+                    <button type="submit" class="adicionar-botao form">{{ titulo_botao_form }}</button>
+                {% endif %}
             </form>
         </div>
     {% endblock %}

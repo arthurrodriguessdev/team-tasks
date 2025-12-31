@@ -547,3 +547,19 @@ td a:hover{
     justify-content: end;
     gap: 10px;
 }
+
+/* resultado nao encontrado na barra de pesquisa */
+.container-resultado-nao-encontrado{
+    width: 100%;
+    background-color: #F2F2F2;
+    margin-top: 15px;
+    padding: 50px;
+    border-radius: 7px;
+    border-left: 5px solid #CC0E01;
+}
+
+.msg-resultado-nao-encontrado{
+    text-align: center;
+    font-size: 16px;
+    color: #CC0E01;
+}

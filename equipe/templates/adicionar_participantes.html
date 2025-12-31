@@ -1,5 +1,42 @@
 {% extends 'form_default.html' %}
 
-{% block inputs %}
-    {{ form.as_p }}
+{% block content %}
+    {{ block.super }}
+
+    {% if messages %}
+        {% include 'messages.html' %}
+    {% endif %}
+
+    {% if usuario %}
+        <h2 class="titulo-pagina" style="margin-top: 40px;">Resultado:</h2>
+        <section>
+            <div class="listagem-tabela">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Nome de usuário</th>
+                            <th>E-mail</th>
+                            <th>Código</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>{{ usuario.nome }}</td>
+                            <td>{{ usuario.username }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.codigo }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+    {% elif pesquisou == 1 %}
+        <div class="container-resultado-nao-encontrado">
+            <h3 class="msg-resultado-nao-encontrado">Usuário não encontrado. Verifique o código informado.</h3>
+        </div>
+    {% endif %}
+    
 {% endblock %}
