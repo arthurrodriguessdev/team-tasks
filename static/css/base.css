@@ -95,6 +95,22 @@
     color: #fff;
 }
 
+.adicionar-participante-icone{
+    font-size: 12px;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 8px;
+    color: #218838;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: solid 1px #218838;
+    text-align: center;
+}
+
+.adicionar-participante-icone:hover{
+    background-color: #218838;
+    color: #fff;
+}
 
 /* ======= SIDEBAR ======= */
 

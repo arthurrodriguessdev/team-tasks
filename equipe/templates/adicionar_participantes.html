@@ -18,6 +18,7 @@
                             <th>Nome de usuário</th>
                             <th>E-mail</th>
                             <th>Código</th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -27,6 +28,11 @@
                             <td>{{ usuario.username }}</td>
                             <td>{{ usuario.email }}</td>
                             <td>{{ usuario.codigo }}</td>
+                            <td style="text-align: center; padding: 15px;">
+                                <a class="adicionar-participante-icone" href="">
+                                    <i class="fa fa-user-plus"></i>
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
