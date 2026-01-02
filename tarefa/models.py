@@ -30,5 +30,11 @@ class Tarefa(models.Model):
 
     def __str__(self):
         return self.titulo
-
-
+    
+    @classmethod
+    def total_tarefas_criadas_usuario(cls, usuario):
+        return cls.objects.filter(criada_por=usuario).count()
+    
+    @classmethod
+    def total_tarefas_atribuidas_usuario(cls, usuario):
+        return cls.objects.filter(responsaveis=usuario).count()

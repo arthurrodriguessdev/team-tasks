@@ -1,0 +1,15 @@
+{% extends 'base_site.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>Meu Dashboard</h2>
+    <p id="tarefas_criadas_por_mim"></p>
+    <p id="tarefas_atribuidas_mim"></p>
+    
+    <h3>Minhas Equipes</h3>
+    <ul id="lista_equipes"></ul>
+{% endblock %}
+
+{% block js_extra %}
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+
 class Usuario(AbstractUser):
     nome = models.CharField(max_length=120, blank=False, help_text='Informe seu nome')
     email = models.EmailField(blank=False, verbose_name='E-mail', unique=True)
@@ -44,3 +45,10 @@ class MembroEquipe(models.Model):
         queryset = Usuario.objects.filter(id__in=id_membros)
 
         return queryset
+    
+    @classmethod
+    def get_equipe_usuario(cls, usuario):
+        from equipe.models import Equipe
+        
+        id_equipes = cls.objects.filter(membro=usuario).values_list('equipe', flat=True)
+        return Equipe.objects.filter(id__in=id_equipes)

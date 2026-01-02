@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsaveisForm
-from comum.models import Usuario
+from comum.models import Usuario, MembroEquipe
 from tarefa.models import Tarefa
 from comum.utils import criar_codigo_usuario
 
@@ -93,3 +93,16 @@ def vincular_responsaveis(request, pk):
     }
 
     return render(request, 'vincular_responsaveis.html', contexto)
+
+def api_dashboard(request):
+    usuario = request.user
+
+    return JsonResponse(
+        {
+            'qtd_tarefas_criadas_por_mim': Tarefa.total_tarefas_criadas_usuario(usuario),
+            'qtd_tarefas_atribuidas_mim': Tarefa.total_tarefas_atribuidas_usuario(usuario),
+            'minhas_equipes': list(MembroEquipe.get_equipe_usuario(usuario).values_list('nome', flat=True))
+        })
+
+def exibir_dashboard(request):
+    return render(request, 'dashboard.html')
