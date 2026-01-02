@@ -29,20 +29,34 @@
                             <td>{{ usuario.email }}</td>
                             <td>{{ usuario.codigo }}</td>
                             <td style="text-align: center; padding: 15px;">
-                                <a class="adicionar-participante-icone" href="">
-                                    <i class="fa fa-user-plus"></i>
-                                </a>
+
+                                <form action="{% url 'adicionar_participantes' id_url %}" method="POST">
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="acao" value="convidar">
+                                    <input type="hidden" name="codigo_usuario" value="{{ usuario.codigo }}">
+
+                                    <button type="submit" class="adicionar-participante-icone">
+                                        <i class="fa fa-user-plus"></i>
+                                    <button>
+                                </form>
+
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
+
+        {% if enviou_convite == 1 %}
+            <div class="container-resultado sucesso">
+                <h3 class="msg-resultado-encontrado">Convite enviado com sucesso.</h3>
+            </div>
+        {% endif %}
     
     {% elif pesquisou == 1 %}
-        <div class="container-resultado-nao-encontrado">
+        <div class="container-resultado erro">
             <h3 class="msg-resultado-nao-encontrado">Usuário não encontrado. Verifique o código informado.</h3>
         </div>
     {% endif %}
-    
 {% endblock %}

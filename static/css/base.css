@@ -565,12 +565,20 @@ td a:hover{
 }
 
 /* resultado nao encontrado na barra de pesquisa */
-.container-resultado-nao-encontrado{
+/* VERIFICAR ESSE CSS */
+.container-resultado {
     width: 100%;
     background-color: #F2F2F2;
     margin-top: 15px;
     padding: 50px;
     border-radius: 7px;
+}
+
+.container-resultado.sucesso {
+    border-left: 5px solid #218838;
+}
+
+.container-resultado.erro {
     border-left: 5px solid #CC0E01;
 }
 
@@ -578,4 +586,10 @@ td a:hover{
     text-align: center;
     font-size: 16px;
     color: #CC0E01;
+}
+
+.msg-resultado-encontrado{
+    text-align: center;
+    font-size: 16px;
+    color: #218838;
 }
