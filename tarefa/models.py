@@ -1,6 +1,7 @@
 from django.db import models
 from comum.models import Usuario
 from equipe.models import Equipe
+from organizacao.models import Organizacao
 
 class Tarefa(models.Model):
     STATUS = [
@@ -27,6 +28,8 @@ class Tarefa(models.Model):
         verbose_name='Tarefa de equipe',
         null=True,
         blank=True)
+    
+    organizacao = models.ForeignKey(Organizacao, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.titulo
