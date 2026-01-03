@@ -593,3 +593,49 @@ td a:hover{
     font-size: 16px;
     color: #218838;
 }
+
+/* dashboard */
+.dashboard-container{
+    background-color: #f2f2f2;
+    padding: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+    border-radius: 7px;
+}
+
+.card-container-dashboard{
+    background-color: #fff;
+    border-radius: 7px;
+    border: solid 1px #1C4045;
+    padding: 40px;
+    min-width: 280px;
+    flex: 1;
+}
+
+.card-container-dashboard p{
+    color: #cc0e01;
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+    margin: 20px 0 0;
+}
+
+.card-container-dashboard ul{
+    list-style: none;
+    margin-top: 15px;
+}
+
+.titulo-card-dashboard{
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.equipe-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 6px;
+    border-bottom: 1px solid #e5e7eb;
+}

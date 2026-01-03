@@ -2,12 +2,28 @@
 {% load static %}
 
 {% block content %}
-    <h2>Meu Dashboard</h2>
-    <p id="tarefas_criadas_por_mim"></p>
-    <p id="tarefas_atribuidas_mim"></p>
-    
-    <h3>Minhas Equipes</h3>
-    <ul id="lista_equipes"></ul>
+    {{ block.super }}
+
+    <div class="dashboard-container">
+
+        <div class="card-container-dashboard">
+            <h3 class="titulo-card-dashboard">Tarefas criadas por mim:</h3>
+            <p id="tarefas_criadas_por_mim"></p>
+        </div>
+
+        <div class="card-container-dashboard">
+            <h3 class="titulo-card-dashboard">Tarefas atribuídas a mim:</h3>
+            <p id="tarefas_atribuidas_mim"></p>
+        </div>
+
+        <div class="card-container-dashboard">
+            <h3 class="titulo-card-dashboard">Minhas equipes:</h3>
+            <ul id="lista_equipes"></ul>
+        </div>
+        
+    </div>
+
+
 {% endblock %}
 
 {% block js_extra %}

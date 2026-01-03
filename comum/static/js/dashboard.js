@@ -17,14 +17,14 @@ document.addEventListener("DOMContentLoaded", async function (){
 
     const result = await consumir_api_dashboard();
 
-    tarefas_criadas_por_mim.textContent = `Tarefas criadas por mim: ${result.qtd_tarefas_criadas_por_mim}`;
-    tarefas_atribuidas_mim.textContent = `Tarefas atribuídas a mim: ${result.qtd_tarefas_atribuidas_mim}`;
+    tarefas_criadas_por_mim.textContent = `${result.qtd_tarefas_criadas_por_mim}`;
+    tarefas_atribuidas_mim.textContent = `${result.qtd_tarefas_atribuidas_mim}`;
 
     for(let i = 0; i < result.minhas_equipes.length; i++){
         const linha_equipe = document.createElement('li');
+
         linha_equipe.textContent = result.minhas_equipes[i];
+        linha_equipe.classList.add('equipe-item')
         lista_equipes.appendChild(linha_equipe);
     }
 })
-
-

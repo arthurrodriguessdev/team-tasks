@@ -105,4 +105,15 @@ def api_dashboard(request):
         })
 
 def exibir_dashboard(request):
-    return render(request, 'dashboard.html')
+    contexto = {
+        'titulo': 'Dashboard',
+        'botoes':[
+            {
+                'nome': 'Teste',
+                'classe': 'visualizar-editar-botao',
+                'url': 'listagem_tarefas'
+            }
+        ]
+    }
+    
+    return render(request, 'dashboard.html', contexto)
