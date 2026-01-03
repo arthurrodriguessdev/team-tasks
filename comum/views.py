@@ -7,6 +7,7 @@ from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsav
 from comum.models import Usuario, MembroEquipe
 from tarefa.models import Tarefa
 from comum.utils import criar_codigo_usuario
+from organizacao.models import Organizacao, MembroOrganizacao
 
 
 def cadastrar_usuario(request):
@@ -44,6 +45,10 @@ def login_usuario(request):
         if usuario is not None:
             login(request, usuario)
             criar_codigo_usuario(usuario)
+            
+            if not MembroOrganizacao.eh_membro_equipe(usuario):
+                return redirect('onboarding')
+
             return redirect('listagem_tarefas')
         
         else:
@@ -117,3 +122,6 @@ def exibir_dashboard(request):
     }
     
     return render(request, 'dashboard.html', contexto)
+
+def exibir_onboarding(request):
+    return render(request, 'onboarding.html')

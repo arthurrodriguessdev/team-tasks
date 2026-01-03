@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+h1{
+    font-size: 32px;
+    margin-bottom: 12px;
+    color: #1C4045;
+}
+
+body > p{
+    margin-bottom: 42px;
+    color: #5f6f73;
+}
+
+.container-onboarding{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: solid 1px #1C4045;
+    padding: 40px;
+    border-radius: 7px;
+}
+
+.container-onboarding h3{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.container-onboarding p{
+    text-align: center;
+}
+
+.container-cards-onboarding{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 15px;
+}
+
+.card-opcoes-onboarding{
+    margin-top: 40px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    border-left: solid 1px #1C4045;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 220px;
+    flex: 1;
+}
+
+.card-opcoes-onboarding:hover{
+    transform: translateY(-2px);
+    cursor: pointer;
+    /* background-color: #1C4045;
+    color: #fff;
+    border-left: solid 1px #fff; */
+    border: solid 1px #1C4045;
+    background-color: #fff;
+}
