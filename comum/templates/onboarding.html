@@ -6,27 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onboarding</title>
     <link rel="stylesheet" href="{% static 'css/onboarding.css' %}">
+    {% block extra_css %}{% endblock %}
+    
 </head>
 <body>
-    <h1>Bem vindo ao TaskTeam</h1>
-    <p>Organize equipes, tarefas e responsabilidades em um só lugar.</p>
+    <h1>{{ titulo }}</h1>
+    <p>{{ subtitulo }}</p>
 
-    <div class="container-onboarding">
-        <h3>Vamos começar?</h3>
-        <p>Escolha uma das opções abaixo para continuar.</p>
-        
-        <div class="container-cards-onboarding">
+    {% block content %}
+        <div class="container-onboarding">
+            <h3>{{ titulo_container }}</h3>
+            <p>{{ subtitulo_container }}</p>
+            
 
-            <a href="" class="card-opcoes-onboarding">
-                Criar uma organização
-            </a>
+            <div class="container-cards-onboarding">
 
-            <a href="" class="card-opcoes-onboarding">
-                Aguardando convite para uma organização
-            </a>
+                {% block cards %}
+                    <a href="" class="card-opcoes-onboarding">
+                        Criar uma organização
+                    </a>
 
+                    <a href="{% url 'exibir_codigo_convite_onboarding' %}" class="card-opcoes-onboarding">
+                        Aguardando convite para uma organização
+                    </a>
+                {% endblock %}
+
+            </div>
         </div>
-
-    </div>
+    {% endblock %}
+    {% block script %}
+    {% endblock %}
 </body>
 </html>

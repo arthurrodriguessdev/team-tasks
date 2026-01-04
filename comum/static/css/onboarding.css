@@ -77,3 +77,40 @@ body > p{
     border: solid 1px #1C4045;
     background-color: #fff;
 }
+
+/* onboarding aguardando convite */
+.container-codigo{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 400px;
+    margin-top: 35px;
+}
+
+.codigo-usuario{
+    /* margin-top: 40px; */
+    padding: 8px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    border-left: solid 1px #1C4045;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 220px;
+    flex: 1;
+}
+
+.codigo-copiado-botao{
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding: 8px;
+    color: #5F6F73;
+    border: solid 1px #5F6F73;
+}

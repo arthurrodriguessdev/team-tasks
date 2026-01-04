@@ -124,4 +124,22 @@ def exibir_dashboard(request):
     return render(request, 'dashboard.html', contexto)
 
 def exibir_onboarding(request):
-    return render(request, 'onboarding.html')
+    contexto = {
+        'titulo': 'Bem vindo ao TaskTeam',
+        'subtitulo': 'Organize equipes, tarefas e responsabilidades em um só lugar',
+        'titulo_container': 'Vamos começar?',
+        'subtitulo_container': 'Escolha uma das opções abaixo para começar.'
+    }
+
+    return render(request, 'onboarding.html', contexto)
+
+def exibir_codigo_convite_onboarding(request):
+    contexto = {
+        'titulo': 'Atenção',
+        'subtitulo': 'Vou colocar ainda',
+        'titulo_container': 'Quase lá...',
+        'subtitulo_container': 'Clique e copie o código de convite abaixo e envie ao responsável de sua organização.',
+        'usuario': request.user,
+    }
+
+    return render(request, 'onboarding_aguardando_convite.html', contexto)

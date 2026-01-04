@@ -1,0 +1,15 @@
+{% extends 'onboarding.html' %}
+{% load static %}
+
+{% block extra_css %} <link rel="stylesheet" href="{% static 'css/base.css' %}"> {% endblock %}
+
+{% block cards %}
+    <div class="container-codigo">
+        <p class="codigo-usuario" id="codigo_usuario">{{ usuario.codigo }}</p>
+        <button id="botao_copiar" class="visualizar-editar-botao">Copiar</button>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/copiar_codigo.js' %}"></script>
+{% endblock %}

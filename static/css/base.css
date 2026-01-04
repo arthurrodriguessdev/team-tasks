@@ -234,6 +234,7 @@
 .visualizar-editar-botao:hover{
     background-color: #013e6f;
     color: #fff;
+    cursor: pointer;
 }
 
 .excluir-botao{
