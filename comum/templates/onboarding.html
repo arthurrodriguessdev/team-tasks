@@ -22,12 +22,16 @@
             <div class="container-cards-onboarding">
 
                 {% block cards %}
-                    <a href="" class="card-opcoes-onboarding">
+                    <a href="{% url 'criar_organizacao' %}" class="card-opcoes-onboarding">
                         Criar uma organização
                     </a>
 
                     <a href="{% url 'exibir_codigo_convite_onboarding' %}" class="card-opcoes-onboarding">
                         Aguardando convite para uma organização
+                    </a>
+
+                    <a href="" class="card-opcoes-onboarding">
+                        Já fui convidado
                     </a>
                 {% endblock %}
 

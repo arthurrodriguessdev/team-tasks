@@ -25,29 +25,31 @@
             });
     </script>
 
-    <!-- sidebar base -->
-    <div class="sidebar-box">
-        <div class="sidebar-opcoes">
-            <ul class="sidebar-menu-box">
-                <li><a class="sidebar-opcao-primaria" href="{% url 'exibir_dashboard' %}">Dashboard</a></li>
+    {% block sidebar %}
+        <!-- sidebar base -->
+        <div class="sidebar-box">
+            <div class="sidebar-opcoes">
+                <ul class="sidebar-menu-box">
+                    <li><a class="sidebar-opcao-primaria" href="{% url 'exibir_dashboard' %}">Dashboard</a></li>
 
-                <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
-                    <ul class="sidebar-submenu">
-                        <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>
-                        <li><a href="{% url 'adicionar_tarefa' %}">Nova Tarefa</a></li>
-                    </ul>
-                </li>
+                    <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>
+                            <li><a href="{% url 'adicionar_tarefa' %}">Nova Tarefa</a></li>
+                        </ul>
+                    </li>
 
-                <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Equipes</a>
-                    <ul class="sidebar-submenu">
-                        <li><a href="{% url 'listagem_equipes' %}">Equipes</a></li>
-                        <li><a href="{% url 'adicionar_equipe' %}">Nova Equipe</a></li>
-                    </ul>
-                </li>
-                
-            </ul>
+                    <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Equipes</a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{% url 'listagem_equipes' %}">Equipes</a></li>
+                            <li><a href="{% url 'adicionar_equipe' %}">Nova Equipe</a></li>
+                        </ul>
+                    </li>
+                    
+                </ul>
+            </div>
         </div>
-    </div>
+    {% endblock %}
 
     <!-- navbar base -->
     <div class="navbar">

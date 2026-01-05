@@ -135,10 +135,10 @@ def exibir_onboarding(request):
 
 def exibir_codigo_convite_onboarding(request):
     contexto = {
-        'titulo': 'Atenção',
-        'subtitulo': 'Vou colocar ainda',
-        'titulo_container': 'Quase lá...',
-        'subtitulo_container': 'Clique e copie o código de convite abaixo e envie ao responsável de sua organização.',
+        'titulo': 'Quase lá...',
+        'subtitulo': 'Preparado para utilizar o TaskTeam?',
+        'titulo_container': '',
+        'subtitulo_container': 'Copie o código de convite abaixo, envie ao responsável da sua organização e aguarde o convite.',
         'usuario': request.user,
     }
 
