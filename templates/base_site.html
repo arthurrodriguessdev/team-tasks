@@ -30,21 +30,29 @@
         <div class="sidebar-box">
             <div class="sidebar-opcoes">
                 <ul class="sidebar-menu-box">
-                    <li><a class="sidebar-opcao-primaria" href="{% url 'exibir_dashboard' %}">Dashboard</a></li>
+                    {% if request.user.tem_organizacao %}
+                        <li><a class="sidebar-opcao-primaria" href="{% url 'exibir_dashboard' %}">Dashboard</a></li>
 
-                    <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>
-                            <li><a href="{% url 'adicionar_tarefa' %}">Nova Tarefa</a></li>
-                        </ul>
-                    </li>
+                        <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
+                            <ul class="sidebar-submenu">
+                                <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>
+                                <li><a href="{% url 'adicionar_tarefa' %}">Nova Tarefa</a></li>
+                            </ul>
+                        </li>
 
-                    <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Equipes</a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{% url 'listagem_equipes' %}">Equipes</a></li>
-                            <li><a href="{% url 'adicionar_equipe' %}">Nova Equipe</a></li>
-                        </ul>
-                    </li>
+                        <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Equipes</a>
+                            <ul class="sidebar-submenu">
+                                <li><a href="{% url 'listagem_equipes' %}">Equipes</a></li>
+                                <li><a href="{% url 'adicionar_equipe' %}">Nova Equipe</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                         <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Organização</a>
+                            <ul class="sidebar-submenu">
+                                <li><a href="{% url 'criar_organizacao' %}">Nova Organização</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
                     
                 </ul>
             </div>

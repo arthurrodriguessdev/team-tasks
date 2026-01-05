@@ -46,7 +46,7 @@ def login_usuario(request):
             login(request, usuario)
             criar_codigo_usuario(usuario)
             
-            if not MembroOrganizacao.eh_membro_equipe(usuario):
+            if not request.user.tem_organizacao:
                 return redirect('onboarding')
 
             return redirect('listagem_tarefas')

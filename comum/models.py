@@ -30,6 +30,10 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f'{self.nome.capitalize()} - {self.username}'
         # return self.nome.capitalize()
+
+    @property
+    def tem_organizacao(self):
+        return self.membro_organizacao.filter(membro=self).exists()
     
 
 class MembroEquipe(models.Model):

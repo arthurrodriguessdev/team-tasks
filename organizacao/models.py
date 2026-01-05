@@ -23,6 +23,6 @@ class MembroOrganizacao(models.Model):
     def __str__(self):
         return self.organizacao.nome
     
-    @classmethod
-    def eh_membro_equipe(cls, usuario):
-        return cls.objects.filter(membro=usuario)
+    # @classmethod
+    # def eh_membro_organizacao(cls, usuario):
+    #     return cls.objects.filter(membro=usuario)
