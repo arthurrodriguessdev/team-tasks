@@ -2,6 +2,8 @@
 
 from django.db.models import Q
 import random
+import string
+from comum.models import Usuario
 
 def pesquisar_objetos(termo, queryset, campos):
     if not termo:
@@ -18,10 +20,14 @@ def pesquisar_objetos(termo, queryset, campos):
 
 def criar_codigo_usuario(usuario):
     if not usuario.codigo is None:
-        return ''
-    
-    codigo_usuario = str(random.random())
-    codigo_usuario = str(usuario.pk) + (codigo_usuario[14:])
+        return
 
-    usuario.codigo = codigo_usuario
-    usuario.save()
+    while True:
+        codigo_usuario = ''.join(random.choices(string.digits, k=6))
+
+        if Usuario.objects.filter(codigo=codigo_usuario).exists():
+            continue
+        
+        usuario.codigo = codigo_usuario
+        usuario.save()
+        return
