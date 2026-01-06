@@ -31,8 +31,22 @@
             <div class="sidebar-opcoes">
                 <ul class="sidebar-menu-box">
                     {% if request.user.tem_organizacao %}
-                        <li><a class="sidebar-opcao-primaria" href="{% url 'exibir_dashboard' %}">Dashboard</a></li>
+                        <li><a class="sidebar-opcao-primaria" href="{% url 'exibir_dashboard' %}">Dashboard Pessoal</a></li>
 
+                         <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Organização</a>
+                            <ul class="sidebar-submenu">
+
+                                {% if not request.user.eh_proprietario_organizacao %}
+                                    <li><a href="{% url 'criar_organizacao' %}">Nova Organização</a></li>
+                                {% endif %}
+
+                                {% if request.user.eh_proprietario_organizacao %}
+                                    <li><a href="{% url 'visualizar_organizacao' %}">Minha Organização</a></li>
+                                    <li><a href="{% url 'criar_organizacao' %}">Dashboard da Organização</a></li>
+                                {% endif %}
+
+                            </ul>
+                        </li>
                         <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
                             <ul class="sidebar-submenu">
                                 <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>

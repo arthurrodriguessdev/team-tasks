@@ -49,7 +49,7 @@ def login_usuario(request):
             if not request.user.tem_organizacao:
                 return redirect('onboarding')
 
-            return redirect('listagem_tarefas')
+            return redirect('exibir_dashboard')
         
         else:
             messages.error(request, 'Email ou senha inválidos. Verifique os dados e tente novamente.')

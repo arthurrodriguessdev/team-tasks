@@ -29,11 +29,18 @@ class Usuario(AbstractUser):
 
     def __str__(self):
         return f'{self.nome.capitalize()} - {self.username}'
-        # return self.nome.capitalize()
 
     @property
     def tem_organizacao(self):
-        return self.membro_organizacao.filter(membro=self).exists()
+        return self.organizacoes.filter(membro=self).exists()
+    
+    @property
+    def eh_proprietario_organizacao(self):
+        return self.organizacoes.filter(papel='proprietario', membro=self).exists()
+    
+    @property
+    def get_nome(self):
+        return self.nome.title()
     
 
 class MembroEquipe(models.Model):
