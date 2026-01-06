@@ -1,4 +1,4 @@
-<!-- {% extends 'form_default.html' %}
+{% extends 'form_default.html' %}
 
 {% block content %}
     {{ block.super }}
@@ -30,7 +30,7 @@
                             <td>{{ usuario.codigo }}</td>
                             <td style="text-align: center; padding: 15px;">
 
-                                <form action="{% url 'adicionar_participantes' id_url %}" method="POST">
+                                <form action="{% url 'convidar_participantes' id_url %}" method="POST">
                                     {% csrf_token %}
 
                                     <input type="hidden" name="acao" value="convidar">
@@ -59,4 +59,4 @@
             <h3 class="msg-resultado-nao-encontrado">Usuário não encontrado. Verifique o código informado.</h3>
         </div>
     {% endif %}
-{% endblock %} -->
+{% endblock %}

@@ -121,10 +121,10 @@ class VisualizarEquipe(generic.DetailView):
                     'classe': 'visualizar-editar-botao'
                 },
                 {
-                    'url': 'adicionar_participantes',
+                    'url': 'exibir_dashboard',
                     'nome': 'Adicionar Participantes',
                     'classe': 'adicionar-botao',
-                    'id_item': equipe.pk
+                    # 'id_item': equipe.pk
                 },
                 {
                     'url': 'excluir_equipe',
@@ -354,38 +354,38 @@ def remover_todas_tarefas_equipe(request, pk):
     }
     return render(request, 'excluir_todas_tarefas.html', contexto)
 
-def adicionar_participantes(request, pk):
-    equipe = get_object_or_404(Equipe, pk=pk)
+# def adicionar_participantes(request, pk):
+#     equipe = get_object_or_404(Equipe, pk=pk)
 
-    contexto = {
-        'url_view': 'adicionar_participantes',
-        'id_url': equipe.pk,
-        'titulo_formulario': 'Adicionar Participantes',
-        'url_pesquisa': 'adicionar_participantes',
-        'id_url_pesquisa': equipe.pk,
-        'usuario': None,
-        'placeholder': 'Insira o código do usuário',
-        'pesquisou': 0,
-        'enviou_convite': 0
-    }
+#     contexto = {
+#         'url_view': 'adicionar_participantes',
+#         'id_url': equipe.pk,
+#         'titulo_formulario': 'Adicionar Participantes',
+#         'url_pesquisa': 'adicionar_participantes',
+#         'id_url_pesquisa': equipe.pk,
+#         'usuario': None,
+#         'placeholder': 'Insira o código do usuário',
+#         'pesquisou': 0,
+#         'enviou_convite': 0
+#     }
 
-    if request.method == 'POST':
-        acao = request.POST.get('acao')
-        codigo = request.POST.get('q') or request.POST.get('codigo_usuario')
+#     if request.method == 'POST':
+#         acao = request.POST.get('acao')
+#         codigo = request.POST.get('q') or request.POST.get('codigo_usuario')
 
-        usuario = Usuario.objects.filter(codigo=codigo).first()
+#         usuario = Usuario.objects.filter(codigo=codigo).first()
 
-        if acao == 'buscar':
-            contexto['usuario'] = usuario
-            contexto['pesquisou'] = 1
+#         if acao == 'buscar':
+#             contexto['usuario'] = usuario
+#             contexto['pesquisou'] = 1
 
-        if acao == 'convidar' and usuario:
-            # MembroEquipe.objects.create(
-            #     equipe=equipe,
-            #     membro=usuario
-            # )
+#         if acao == 'convidar' and usuario:
+#             # MembroEquipe.objects.create(
+#             #     equipe=equipe,
+#             #     membro=usuario
+#             # )
 
-            contexto['usuario'] = usuario
-            contexto['enviou_convite'] = 1
+#             contexto['usuario'] = usuario
+#             contexto['enviou_convite'] = 1
 
-    return render(request, 'adicionar_participantes.html', contexto)
+#     return render(request, 'adicionar_participantes.html', contexto)

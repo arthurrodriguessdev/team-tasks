@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from organizacao.forms import OrganizacaoForm
 from organizacao.models import MembroOrganizacao, Organizacao
+from comum.models import Usuario
 
 # TO DO: Verificar regra se um usuário pode criar mais de uma organização
 @login_required
@@ -79,8 +80,45 @@ def visualizar_organizacao(request):
             {
                 'nome': 'Convidar Participantes',
                 'classe': 'adicionar-botao',
-                'url': 'exibir_dashboard'
+                'url': 'convidar_participantes',
+                'id_item': organizacao.pk
             }
         ]
     }
     return render(request, 'visualizar_organizacao.html', contexto)
+
+def convidar_participantes(request, pk):
+    organizacao = get_object_or_404(Organizacao, pk=pk)
+
+    contexto = {
+        'url_view': 'convidar_participantes',
+        'id_url': organizacao.pk,
+        'titulo_formulario': 'Convidar Participantes',
+        'url_pesquisa': 'convidar_participantes',
+        'id_url_pesquisa': organizacao.pk,
+        'usuario': None,
+        'placeholder': 'Insira o código do usuário',
+        'pesquisou': 0,
+        'enviou_convite': 0
+    }
+
+    if request.method == 'POST':
+        acao = request.POST.get('acao')
+        codigo = request.POST.get('q') or request.POST.get('codigo_usuario')
+
+        usuario = Usuario.objects.filter(codigo=codigo).exclude(id=request.user.id).first()
+
+        if acao == 'buscar':
+            contexto['usuario'] = usuario
+            contexto['pesquisou'] = 1
+
+        if acao == 'convidar' and usuario:
+            # MembroEquipe.objects.create(
+            #     equipe=equipe,
+            #     membro=usuario
+            # )
+
+            contexto['usuario'] = usuario
+            contexto['enviou_convite'] = 1
+
+    return render(request, 'convidar_participantes.html', contexto)
