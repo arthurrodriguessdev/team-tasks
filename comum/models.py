@@ -28,7 +28,7 @@ class Usuario(AbstractUser):
         verbose_name_plural = 'Usuários'
 
     def __str__(self):
-        return f'{self.nome.capitalize()} - {self.username}'
+        return f'{self.nome.title()} ({self.username})'
 
     @property
     def tem_organizacao(self):

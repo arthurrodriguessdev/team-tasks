@@ -8,7 +8,7 @@
         {% if convites %}
             <div class="lista-convites">
                 {% for convite in convites %}
-                    <a class="link-organizacao" href=""><span>Organização: {{ convite.organizacao }}</span></a>
+                    <a class="link-organizacao" href="{% url 'visualizar_convite' convite.pk %}"><span>Organização: {{ convite.organizacao }}</span></a>
                 {% endfor %}
             </div>
 

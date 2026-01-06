@@ -204,7 +204,8 @@
     gap: 10px;
 }
 
-/* botões de ações */
+/* BOTÕES */
+
 .adicionar-botao{
     background-color: transparent;
     border-radius: 5px;
@@ -250,6 +251,25 @@
 .excluir-botao:hover{
     background-color: #cc0e01;
     color: #fff;
+}
+
+.convite-aceito-botao{
+    background-color: #218838;
+    border-radius: 5px;
+    padding: 8px;
+    color: #fff;
+    text-decoration: none;
+    border: solid 1px #218838;
+}
+
+.convite-recusado-botao{
+    background-color: #cc0e01;
+    border-radius: 5px;
+    padding: 8px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: solid 1px #cc0e01;
 }
 
 .titulo-pagina{

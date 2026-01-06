@@ -1,0 +1,44 @@
+{% extends 'visualizar_default.html' %}
+
+{% block js_extra %}
+    <script>
+        function alterar_classe(botao, classe_atual, nova_classe, novo_texto){
+            botao.classList.remove(classe_atual);
+            botao.classList.add(nova_classe);
+
+            if(novo_texto){
+                botao.textContent = novo_texto;
+            }
+        };
+
+        (() =>{
+            document.addEventListener("DOMContentLoaded", () =>{
+                const botao_aceitar = document.getElementById('botao_aceitar');
+                const botao_recusar = document.getElementById('botao_recusar');
+                const tempo = 600;
+
+                if(botao_aceitar){
+                    botao_aceitar.addEventListener("click", (e) =>{
+                        e.preventDefault();
+                        
+                        alterar_classe(botao_aceitar, botao_aceitar.className, 'convite-aceito-botao', 'Convite Aceito')
+                        setTimeout(() =>{
+                            window.location.href = botao_aceitar.href;
+                        }, tempo);
+                    })
+                };
+
+                if(botao_recusar){
+                    botao_recusar.addEventListener("click", (e) =>{
+                        e.preventDefault();
+
+                        alterar_classe(botao_recusar, botao_recusar.className, 'convite-recusado-botao', 'Convite Recusado')
+                        setTimeout(() =>{
+                            window.location.href = botao_recusar.href;
+                        }, tempo)
+                    })
+                }
+            })
+        }) ();
+    </script>
+{% endblock %}

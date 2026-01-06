@@ -115,10 +115,50 @@ def convidar_participantes(request, pk):
         if acao == 'convidar' and usuario:
             ConviteOrganizacao.objects.create(
                 usuario_convidado=usuario,
-                organizacao=organizacao
+                organizacao=organizacao,
+                enviado_por=request.user
             )
             
             contexto['usuario'] = usuario
             contexto['enviou_convite'] = 1
 
     return render(request, 'convidar_participantes.html', contexto)
+
+def visualizar_convite(request, pk):
+    convite = get_object_or_404(ConviteOrganizacao, pk=pk)
+    
+    dados = {
+        'Nome': convite.organizacao,
+        'Convidado por': convite.enviado_por,
+        'Data de convite': convite.criado_em
+    }
+
+    contexto = {
+        'titulo': f'Detalhes da Organização:',
+        'titulo_visualizar': 'Dados da Organização',
+        'dados': dados,
+        'botoes_inferiores':[
+            {
+                'nome': 'Recusar Convite',
+                'classe': 'excluir-botao',
+                'url': 'meus_convites',
+                'id_nome': 'botao_recusar'
+            },
+
+            {
+                'nome': 'Aceitar Convite',
+                'classe': 'adicionar-botao',
+                'url': 'meus_convites',
+                'id_nome': 'botao_aceitar'
+            }
+        ],
+
+        'botoes': [
+            {
+                'nome': 'Voltar',
+                'classe': 'visualizar-editar-botao',
+                'url': 'meus_convites'
+            },
+        ]
+    }
+    return render(request, 'visualizar_convite.html', contexto)

@@ -21,6 +21,30 @@
                     {% endfor %}
                 </div>
             {% endblock %}
+
+            {% if botoes_inferiores %}
+                <div class="acoes-inferior-pagina">
+                    {% for botao in botoes_inferiores %}
+
+                        {% if botao.id_item %}
+                            {% if botao.id_nome %}
+                                <a id="{{ botao.id_nome }}" href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">{{ botao.nome }}
+                                </a>
+                            {% else %}
+                                <a href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                            {% endif %}
+
+                        {% else %}
+                            {% if botao.id_nome %}
+                                <a id="{{ botao.id_nome }}" href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                            {% else %}
+                                <a href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
         </div>
     {% endblock %}
 {% endblock %}

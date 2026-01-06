@@ -58,6 +58,7 @@ class ConviteOrganizacao(models.Model):
     usuario_convidado = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='convites')
     organizacao = models.ForeignKey(Organizacao, on_delete=models.CASCADE, related_name='convites_enviados')
     criado_em = models.DateTimeField(auto_now_add=True)
+    enviado_por = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.usuario_convidado} - {self.organizacao}'
