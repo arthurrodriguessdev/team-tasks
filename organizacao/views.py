@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from organizacao.forms import OrganizacaoForm
-from organizacao.models import MembroOrganizacao, Organizacao
+from organizacao.models import MembroOrganizacao, Organizacao, ConviteOrganizacao
 from comum.models import Usuario
 
 # TO DO: Verificar regra se um usuário pode criar mais de uma organização
@@ -113,11 +113,11 @@ def convidar_participantes(request, pk):
             contexto['pesquisou'] = 1
 
         if acao == 'convidar' and usuario:
-            # MembroEquipe.objects.create(
-            #     equipe=equipe,
-            #     membro=usuario
-            # )
-
+            ConviteOrganizacao.objects.create(
+                usuario_convidado=usuario,
+                organizacao=organizacao
+            )
+            
             contexto['usuario'] = usuario
             contexto['enviou_convite'] = 1
 
