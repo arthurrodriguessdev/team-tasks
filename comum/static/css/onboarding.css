@@ -26,6 +26,7 @@ body > p{
 }
 
 .container-onboarding{
+    min-width: 420px;
     display: flex;
     flex-direction: column;
     background-color: #fff;
@@ -113,4 +114,37 @@ body > p{
     padding: 8px;
     color: #5F6F73;
     border: solid 1px #5F6F73;
+}
+
+/* meus convites */
+.container-meus-convites{
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    min-width: 360px;
+}
+
+.lista-convites{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.link-organizacao{
+    text-decoration: none;
+    color: #1C4045;
+    background-color: #f0f0f0;
+    padding: 8px;
+    border-left: 1px solid #1C4045;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+}
+
+.link-organizacao:hover{
+    border-radius: 6px;
+    color: #fff;
+    background-color: #1C4045;
+    padding: 8px;
+    border-left: 1px solid #1C4045;
 }

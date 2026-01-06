@@ -1,0 +1,22 @@
+{% extends 'onboarding.html' %}
+{% load static %}
+
+{% block extra_css %} <link rel="stylesheet" href="{% static 'css/base.css' %}"> {% endblock %}
+
+{% block cards %}
+    <div class="container-meus-convites">
+        {% if convites %}
+            <div class="lista-convites">
+                {% for convite in convites %}
+                    <a class="link-organizacao" href=""><span>Organização: {{ convite.organizacao }}</span></a>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <p class="sem-convites">
+                Você ainda não recebeu nenhum convite.
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}
+

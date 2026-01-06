@@ -15,8 +15,14 @@
 
     {% block content %}
         <div class="container-onboarding">
-            <h3>{{ titulo_container }}</h3>
-            <p>{{ subtitulo_container }}</p>
+
+            {% if titulo_container %}
+                <h3>{{ titulo_container }}</h3>
+            {% endif %}
+
+            {% if subtitulo_container %}
+                <p>{{ subtitulo_container }}</p>
+            {% endif %}
             
 
             <div class="container-cards-onboarding">
@@ -30,7 +36,7 @@
                         Aguardando convite para uma organização
                     </a>
 
-                    <a href="" class="card-opcoes-onboarding">
+                    <a href="{% url 'meus_convites' %}" class="card-opcoes-onboarding">
                         Já fui convidado
                     </a>
                 {% endblock %}

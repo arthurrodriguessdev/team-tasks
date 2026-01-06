@@ -7,7 +7,7 @@ from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsav
 from comum.models import Usuario, MembroEquipe
 from tarefa.models import Tarefa
 from comum.utils import criar_codigo_usuario
-from organizacao.models import Organizacao, MembroOrganizacao
+from organizacao.models import Organizacao, MembroOrganizacao, ConviteOrganizacao
 
 
 def cadastrar_usuario(request):
@@ -143,3 +143,14 @@ def exibir_codigo_convite_onboarding(request):
     }
 
     return render(request, 'onboarding_aguardando_convite.html', contexto)
+
+def convites_onboarding(request):
+    convites = request.user.convites.all()
+    contexto = {
+        'titulo': 'Meus Convites',
+        'subtitulo': 'Clique no convite para visualizar mais informações.',
+        'titulo_container': 'Convites Ativos',
+        'convites': convites,
+    }
+
+    return render(request, 'onboarding_visualizar_convites.html', contexto)
