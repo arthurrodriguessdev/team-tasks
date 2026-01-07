@@ -58,6 +58,14 @@ class CriarEquipe(generic.CreateView):
         messages.success(request, 'Equipe criada com sucesso.')
         return post
     
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({
+            'usuario': self.request.user
+        })
+
+        return kwargs
+    
 
 class ListarEquipes(generic.ListView):
     model = Equipe

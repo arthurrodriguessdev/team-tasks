@@ -8,7 +8,14 @@ class Equipe(models.Model):
     responsavel = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='responsavel_equipe')
     nome = models.CharField(max_length=50, null=False, blank=False)
     descricao = models.TextField(null=True, blank=True, verbose_name='Descrição')
-    organizacao = models.ForeignKey(Organizacao, on_delete=models.CASCADE, null=True, blank=True)
+    organizacao = models.ForeignKey(
+        Organizacao, 
+        on_delete=models.CASCADE, 
+        null=True, 
+        blank=True, 
+        verbose_name='Organização', 
+        help_text='Organização à qual a equipe pertence'
+    )
 
     def __str__(self):
         return self.nome
