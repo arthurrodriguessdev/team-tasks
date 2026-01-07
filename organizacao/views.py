@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from organizacao.forms import OrganizacaoForm
 from organizacao.models import MembroOrganizacao, Organizacao, ConviteOrganizacao
+from organizacao.utils import apagar_objeto
 from comum.models import Usuario
 
 # TO DO: Verificar regra se um usuário pode criar mais de uma organização
@@ -124,6 +125,23 @@ def convidar_participantes(request, pk):
 
     return render(request, 'convidar_participantes.html', contexto)
 
+def aceitar_convite(request, pk):
+    convite = get_object_or_404(ConviteOrganizacao, pk=pk)
+    MembroOrganizacao.objects.create(
+        organizacao=convite.organizacao,
+        membro=request.user,
+        papel='membro'
+    )
+
+    apagar_objeto(convite)
+    return redirect('exibir_dashboard')
+
+def recusar_convite(request, pk):
+    convite = get_object_or_404(ConviteOrganizacao, pk=pk)
+    apagar_objeto(convite)
+
+    return redirect('onboarding')
+
 def visualizar_convite(request, pk):
     convite = get_object_or_404(ConviteOrganizacao, pk=pk)
     
@@ -141,15 +159,17 @@ def visualizar_convite(request, pk):
             {
                 'nome': 'Recusar Convite',
                 'classe': 'excluir-botao',
-                'url': 'meus_convites',
-                'id_nome': 'botao_recusar'
+                'url': 'recusar_convite',
+                'id_nome': 'botao_recusar',
+                'id_item': convite.pk
             },
 
             {
                 'nome': 'Aceitar Convite',
                 'classe': 'adicionar-botao',
-                'url': 'meus_convites',
-                'id_nome': 'botao_aceitar'
+                'url': 'aceitar_convite',
+                'id_nome': 'botao_aceitar',
+                'id_item': convite.pk
             }
         ],
 
