@@ -1,8 +1,8 @@
 from django import forms
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 from django.db.models import Q
 from equipe.models import Equipe
-from comum.models import MembroEquipe
+from comum.models import MembroEquipe, Usuario
 from organizacao.models import MembroOrganizacao, Organizacao
 
 
@@ -44,3 +44,33 @@ class EquipeForm(forms.ModelForm):
         else:
             self.fields['responsavel'].queryset = MembroEquipe.get_usuarios_membros_equipe(self.instance.pk)
             self.fields.pop('organizacao')
+
+class AdicionarParticipanteForm(forms.Form):
+    membro = forms.ModelMultipleChoiceField(
+        queryset=Usuario.objects.none(),
+        required=True,
+        widget=Select2MultipleWidget(attrs={
+            'class': 'select2-widget'
+        })
+    )
+
+    class Meta:
+        model = MembroEquipe
+        fields = ('membro',)
+    
+    def __init__(self, *args, **kwargs):
+        self.organizacao = kwargs.pop('organizacao', None)
+        self.equipe = kwargs.pop('equipe', None)
+        super().__init__(*args, **kwargs)
+        
+        if self.organizacao:
+            usuarios_organizacao = MembroOrganizacao.objects.filter(
+                organizacao=self.organizacao
+            ).values_list('membro', flat=True)
+
+            if self.equipe:
+                usuarios_organizacao = usuarios_organizacao.exclude(
+                    membro__in=MembroEquipe.objects.filter(equipe=self.equipe).values_list('membro', flat=True)
+                )
+
+            self.fields['membro'].queryset = Usuario.objects.filter(id__in=usuarios_organizacao)

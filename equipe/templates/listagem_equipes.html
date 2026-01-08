@@ -9,8 +9,17 @@
 {% block tabela_body %}
     {% for equipe in equipes %}
         <tr>
-            <td><a href="{% url 'visualizar_equipe' equipe.pk %}">{{ equipe.nome|capfirst }}</a></td>
+            <td style="text-align: center; padding: 15px;">
+                {% if equipe.eh_membro %}
+                    <a href="" class="adicionar-participante-icone">
+                        <i class="fa fa-user-plus"></i>
+                    </a>
+                {% endif %}
+            </td>
+            
+            <td><a href="{% if equipe.eh_membro %}{% url 'visualizar_equipe' equipe.pk %}{% endif %}">{{ equipe.nome|capfirst }}</a></td>
             <td>{{ equipe.criada_por }}</td>
+            <td>{{ equipe.organizacao }}</td>
         </tr>
     {% endfor %}
 {% endblock %}
