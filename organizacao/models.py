@@ -49,6 +49,10 @@ class MembroOrganizacao(models.Model):
     def get_membros_organizacao(cls, organizacao):
         return cls.objects.filter(organizacao=organizacao)
     
+    @classmethod
+    def get_administradores(cls, organizacao):
+        return cls.objects.filter(organizacao=organizacao, papel='administrador')
+    
     # @classmethod
     # def eh_membro_organizacao(cls, usuario):
     #     return cls.objects.filter(membro=usuario)

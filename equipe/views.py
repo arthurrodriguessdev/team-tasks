@@ -145,13 +145,13 @@ class VisualizarEquipe(generic.DetailView):
             ]
         })
 
-        organizacoes_admin = self.request.user.organizacoes.filter(papel='administrador')
+        membros_organizacao_administradores = MembroOrganizacao.get_administradores(equipe.organizacao)
+        organizacao_usuario = MembroOrganizacao.objects.get(organizacao=equipe.organizacao, membro=self.request.user)
         eh_admin = False
 
-        if organizacoes_admin:
-            for organizacao in organizacoes_admin:
-                if organizacao == equipe.organizacao:
-                    eh_admin = True
+        if membros_organizacao_administradores:
+            if organizacao_usuario in membros_organizacao_administradores:
+                eh_admin = True
 
         if eh_admin or self.request.user.eh_proprietario_organizacao:
             contexto['botoes'].append(

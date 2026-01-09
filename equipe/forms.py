@@ -47,6 +47,7 @@ class EquipeForm(forms.ModelForm):
 
 class AdicionarParticipanteForm(forms.Form):
     membro = forms.ModelMultipleChoiceField(
+        label='Membros da organização que não são da equipe',
         queryset=Usuario.objects.none(),
         required=True,
         widget=Select2MultipleWidget(attrs={
