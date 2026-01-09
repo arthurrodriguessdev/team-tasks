@@ -51,14 +51,22 @@
                         <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
                             <ul class="sidebar-submenu">
                                 <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>
+
+                                {% if request.user.eh_proprietario_organizacao %}
                                 <li><a href="{% url 'adicionar_tarefa' %}">Nova Tarefa</a></li>
+                                {% endif %}
+
                             </ul>
                         </li>
 
                         <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Equipes</a>
                             <ul class="sidebar-submenu">
                                 <li><a href="{% url 'listagem_equipes' %}">Equipes</a></li>
+
+                                {% if request.user.eh_proprietario_organizacao %}
                                 <li><a href="{% url 'adicionar_equipe' %}">Nova Equipe</a></li>
+                                {% endif %}
+                                
                             </ul>
                         </li>
                     {% else %}

@@ -39,6 +39,10 @@ class Usuario(AbstractUser):
         return self.organizacoes.filter(papel='proprietario', membro=self).exists()
     
     @property
+    def eh_administrador_organizacao(self):
+        return self.organizacoes.filter(papel='proprietario', membro=self).exiss()
+    
+    @property
     def get_nome(self):
         return self.nome.title()
     
