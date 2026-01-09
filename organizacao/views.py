@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from organizacao.forms import OrganizacaoForm
+from organizacao.forms import OrganizacaoForm, AdministradoresForm
 from organizacao.models import MembroOrganizacao, Organizacao, ConviteOrganizacao
 from organizacao.utils import apagar_objeto
 from comum.models import Usuario
@@ -78,14 +78,26 @@ def visualizar_organizacao(request):
                 'classe': 'visualizar-editar-botao',
                 'url': 'exibir_dashboard'
             },
+        ]
+    }
+
+    if request.user.eh_proprietario_organizacao:
+        contexto['botoes'].extend([
             {
                 'nome': 'Convidar Participantes',
                 'classe': 'adicionar-botao',
                 'url': 'convidar_participantes',
                 'id_item': organizacao.pk
+            },
+
+            {
+                'nome': 'Gerenciar Administradores',
+                'classe': 'adicionar-botao',
+                'url': 'adicionar_administradores',
+                'id_item': organizacao.pk
             }
-        ]
-    }
+        ])
+
     return render(request, 'visualizar_organizacao.html', contexto)
 
 def convidar_participantes(request, pk):
@@ -182,3 +194,32 @@ def visualizar_convite(request, pk):
         ]
     }
     return render(request, 'visualizar_convite.html', contexto)
+
+def adicionar_administradores(request, pk):
+    organizacao = get_object_or_404(Organizacao, pk=pk)
+
+    if request.method == 'POST':
+        form = AdministradoresForm(request.POST, organizacao=organizacao)
+
+        if form.is_valid():
+            membros_selecionados = form.cleaned_data.get('membro')
+            MembroOrganizacao.objects.filter(
+                organizacao=organizacao,
+                membro__in=membros_selecionados
+            ).update(papel='administrador')
+            
+            messages.success(request, 'Administradores atribuídos com sucesso.')
+            return redirect('visualizar_organizacao')
+
+    else:
+        form = AdministradoresForm(organizacao=organizacao)
+    
+    contexto = {
+        'form': form,
+        'url_view': 'adicionar_administradores',
+        'id_url': organizacao.pk,
+        'titulo_formulario': 'Definir Administradores da Organização',
+        'titulo_botao_form': 'Salvar'
+    }
+
+    return render(request, 'adicionar_administradores.html', contexto)
