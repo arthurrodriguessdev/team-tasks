@@ -95,16 +95,17 @@ class ListarEquipes(generic.ListView):
         contexto.update({
             'cabecalhos': ['Ações', 'Nome da Equipe', 'Criador da Equipe', 'Organização'],
             'equipes': pesquisar_objetos(self.request.GET.get('q'), equipes_usuario, ['nome']),
-            'titulo': 'Minhas Equipes',
-            'botoes':[
-                {
-                    'url': 'adicionar_equipe',
-                    'nome': 'Adicionar Equipe',
-                    'classe': 'adicionar-botao'
-                }
-            ],
-            'url_pesquisa': 'listagem_equipes'
+            'titulo': 'Equipes',
+            'url_pesquisa': 'listagem_equipes',
+            'botoes': []
         })
+
+        if self.request.user.eh_proprietario_organizacao:
+            contexto['botoes'].append({
+                'url': 'adicionar_equipe',
+                'nome': 'Adicionar Equipe',
+                'classe': 'adicionar-botao'
+            })
         
         return contexto
     
@@ -141,12 +142,29 @@ class VisualizarEquipe(generic.DetailView):
                     'nome': 'Voltar',
                     'classe': 'visualizar-editar-botao'
                 },
+            ]
+        })
+
+        organizacoes_admin = self.request.user.organizacoes.filter(papel='administrador')
+        eh_admin = False
+
+        if organizacoes_admin:
+            for organizacao in organizacoes_admin:
+                if organizacao == equipe.organizacao:
+                    eh_admin = True
+
+        if eh_admin or self.request.user.eh_proprietario_organizacao:
+            contexto['botoes'].append(
                 {
                     'url': 'adicionar_participantes',
                     'nome': 'Adicionar Participantes',
                     'classe': 'adicionar-botao',
                     'id_item': equipe.pk
-                },
+                }
+            )
+
+        if self.request.user.eh_proprietario_organizacao:
+            contexto['botoes'].extend([
                 {
                     'url': 'excluir_equipe',
                     'nome': 'Excluir Equipe',
@@ -159,8 +177,7 @@ class VisualizarEquipe(generic.DetailView):
                     'id_item': equipe.pk,
                     'classe': 'visualizar-editar-botao'
                 }
-            ]
-        })
+            ])
 
         return contexto
     

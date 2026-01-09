@@ -11,8 +11,8 @@
         <tr>
             <td style="text-align: center; padding: 15px;">
                 {% if equipe.eh_membro %}
-                    <a href="" class="adicionar-participante-icone">
-                        <i class="fa fa-user-plus"></i>
+                    <a href="{% url 'visualizar_equipe' equipe.pk %}" class="adicionar-participante-icone">
+                        <i class="fa fa-eye"></i>
                     </a>
                 {% endif %}
             </td>

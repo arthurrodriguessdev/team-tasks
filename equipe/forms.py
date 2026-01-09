@@ -33,8 +33,8 @@ class EquipeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         organizacoes = MembroOrganizacao.objects.filter(
-            Q(membro=self.usuario, papel='proprietario') |
-            Q(membro=self.usuario, papel='administrador')
+            Q(membro=self.usuario, papel='proprietario') 
+            # Q(membro=self.usuario, papel='administrador')
         ).values_list('organizacao', flat=True).distinct()
 
         if not self.instance.pk:
