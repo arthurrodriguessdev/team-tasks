@@ -19,3 +19,7 @@ class Equipe(models.Model):
 
     def __str__(self):
         return self.nome
+    
+    @classmethod
+    def eh_responsavel_equipe(self, usuario):
+        return self.objects.filter(responsavel=usuario)

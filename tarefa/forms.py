@@ -15,14 +15,14 @@ class TarefaForm(forms.ModelForm):
         )
     )
 
-    em_equipe = forms.BooleanField(
-        required=False,
-        help_text='Essa opção só deve ser marcada caso a tarefa que esteja sendo cadastrada seja pertencente à uma equipe. OBS: O usuário deve estar em uma equipe.'
-    )
+    # em_equipe = forms.BooleanField(
+    #     required=False,
+    #     help_text='Essa opção só deve ser marcada caso a tarefa que esteja sendo cadastrada seja pertencente à uma equipe. OBS: O usuário deve estar em uma equipe.'
+    # )
 
     equipe = forms.ModelChoiceField(
         queryset=Equipe.objects.all(),
-        required=False,
+        required=True,
         widget=Select2Widget(attrs={
             'class': 'select2-widget'
         },
@@ -30,7 +30,7 @@ class TarefaForm(forms.ModelForm):
 
     class Meta:
         model = Tarefa
-        fields = ('titulo', 'descricao', 'prazo', 'em_equipe', 'equipe')
+        fields = ('titulo', 'descricao', 'prazo', 'equipe')
 
     # TO DO: Revisar esse método inteiro (lembrar que cada equipe pode ter VÁRIOS membros)
     def __init__(self, *args, **kwargs):
@@ -38,12 +38,12 @@ class TarefaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.instance.pk:
-            self.fields.pop('em_equipe')
+            # self.fields.pop('em_equipe')
             self.fields.pop('equipe')
             
         else:
             equipes_user = MembroEquipe.objects.filter(membro=self.request.user.pk).values_list('equipe', flat=True)
-            equipes = Equipe.objects.filter(id__in=equipes_user)
+            equipes = Equipe.objects.filter(responsavel=self.request.user)
 
             self.fields['equipe'].queryset = equipes
         

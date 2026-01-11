@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from tarefa.forms import TarefaForm
 from comum.utils import pesquisar_objetos
 from comum.models import Usuario
-
+from equipe.models import Equipe
 
 @login_required
 def criar_tarefa(request):
@@ -52,13 +52,15 @@ def listar_tarefas(request):
         'tarefas': tarefas,
         'cabecalhos': cabecalhos_tabela,
         'url_pesquisa': 'listagem_tarefas',
-        'botoes': [
-            {'url': 'adicionar_tarefa',
-             'classe': 'adicionar-botao',
-             'nome': 'Adicionar Tarefa'
-            },
-        ]
+        'botoes': []
     }
+
+    if Equipe.eh_responsavel_equipe(request.user):
+        contexto['botoes'].append({
+            'url': 'adicionar_tarefa',
+            'classe': 'adicionar-botao',
+            'nome': 'Adicionar Tarefa'
+        })
 
     return render(request, 'listagem_tarefas.html', contexto)
 
