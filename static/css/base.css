@@ -382,6 +382,18 @@ td a:hover{
     color: #1C4045;
 }
 
+.tarefa-atribuida{
+    background-color: #D4EDDA;
+    color: #155724;
+    text-align: center;
+}
+
+.tarefa-nao-atribuida{
+    background-color: #F8D7DA;
+    color: #B33C24;
+    text-align: center;
+}
+
 /* Formulários */
 .form-default{
     display: flex;

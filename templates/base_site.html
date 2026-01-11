@@ -50,7 +50,8 @@
                         </li>
                         <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Tarefas</a>
                             <ul class="sidebar-submenu">
-                                <li><a href="{% url 'listagem_tarefas' %}">Minhas Tarefas</a></li>
+                                <li><a href="{% url 'listagem_tarefas' %}">Tarefas da Equipe</a></li>
+                                <li><a href="{% url 'minhas_tarefas' %}">Minhas Tarefas</a></li>
 
                                 {% if request.user.eh_proprietario_organizacao %}
                                 <li><a href="{% url 'adicionar_tarefa' %}">Nova Tarefa</a></li>

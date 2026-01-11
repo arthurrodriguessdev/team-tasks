@@ -28,26 +28,15 @@ class TarefaForm(forms.ModelForm):
         },
     ))
 
-    responsaveis = forms.ModelMultipleChoiceField(
-        label='Responsáveis',
-        help_text='Este campo define quem são os responsáveis por essa tarefa.',
-        queryset=Usuario.objects.none(),
-        required=True,
-        widget=Select2MultipleWidget(attrs={
-            'class': 'select2-widget'
-        })
-    )
-
     class Meta:
         model = Tarefa
-        fields = ('titulo', 'descricao', 'prazo', 'equipe', 'responsaveis')
+        fields = ('titulo', 'descricao', 'prazo', 'equipe')
 
     # TO DO: Revisar esse método inteiro (lembrar que cada equipe pode ter VÁRIOS membros)
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
         super().__init__(*args, **kwargs)
 
-        # self.fields['responsaveis'].queryset = ...
         if self.instance.pk:
             # self.fields.pop('em_equipe')
             self.fields.pop('equipe')
@@ -57,7 +46,6 @@ class TarefaForm(forms.ModelForm):
             equipes = Equipe.objects.filter(responsavel=self.request.user)
 
             self.fields['equipe'].queryset = equipes
-            self.fields.pop('responsaveis')
         
     def save(self, commit = True):
         tarefa = super().save(commit=False)

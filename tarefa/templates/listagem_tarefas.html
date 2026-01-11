@@ -24,6 +24,13 @@
             {% endif %}
 
             <td>{{ tarefa.get_status_display }}</td>
+            <td class="{% if tarefa.atribuida_a_mim %}tarefa-atribuida{% else %}tarefa-nao-atribuida{% endif %}">
+                {% if tarefa.atribuida_a_mim %}
+                    Atribuída a mim
+                {% else %}
+                    Não atribuída a mim
+                {% endif %}
+            </td>
         </tr>
     {% endfor %}
 {% endblock %}

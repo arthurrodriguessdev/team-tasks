@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Case, When
 from django.contrib import messages
 from tarefa.models import Tarefa
 from django.db import router
@@ -7,7 +8,7 @@ from django.db.models.deletion import Collector
 from django.contrib.auth.decorators import login_required
 from tarefa.forms import TarefaForm
 from comum.utils import pesquisar_objetos
-from comum.models import Usuario
+from comum.models import Usuario, MembroEquipe
 from equipe.models import Equipe
 
 @login_required
@@ -42,13 +43,22 @@ def criar_tarefa(request):
 
 @login_required
 def listar_tarefas(request):
-    tarefas = Tarefa.objects.filter(Q(criada_por=request.user.pk) | Q(responsaveis=request.user.pk)).distinct()
+    equipes_usuario = MembroEquipe.get_equipe_usuario(request.user)
 
+    tarefas = Tarefa.objects.filter(equipe__in=equipes_usuario).distinct()
     tarefas = pesquisar_objetos(request.GET.get('q'), tarefas, ['titulo', 'descricao'])
 
-    cabecalhos_tabela = ['Título', 'Equipe', 'Prazo', 'Status']
+    tarefas_responsavel = Tarefa.objects.filter(responsaveis=request.user)
+    tarefas = tarefas.annotate(
+        atribuida_a_mim=Case(
+            When(id__in=tarefas_responsavel, then=True),
+            default=False
+        )
+    )
+
+    cabecalhos_tabela = ['Título', 'Equipe', 'Prazo', 'Status', 'Relação']
     contexto = {
-        'titulo': 'Minhas Tarefas',
+        'titulo': 'Tarefas das Equipes',
         'tarefas': tarefas,
         'cabecalhos': cabecalhos_tabela,
         'url_pesquisa': 'listagem_tarefas',
@@ -63,6 +73,22 @@ def listar_tarefas(request):
         })
 
     return render(request, 'listagem_tarefas.html', contexto)
+
+@login_required
+def listar_minhas_tarefas(request):
+    tarefas = Tarefa.objects.filter(Q(responsaveis=request.user.pk)).distinct()
+    tarefas = pesquisar_objetos(request.GET.get('q'), tarefas, ['titulo', 'descricao'])
+
+    cabecalhos_tabela = ['Título', 'Equipe', 'Prazo', 'Status', 'Relação']
+    contexto = {
+        'titulo': 'Minhas Tarefas',
+        'tarefas': tarefas,
+        'cabecalhos': cabecalhos_tabela,
+        'url_pesquisa': 'listagem_tarefas',
+        'botoes': []
+    }
+
+    return render(request, 'listagem_minhas_tarefas.html', contexto)
 
 @login_required
 def visualizar_tarefa(request, pk):
@@ -103,7 +129,7 @@ def visualizar_tarefa(request, pk):
         ]
     }
 
-    if tarefa.em_equipe:
+    if tarefa:
         dados.update(
             {
                 'Tarefa da Equipe': tarefa.equipe, 
@@ -116,12 +142,13 @@ def visualizar_tarefa(request, pk):
                 responsaveis = tarefa.responsaveis.values_list('username', flat=True)
                 dados['Responsáveis pela Tarefa'] = ', '.join(responsaveis)
 
-            contexto['botoes'].insert(0,{
-                'url': 'vincular_responsaveis_tarefa',
-                'id_item': tarefa.id,
-                'nome': 'Vincular Responsáveis',
-                'classe': 'adicionar-botao'
-            })
+            if tarefa.equipe.responsavel == request.user:
+                contexto['botoes'].insert(0,{
+                    'url': 'vincular_responsaveis_tarefa',
+                    'id_item': tarefa.id,
+                    'nome': 'Vincular Responsáveis',
+                    'classe': 'adicionar-botao'
+                })
 
     return render(request, 'visualizar_tarefas.html', contexto)
 
