@@ -1,0 +1,30 @@
+{% extends 'base_site.html' %}
+{% load static %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="dashboard-container">
+
+        <div class="card-container-dashboard">
+            <h3 class="titulo-card-dashboard">Quantidade de membros:</h3>
+            <p id="qtd_total_membros"></p>
+        </div>
+
+        <div class="card-container-dashboard">
+            <h3 class="titulo-card-dashboard">Quantidade de equipes:</h3>
+            <p id="qtd_equipes"></p>
+        </div>
+
+        <div class="card-container-dashboard">
+            <h3 class="titulo-card-dashboard">Quantidade de tarefas:</h3>
+            <p id="qtd_tarefas"></p>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block js_extra %}
+    <script src="{% static 'js/dashboard_organizacao.js' %}"></script>
+{% endblock %}

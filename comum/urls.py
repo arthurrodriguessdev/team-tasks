@@ -1,5 +1,5 @@
 from django.urls import path
-from comum.views import login_usuario, cadastrar_usuario, logout_usuario, vincular_responsaveis, api_dashboard, exibir_dashboard, exibir_onboarding, exibir_codigo_convite_onboarding, convites_onboarding
+from comum.views import login_usuario, cadastrar_usuario, logout_usuario, vincular_responsaveis, api_dashboard, exibir_dashboard, exibir_onboarding, exibir_codigo_convite_onboarding, convites_onboarding, exibir_dashboard_organizacao, api_organizacao_dashboard
 
 
 urlpatterns = [
@@ -10,6 +10,9 @@ urlpatterns = [
 
     path('api_dashboard', api_dashboard, name='dashboard'),
     path('dashboard', exibir_dashboard, name='exibir_dashboard'),
+
+    path('api_organizacao_dashboard', api_organizacao_dashboard, name='dashboard_organizacao'),
+    path('dashboard_organizacao', exibir_dashboard_organizacao, name='exibir_dashboard_organizacao'),
 
     path('onboarding', exibir_onboarding, name='onboarding'),
     path('onboarding/aguardando_convite', exibir_codigo_convite_onboarding, name='exibir_codigo_convite_onboarding'),

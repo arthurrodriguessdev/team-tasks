@@ -8,6 +8,7 @@ from comum.models import Usuario, MembroEquipe
 from tarefa.models import Tarefa
 from comum.utils import criar_codigo_usuario
 from organizacao.models import Organizacao, MembroOrganizacao, ConviteOrganizacao
+from equipe.models import Equipe
 
 
 def cadastrar_usuario(request):
@@ -121,9 +122,9 @@ def exibir_dashboard(request):
         'titulo': 'Dashboard',
         'botoes':[
             {
-                'nome': 'Teste',
+                'nome': 'Atualizar',
                 'classe': 'visualizar-editar-botao',
-                'url': 'listagem_tarefas'
+                'url': 'exibir_dashboard'
             }
         ]
     }
@@ -161,3 +162,34 @@ def convites_onboarding(request):
     }
 
     return render(request, 'onboarding_visualizar_convites.html', contexto)
+
+def api_organizacao_dashboard(request):
+    organizacao = MembroOrganizacao.objects.filter(
+        membro=request.user, 
+        papel='proprietario').values_list('organizacao', flat=True).first()
+    
+    equipes_organizacao = Equipe.objects.filter(organizacao=organizacao)
+    tarefas_organizacao = Tarefa.objects.filter(equipe__in=equipes_organizacao)
+
+    return JsonResponse({
+        'qtd_membros': MembroOrganizacao.get_quantidade_membros(organizacao),
+        'qtd_equipes': equipes_organizacao.count(),
+        'qtd_tarefas': tarefas_organizacao.count()
+    })
+
+def exibir_dashboard_organizacao(request):
+    usuario = request.user
+    organizacao_proprietario = usuario.organizacoes.filter(papel='proprietario').select_related('organizacao').first()
+
+    contexto = {
+        'titulo': f'Dashboard: {organizacao_proprietario.organizacao.nome}',
+        'botoes':[
+            {
+                'nome': 'Detalhes',
+                'classe': 'visualizar-editar-botao',
+                'url': 'visualizar_organizacao'
+            }
+        ]
+    }
+    
+    return render(request, 'dashboard_organizacao.html', contexto)
