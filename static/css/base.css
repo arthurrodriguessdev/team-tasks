@@ -394,6 +394,12 @@ td a:hover{
     text-align: center;
 }
 
+.sem-itens-listar{
+    color: #cc0e01;
+    text-align: center;
+    height: 15vh;
+}
+
 /* Formulários */
 .form-default{
     display: flex;

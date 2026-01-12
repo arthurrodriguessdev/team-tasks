@@ -7,19 +7,25 @@
 {% endblock %}
 
 {% block tabela_body %}
-    {% for equipe in equipes %}
+    {% if equipes %}
+        {% for equipe in equipes %}
+            <tr>
+                <td style="text-align: center; padding: 15px;">
+                    {% if equipe.eh_membro %}
+                        <a href="{% url 'visualizar_equipe' equipe.pk %}" class="adicionar-participante-icone">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    {% endif %}
+                </td>
+                
+                <td><a href="{% if equipe.eh_membro %}{% url 'visualizar_equipe' equipe.pk %}{% endif %}">{{ equipe.nome|capfirst }}</a></td>
+                <td>{{ equipe.criada_por }}</td>
+                <td>{{ equipe.organizacao }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
         <tr>
-            <td style="text-align: center; padding: 15px;">
-                {% if equipe.eh_membro %}
-                    <a href="{% url 'visualizar_equipe' equipe.pk %}" class="adicionar-participante-icone">
-                        <i class="fa fa-eye"></i>
-                    </a>
-                {% endif %}
-            </td>
-            
-            <td><a href="{% if equipe.eh_membro %}{% url 'visualizar_equipe' equipe.pk %}{% endif %}">{{ equipe.nome|capfirst }}</a></td>
-            <td>{{ equipe.criada_por }}</td>
-            <td>{{ equipe.organizacao }}</td>
+            <td colspan="5" class="sem-itens-listar">Nenhuma equipe encontrada.</td>
         </tr>
-    {% endfor %}
+    {% endif %}
 {% endblock %}
