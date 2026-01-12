@@ -73,6 +73,11 @@ class UsuarioCadastroForm(forms.ModelForm):
     
     
 class UsuarioLoginForm(forms.ModelForm):
+    password = forms.CharField(
+        widget=forms.PasswordInput,
+        label='Senha'
+    )
+
     class Meta:
         model = Usuario
         fields = ('username', 'password')
