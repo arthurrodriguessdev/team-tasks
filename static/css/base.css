@@ -665,7 +665,7 @@ td a:hover{
     margin-bottom: 10px;
 }
 
-.equipe-item{
+.item-listagem-dashboard{
     display: flex;
     justify-content: space-between;
     align-items: center;

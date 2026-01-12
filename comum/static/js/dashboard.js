@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async function (){
     const tarefas_criadas_por_mim = window.document.getElementById('tarefas_criadas_por_mim');
     const tarefas_atribuidas_mim = window.document.getElementById('tarefas_atribuidas_mim');
     const lista_equipes = window.document.getElementById('lista_equipes');
+    const lista_organizacoes = window.document.getElementById('lista_organizacoes');
 
     const result = await consumir_api_dashboard();
 
@@ -24,7 +25,15 @@ document.addEventListener("DOMContentLoaded", async function (){
         const linha_equipe = document.createElement('li');
 
         linha_equipe.textContent = result.minhas_equipes[i];
-        linha_equipe.classList.add('equipe-item')
+        linha_equipe.classList.add('item-listagem-dashboard')
         lista_equipes.appendChild(linha_equipe);
+    }
+
+    for(let i = 0; i < result.minhas_organizacoes.length; i++){
+        const linha_organizacao = document.createElement('li');
+
+        linha_organizacao.textContent = result.minhas_organizacoes[i];
+        linha_organizacao.classList.add('item-listagem-dashboard');
+        lista_organizacoes.appendChild(linha_organizacao);
     }
 })

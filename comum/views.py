@@ -102,11 +102,18 @@ def vincular_responsaveis(request, pk):
 def api_dashboard(request):
     usuario = request.user
 
+    organizacoes = []
+    membro_organizacoes = MembroOrganizacao.objects.filter(membro=usuario).select_related('organizacao')
+
+    for membro in membro_organizacoes:
+        organizacoes.append(f'{membro.organizacao.nome} ({membro.get_papel_display()})')
+
     return JsonResponse(
         {
             'qtd_tarefas_criadas_por_mim': Tarefa.total_tarefas_criadas_usuario(usuario),
             'qtd_tarefas_atribuidas_mim': Tarefa.total_tarefas_atribuidas_usuario(usuario),
-            'minhas_equipes': list(MembroEquipe.get_equipe_usuario(usuario).values_list('nome', flat=True))
+            'minhas_equipes': list(MembroEquipe.get_equipe_usuario(usuario).values_list('nome', flat=True)),
+            'minhas_organizacoes': list(organizacoes)
         })
 
 def exibir_dashboard(request):
