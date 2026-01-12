@@ -154,14 +154,20 @@ class VisualizarEquipe(generic.DetailView):
                 eh_admin = True
 
         if eh_admin or self.request.user.eh_proprietario_organizacao:
-            contexto['botoes'].append(
+            contexto['botoes'].extend([
                 {
                     'url': 'adicionar_participantes',
                     'nome': 'Adicionar Participantes',
                     'classe': 'adicionar-botao',
                     'id_item': equipe.pk
+                },
+                {
+                    'url': 'editar_equipe',
+                    'nome': 'Editar',
+                    'id_item': equipe.pk,
+                    'classe': 'visualizar-editar-botao'
                 }
-            )
+            ])
 
         if self.request.user.eh_proprietario_organizacao:
             contexto['botoes'].extend([
@@ -171,12 +177,6 @@ class VisualizarEquipe(generic.DetailView):
                     'classe': 'excluir-botao',
                     'id_item': equipe.pk
                 },
-                {
-                    'url': 'editar_equipe',
-                    'nome': 'Editar',
-                    'id_item': equipe.pk,
-                    'classe': 'visualizar-editar-botao'
-                }
             ])
 
         return contexto

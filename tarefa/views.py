@@ -107,20 +107,6 @@ def visualizar_tarefa(request, pk):
         'dados': dados,
 
         'botoes':[
-            {
-                'url': 'editar_tarefa',
-                'nome': 'Editar',
-                'id_item': tarefa.pk,
-                'classe': 'visualizar-editar-botao'
-            },
-
-            {   
-                'url': 'excluir_tarefa',
-                'id_item': tarefa.id,
-                'nome': 'Excluir Tarefa',
-                'classe': 'excluir-botao'
-            },
-
             {   
                 'url': 'listagem_tarefas',
                 'nome': 'Voltar',
@@ -142,6 +128,7 @@ def visualizar_tarefa(request, pk):
                 responsaveis = tarefa.responsaveis.values_list('username', flat=True)
                 dados['Responsáveis pela Tarefa'] = ', '.join(responsaveis)
 
+            # Responsável pela equipe pode vincular responsáveis (atribuir tarefa)
             if tarefa.equipe.responsavel == request.user:
                 contexto['botoes'].insert(0,{
                     'url': 'vincular_responsaveis_tarefa',
@@ -149,6 +136,22 @@ def visualizar_tarefa(request, pk):
                     'nome': 'Vincular Responsáveis',
                     'classe': 'adicionar-botao'
                 })
+
+                contexto['botoes'].extend([
+                    {
+                        'url': 'editar_tarefa',
+                        'nome': 'Editar',
+                        'id_item': tarefa.pk,
+                        'classe': 'visualizar-editar-botao'
+                    },
+
+                    {   
+                        'url': 'excluir_tarefa',
+                        'id_item': tarefa.id,
+                        'nome': 'Excluir Tarefa',
+                        'classe': 'excluir-botao'
+                    },
+                ])
 
     return render(request, 'visualizar_tarefas.html', contexto)
 
