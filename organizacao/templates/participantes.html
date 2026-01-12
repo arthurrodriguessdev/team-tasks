@@ -1,0 +1,24 @@
+{% extends 'tabela_default.html' %}
+
+{% block tabela_head %}
+    {% for cabecalho in cabecalhos %}
+        <th>{{ cabecalho }}</th>
+    {% endfor %}
+{% endblock %}
+
+{% block tabela_body %}
+    {% if participantes %}
+        {% for participante in participantes %}
+            <tr>
+                <td>{{ participante.nome }}</td>
+                <td>{{ participante.username }}</td>
+                <td>{{ participante.email }}</td>
+                <td>{{ participante.date_joined }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="5" class="sem-itens-listar">Nenhum participante foi encontrado.</td>
+        </tr>
+    {% endif %}
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib import messages
 from organizacao.forms import OrganizacaoForm, AdministradoresForm
 from organizacao.models import MembroOrganizacao, Organizacao, ConviteOrganizacao
 from organizacao.utils import apagar_objeto
+from comum.utils import pesquisar_objetos
 from comum.models import Usuario
 
 # TO DO: Verificar regra se um usuário pode criar mais de uma organização
@@ -76,13 +77,20 @@ def visualizar_organizacao(request):
             {
                 'nome': 'Voltar',
                 'classe': 'visualizar-editar-botao',
-                'url': 'exibir_dashboard'
+                'url': 'exibir_dashboard_organizacao'
             },
         ]
     }
 
     if request.user.eh_proprietario_organizacao:
         contexto['botoes'].extend([
+            {
+                'nome': 'Membros',
+                'classe': 'visualizar-editar-botao',
+                'url': 'listagem_participantes',
+                'id_item': organizacao.pk
+            },
+
             {
                 'nome': 'Convidar Participantes',
                 'classe': 'adicionar-botao',
@@ -223,3 +231,30 @@ def adicionar_administradores(request, pk):
     }
 
     return render(request, 'adicionar_administradores.html', contexto)
+
+def listar_participantes(request, pk):
+    organizacao = get_object_or_404(Organizacao, pk=pk)
+
+    membros_organizacao = MembroOrganizacao.objects.filter(
+        organizacao=organizacao
+    ).values_list('membro', flat=True)
+
+    participantes = Usuario.objects.filter(id__in=membros_organizacao)
+    participantes = pesquisar_objetos(request.GET.get('q'), participantes, ['nome', 'username'])
+    
+    contexto = {
+        'titulo': 'Membros da Organização',
+        'cabecalhos': ['Nome', 'Usuário', 'E-mail', 'Cadastro no sistema'],
+        'url_pesquisa': f'listagem_participantes',
+        'id_url': organizacao.pk,
+        'participantes': participantes,
+        'botoes':[
+            {
+                'nome': 'Voltar',
+                'classe': 'visualizar-editar-botao',
+                'url': 'visualizar_organizacao'
+            }
+        ]
+    }
+
+    return render(request, 'participantes.html', contexto)

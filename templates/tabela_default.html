@@ -10,7 +10,7 @@
     {% endif %}
 
     {% block pesquisa %}
-        <form action="{% url url_pesquisa %}" method="GET">
+        <form action="{% if id_url  %}{% url url_pesquisa id_url %}{% else %}{% url url_pesquisa %}{% endif %}" method="GET">
             <div class="barra-pesquisa-default">
                 <input type="text" placeholder="Pesquisar" name="q">
                 <button type="submit" class="pesquisar-btn">
