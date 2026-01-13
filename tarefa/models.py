@@ -41,3 +41,7 @@ class Tarefa(models.Model):
     @classmethod
     def total_tarefas_atribuidas_usuario(cls, usuario):
         return cls.objects.filter(responsaveis=usuario).count()
+    
+    @classmethod
+    def get_qtd_tarefas_equipe(cls, equipe):
+        return cls.objects.filter(equipe=equipe).count()

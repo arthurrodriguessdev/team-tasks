@@ -67,7 +67,7 @@ class CriarEquipe(generic.CreateView):
             'titulo_modal': 'Limite do plano atingido',
             'paragrafo_modal': 'Seu plano atual não permite criar mais equipes. Para continuar, faça upgrade do seu plano.' 
         })
-        
+
         return self.render_to_response(contexto)
     
     def get_form_kwargs(self):
@@ -432,9 +432,9 @@ def adicionar_participantes(request, pk):
 
     return render(request, 'adicionar_participantes.html', contexto)
 
-# Função que BLOQUEIA o plano gratuito (máximo 3 equipes)
+# Função bloqueadora, bloqueia o plano gratuito (máximo 3 equipes)
 def pode_criar_equipe(organizacao):
     if Equipe.get_qtd_equipes(organizacao) >= 3:
         return False
-    else:
-        return True
+    
+    return True

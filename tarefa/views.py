@@ -13,15 +13,26 @@ from equipe.models import Equipe
 
 @login_required
 def criar_tarefa(request):
+    tem_modal = request.session.pop('mostrar_modal', None)
+
     if request.method == 'POST':
         form = TarefaForm(request.POST, request=request)
+        equipe_id = request.POST.get('equipe')
 
-        if form.is_valid():
-            form.full_clean()
-            form.save()
+        if pode_criar_tarefas(equipe_id):
+            if form.is_valid():
+                form.full_clean()
+                form.save()
 
-            messages.success(request, 'Tarefa criada com sucesso.')
-            return redirect('listagem_tarefas')
+                messages.success(request, 'Tarefa criada com sucesso.')
+                return redirect('listagem_tarefas')
+        else:
+            request.session['mostrar_modal'] = {
+                'titulo': 'Limite do plano atingido',
+                'paragrafo': 'Seu plano atual não permite criar mais tarefas. Para continuar, faça upgrade do seu plano.'
+            }
+
+            return redirect('adicionar_tarefa')
 
     form = TarefaForm(request=request)
     contexto = {
@@ -38,6 +49,13 @@ def criar_tarefa(request):
         'titulo_formulario': 'Dados da Tarefa',
         'titulo_botao_form': 'Cadastrar'
     }
+
+    if tem_modal:
+        contexto.update({
+            'titulo_modal': tem_modal['titulo'],
+            'paragrafo_modal': tem_modal['paragrafo'],
+            'mostrar_modal': True
+        })
 
     return render(request, 'adicionar_tarefa.html', contexto)
 
@@ -261,3 +279,13 @@ def editar_tarefa(request, pk):
     }
 
     return render(request, 'editar_tarefa.html', contexto)
+
+# Função bloqueadora, só deixa criar até 15 tarefas POR EQUIPE (no plano gratuito)
+def pode_criar_tarefas(id_equipe):
+    equipe = get_object_or_404(Equipe, pk=id_equipe)
+
+    if equipe:
+        if Tarefa.get_qtd_tarefas_equipe(equipe) >= 15:
+            return False
+        
+    return True
