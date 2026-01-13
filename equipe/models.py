@@ -23,3 +23,7 @@ class Equipe(models.Model):
     @classmethod
     def eh_responsavel_equipe(self, usuario):
         return self.objects.filter(responsavel=usuario)
+    
+    @classmethod
+    def get_qtd_equipes(cls, organizacao):
+        return cls.objects.filter(organizacao=organizacao).count()

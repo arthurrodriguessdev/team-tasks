@@ -678,3 +678,62 @@ td a:hover{
     padding: 8px 6px;
     border-bottom: 1px solid #e5e7eb;
 }
+
+.modal-container-externo{
+    position: fixed;
+    inset: 0;        
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-container-interno{
+    padding: 20px;
+    padding-left: 30px;
+    padding-top: 30px;
+    background-color: #f2f2f2;
+    border: solid #bababa 0.2px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 520px;
+    min-height: 200px;
+}
+
+.modal-botoes{
+    margin-top: 25px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.titulo-modal{
+    font-size: 24px;
+    border-bottom: solid #1C4045 1px;
+    padding-bottom: 8px;
+}
+
+.paragrafo-modal{
+    max-width: 480px;
+    margin-top: 15px;
+    padding-bottom: 15px;
+}
+
+dialog::backdrop {
+    background-color: rgba(39, 39, 39, 0.55);
+}
+
+dialog[open] .modal-container-interno {
+    animation: aparecer 0.4s ease;
+}
+
+@keyframes aparecer {
+    from {
+        transform: scale(0.50);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

@@ -42,23 +42,28 @@ class CriarEquipe(generic.CreateView):
     
     def form_valid(self, form):
         equipe = form.save(commit=False)
+        organizacao = equipe.organizacao.pk
 
-        equipe.criada_por = self.request.user
-        equipe.responsavel = self.request.user
-        equipe.save()
+        if pode_criar_equipe(organizacao):
+            equipe.criada_por = self.request.user
+            equipe.responsavel = self.request.user
+            equipe.save()
 
-        MembroEquipe.objects.create(
-            equipe=equipe,
-            membro=self.request.user
-        )
+            MembroEquipe.objects.create(
+                equipe=equipe,
+                membro=self.request.user
+            )
 
-        self.object = Equipe
-        return super().form_valid(form)
+            messages.success(self.request, 'Equipe criada com sucesso.')
+            return super().form_valid(form)
+        
+        else:
+            return self.form_invalid(form)
     
-    def post(self, request, *args, **kwargs):
-        post = super().post(request, *args, **kwargs)
-        messages.success(request, 'Equipe criada com sucesso.')
-        return post
+    def form_invalid(self, form):
+        contexto = self.get_context_data(form=form)
+        contexto['mostrar_modal'] = True
+        return self.render_to_response(contexto)
     
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -421,3 +426,10 @@ def adicionar_participantes(request, pk):
     }
 
     return render(request, 'adicionar_participantes.html', contexto)
+
+# Função que BLOQUEIA o plano gratuito (máximo 3 equipes)
+def pode_criar_equipe(organizacao):
+    if Equipe.get_qtd_equipes(organizacao) >= 3:
+        return False
+    else:
+        return True

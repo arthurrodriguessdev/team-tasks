@@ -1,5 +1,43 @@
 {% extends 'form_default.html' %}
 
+{% block content %}
+    {{ block.super }}
+
+    <dialog id="equipe_erro">
+        <div class="modal-container-externo">
+            <div class="modal-container-interno">
+                <h3 class="titulo-modal">Limite do plano atingido</h3>
+                <p class="paragrafo-modal">Seu plano atual não permite criar mais equipes. Para continuar, faça upgrade do seu plano.</p>
+
+                <div class="modal-botoes">
+                    <a href="" class="excluir-botao" id="botao-fechar">Agora não</a>
+                    <a href="" class="visualizar-editar-botao">Ver planos</a>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+{% endblock %}
+
 {% block inputs %}
     {{ form.as_p }}
+{% endblock %}
+
+{% block js_extra %}
+    {% if mostrar_modal %}
+        <script>
+            document.addEventListener("DOMContentLoaded", ()=>{
+                const modal = document.getElementById('equipe_erro');
+                const botao_recusar = document.getElementById('botao-fechar');
+
+                if(botao_recusar){
+                    botao_recusar.addEventListener("click", ()=>{
+                        modal.close()
+                    })
+                }
+                
+                modal.showModal();
+            })
+        </script>
+    {% endif %}
 {% endblock %}
