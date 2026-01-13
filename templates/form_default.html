@@ -2,6 +2,8 @@
 
 {% block content %}
     {{ block.super }}
+    
+    {% include 'modal_default.html' %}
 
     {% block form %}
         <div class="form-default">
@@ -36,4 +38,23 @@
             </form>
         </div>
     {% endblock %}
+{% endblock %}
+
+{% block js_extra %}
+    {% if mostrar_modal %}
+        <script>
+            document.addEventListener("DOMContentLoaded", ()=>{
+                const modal = document.getElementById('equipe_erro');
+                const botao_recusar = document.getElementById('botao-fechar');
+
+                if(botao_recusar){
+                    botao_recusar.addEventListener("click", ()=>{
+                        modal.close()
+                    })
+                }
+
+                modal.showModal();
+            })
+        </script>
+    {% endif %}
 {% endblock %}

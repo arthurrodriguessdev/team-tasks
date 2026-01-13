@@ -62,7 +62,12 @@ class CriarEquipe(generic.CreateView):
     
     def form_invalid(self, form):
         contexto = self.get_context_data(form=form)
-        contexto['mostrar_modal'] = True
+        contexto.update({
+            'mostrar_modal': True,
+            'titulo_modal': 'Limite do plano atingido',
+            'paragrafo_modal': 'Seu plano atual não permite criar mais equipes. Para continuar, faça upgrade do seu plano.' 
+        })
+        
         return self.render_to_response(contexto)
     
     def get_form_kwargs(self):
