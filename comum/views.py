@@ -193,3 +193,45 @@ def exibir_dashboard_organizacao(request):
     }
     
     return render(request, 'dashboard_organizacao.html', contexto)
+
+def meu_perfil(request):
+    usuario = request.user
+
+    membro_organizacoes = (
+        MembroOrganizacao.objects.filter(
+            membro=usuario
+        ).select_related('organizacao'))
+    
+    organizacoes = ''
+    for membro in membro_organizacoes:
+        organizacoes += f'{membro.organizacao.nome} ({membro.get_papel_display()}), '
+    
+    organizacoes = organizacoes.rstrip(', ')
+
+    dados = {
+        'Nome': usuario.get_nome,
+        'Usuário': usuario.username,
+        'E-mail': usuario.email,
+        'Data de cadastro': usuario.date_joined,
+        'Código de convite': usuario.codigo
+    }
+
+    dados_adicionais = {
+        'Organizações que participo': organizacoes
+    }
+
+    contexto = {
+        'titulo': 'Meu Perfil:',
+        'titulo_visualizar': 'Dados Cadastrais',
+        'titulo_visualizar_adicional': 'Dados de Organizações',
+        'dados': dados,
+        'dados_adicionais': dados_adicionais,
+        'botoes':[
+            {   
+                'url': 'exibir_dashboard',
+                'nome': 'Voltar',
+                'classe': 'visualizar-editar-botao'
+            },
+        ]
+    }
+    return render(request, 'meu_perfil.html', contexto)
