@@ -110,6 +110,7 @@ def visualizar_organizacao(request):
 
 def convidar_participantes(request, pk):
     organizacao = get_object_or_404(Organizacao, pk=pk)
+    tem_modal = request.session.pop('modal', None)
 
     contexto = {
         'url_view': 'convidar_participantes',
@@ -123,6 +124,13 @@ def convidar_participantes(request, pk):
         'enviou_convite': 0
     }
 
+    if tem_modal:
+        contexto.update({
+            'titulo_modal': tem_modal['titulo'],
+            'paragrafo_modal': tem_modal['paragrafo'],
+            'mostrar_modal': True
+        })
+
     if request.method == 'POST':
         acao = request.POST.get('acao')
         codigo = request.POST.get('q') or request.POST.get('codigo_usuario')
@@ -134,14 +142,22 @@ def convidar_participantes(request, pk):
             contexto['pesquisou'] = 1
 
         if acao == 'convidar' and usuario:
-            ConviteOrganizacao.objects.create(
-                usuario_convidado=usuario,
-                organizacao=organizacao,
-                enviado_por=request.user
-            )
-            
-            contexto['usuario'] = usuario
-            contexto['enviou_convite'] = 1
+            if pode_convidar_participantes(organizacao):
+                ConviteOrganizacao.objects.create(
+                    usuario_convidado=usuario,
+                    organizacao=organizacao,
+                    enviado_por=request.user
+                )
+                
+                contexto['usuario'] = usuario
+                contexto['enviou_convite'] = 1
+            else:
+                request.session['modal'] = {
+                    'titulo': 'Limite do plano atingido.',
+                    'paragrafo': 'Seu plano atual não permite convidar mais participantes. Para continuar, faça upgrade do seu plano.'
+                }
+                
+                return redirect('convidar_participantes', pk=organizacao.pk)
 
     return render(request, 'convidar_participantes.html', contexto)
 
@@ -258,3 +274,10 @@ def listar_participantes(request, pk):
     }
 
     return render(request, 'participantes.html', contexto)
+
+# Função bloqueadora que bloqueia o plano gratuito (máximo de 10 membros na organzação)
+def pode_convidar_participantes(organizacao):
+    if MembroOrganizacao.get_quantidade_membros(organizacao) >= 10:
+        return False
+
+    return True
