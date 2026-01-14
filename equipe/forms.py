@@ -19,6 +19,7 @@ class EquipeForm(forms.ModelForm):
     organizacao = forms.ModelChoiceField(
         required=True, 
         queryset=None,
+        label='Organização',
         widget=Select2Widget(attrs={
             'class': 'select2-widget'
         })
