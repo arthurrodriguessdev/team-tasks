@@ -1,5 +1,5 @@
 from django.urls import path
-from organizacao.views import criar_organizacao, visualizar_organizacao, convidar_participantes, visualizar_convite, aceitar_convite, recusar_convite, adicionar_administradores, listar_participantes
+from organizacao.views import criar_organizacao, visualizar_organizacao, convidar_participantes, visualizar_convite, aceitar_convite, recusar_convite, adicionar_administradores, listar_participantes, planos_organizacao
 
 
 urlpatterns = [
@@ -10,6 +10,7 @@ urlpatterns = [
     path('convite_aceito/<int:pk>', aceitar_convite, name='aceitar_convite'),
     path('convite_recusado/<int:pk>', recusar_convite, name='recusar_convite'),
     path('lista_participantes/<int:pk>', listar_participantes, name='listagem_participantes'),
+    path('planos/', planos_organizacao, name='visualizar_planos'),
 
     path('adicionar_administradores/<int:pk>', adicionar_administradores, name='adicionar_administradores')
 ]

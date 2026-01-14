@@ -281,3 +281,17 @@ def pode_convidar_participantes(organizacao):
         return False
 
     return True
+
+def planos_organizacao(request):
+    contexto = {
+        'titulo': 'Planos',
+        'botoes': [
+            {
+                'nome': 'Ajuda',
+                'classe': 'visualizar-editar-botao',
+                'url': 'exibir_dashboard'
+            }
+        ]
+    }
+
+    return render(request, 'planos.html', contexto)

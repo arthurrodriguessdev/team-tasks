@@ -1,0 +1,33 @@
+{% extends 'base_site.html' %}
+
+{% block content %}
+    {{ block.super }}
+    <div class="container-planos-externo">
+        <div class="card-plano">
+            <div class="conteudo">
+
+                <h3 class="titulo-planos">Início</h3>
+                <p class="preco-planos">Gratuito</p>
+                <p class="indicacao-plano">Plano indicado para pequenas e iniciantes empresas.</p>
+
+                <div class="itens-plano">
+
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="card-plano">
+            <div class="conteudo">
+
+                <h3 class="titulo-planos">Escalável</h3>
+                <p class="preco-planos"><span class="destaque-preco">R$</span>19,90</p>
+                <p class="indicacao-plano">Plano indicado para empresas que desejam crescimento e escalabilidade ao longo do tempo.</p>
+
+                <div class="itens-plano">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
