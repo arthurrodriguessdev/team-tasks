@@ -283,6 +283,8 @@ def pode_convidar_participantes(organizacao):
     return True
 
 def planos_organizacao(request):
+    organizacao = MembroOrganizacao.get_organizacao_do_proprietario(request.user)
+
     contexto = {
         'titulo': 'Planos e Preços',
         'botoes': [
@@ -293,5 +295,9 @@ def planos_organizacao(request):
             }
         ]
     }
+
+    # Se o plano da organização for gratuito
+    if organizacao.plano == organizacao.PLANO_CHOICES[0][0]:
+        contexto['gratuito'] = True
 
     return render(request, 'planos.html', contexto)
