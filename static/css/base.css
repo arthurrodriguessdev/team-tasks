@@ -755,7 +755,7 @@ dialog[open] .modal-container-interno {
     position: relative;
     background-color: #0e2527;
     border-radius: 30px;
-    min-height: 250px;
+    min-height: 380px;
     min-width: 300px;
     overflow: hidden;
     color: #ffffff;
@@ -764,15 +764,18 @@ dialog[open] .modal-container-interno {
 .card-plano::before{
     content: '';
     position: absolute;
-    background: linear-gradient(#1c4531, #266948, #298858, #1bbc6b, #1c4531);
-    width: 300px;
+    background: linear-gradient(#1c3a2c, #156a42, #00ff6a, #1c3a2c);
+    width: 200%;
     height: 200%;
     animation: rotacionar 3s linear infinite;
+    transform: translate(-50%, -50%) rotate(0deg);
+    top: 50%;
+    left: 50%;
 }
 
 @keyframes rotacionar {
     100%{
-        transform: rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 
@@ -813,12 +816,31 @@ dialog[open] .modal-container-interno {
 }
 
 .destaque-preco{
-    color: #04bd51;
-    font-style: italic;
+    color: #00ff6a;
 }
 
 .indicacao-plano{
     min-width: 350px;
     max-width: 400px;
     text-align: center;
+}
+
+.lista-itens-plano ul{
+    list-style: none;
+}
+
+.lista-itens-plano ul li{
+    margin: 12px;
+}
+
+.item-plano i.fa-check{
+    color: #00ff6a;
+}
+
+.item-plano{
+    color: #fff;
+}
+
+.item-plano i.fa-xmark{
+    color: #CC0E01;
 }

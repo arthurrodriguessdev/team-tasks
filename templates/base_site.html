@@ -70,6 +70,10 @@
                                 
                             </ul>
                         </li>
+                            
+                        {% if request.user.eh_proprietario_organizacao %}
+                            <li><a class="sidebar-opcao-primaria" href="{% url 'visualizar_planos' %}">Planos</a></li>
+                        {% endif %}
                     {% else %}
                          <li class="tem-submenu"><a class="sidebar-opcao-primaria" href="">Organização</a>
                             <ul class="sidebar-submenu">

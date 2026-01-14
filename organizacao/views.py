@@ -284,7 +284,7 @@ def pode_convidar_participantes(organizacao):
 
 def planos_organizacao(request):
     contexto = {
-        'titulo': 'Planos',
+        'titulo': 'Planos e Preços',
         'botoes': [
             {
                 'nome': 'Ajuda',
