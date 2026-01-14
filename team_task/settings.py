@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'comum',
     'tarefa',
     'equipe',
-    'organizacao'
+    'organizacao',
+    'apipagamentos'
 ]
 
 MIDDLEWARE = [
