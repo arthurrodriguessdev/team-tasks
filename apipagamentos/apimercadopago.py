@@ -1,8 +1,10 @@
 import requests
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 LINK_SEM_PLANO = 'https://api.mercadopago.com/preapproval'
 
-def criar_plano_pagar(email_pagador):
+def criar_plano_pagar():
     headers = {
         'Authorization': 'Bearer APP_USR-1615086174935673-011514-ddd5cc9de23bda595f3a3ff1383e03ec-3136805720',
         'Content-Type': 'application/json'
@@ -24,3 +26,7 @@ def criar_plano_pagar(email_pagador):
 
     response = requests.post(LINK_SEM_PLANO, json=parametros_api, headers=headers)
     return response.json()
+
+@csrf_exempt
+def notificacoes_webhooks(request):
+    return JsonResponse({'foi': 'chegou'})

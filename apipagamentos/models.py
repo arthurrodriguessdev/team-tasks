@@ -17,6 +17,7 @@ class Assinatura(models.Model):
     data_inicio = models.DateTimeField(auto_now_add=True)
     data_cancelamento = models.DateTimeField(null=True, blank=True)
     ativa = models.BooleanField(default=False)
+    criada_em = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return f'{self.organizacao} - {self.plano} ({self.status})'
