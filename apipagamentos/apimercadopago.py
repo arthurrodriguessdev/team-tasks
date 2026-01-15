@@ -4,13 +4,13 @@ LINK_SEM_PLANO = 'https://api.mercadopago.com/preapproval'
 
 def criar_plano_pagar(email_pagador):
     headers = {
-        'Authorization': '',
+        'Authorization': 'Bearer APP_USR-1615086174935673-011514-ddd5cc9de23bda595f3a3ff1383e03ec-3136805720',
         'Content-Type': 'application/json'
     }
 
     parametros_api = {
         "reason": "Stasker - Plano Essencial",
-        "payer_email": email_pagador,
+        "payer_email": "test_user_1900638117602591183@testuser.com",
         "auto_recurring": {
             "frequency": 1,
             "frequency_type": "months",
