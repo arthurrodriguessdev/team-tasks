@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsaveisForm
@@ -35,6 +36,7 @@ def cadastrar_usuario(request):
 
     return render(request, 'cadastro_usuario.html', contexto)
 
+# @csrf_exempt 
 def login_usuario(request):
     if request.method == 'POST':
         username = request.POST.get('username')
