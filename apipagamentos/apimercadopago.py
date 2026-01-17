@@ -5,9 +5,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from apipagamentos.models import Assinatura
-from organizacao import views
-
-settings.TOKEN_API_MERCADOPAGO
+from apipagamentos.services.services import ativar_plano_essencial
 
 LINK_SEM_PLANO = 'https://api.mercadopago.com/preapproval'
 
@@ -59,12 +57,27 @@ def validar_pagamento(id_assinatura):
 
     response = requests.get(URL_GET_ASSINATURA, headers=headers).json()
 
-    if response:
-        assinatura = Assinatura.objects.filter(
-            preapproval_id=response['id']
-        ).select_related('organizacao').first()
+    # response = {
+    #     "id": id_assinatura,
+    #     "status": "authorized"
+    # } apenas para teste
 
-        status_assinatura = response['status']
+    if not response or 'status' not in response:
+        return False
+
+    assinatura = Assinatura.objects.filter(
+        preapproval_id=response['id']
+    ).select_related('organizacao').first()
+
+    if not assinatura:
+        return False
+
+    if response['status'] == 'authorized' and assinatura.status != 'authorized':
+        assinatura.status = 'authorized'
+        assinatura.ativa = True
+        assinatura.save()
+
+        ativar_plano_essencial(assinatura.organizacao)
+        return True
     
-        if status_assinatura == 'authorized':
-            views.alterar_status_assinatura()
+    return False
