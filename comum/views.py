@@ -36,7 +36,6 @@ def cadastrar_usuario(request):
 
     return render(request, 'cadastro_usuario.html', contexto)
 
-@csrf_exempt 
 def login_usuario(request):
     if request.method == 'POST':
         username = request.POST.get('username')

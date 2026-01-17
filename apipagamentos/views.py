@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.conf import settings
 from apipagamentos.apimercadopago import criar_plano_pagar
 from apipagamentos.models import Assinatura
 from organizacao.models import MembroOrganizacao, Organizacao
 
 def adquirir_plano_essencial(request):
+    if not settings.PAGAMENTO_ATIVO:
+        return HttpResponse('Pagamento e planos indisponíveis temporariamente')
+    
     organizacao = MembroOrganizacao.get_organizacao_do_proprietario(request.user)
 
     if Assinatura.objects.filter(organizacao=organizacao, status__in=['pending, authorized']).exists():

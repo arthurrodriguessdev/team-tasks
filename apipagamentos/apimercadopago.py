@@ -1,12 +1,13 @@
 import requests
 from django.http import JsonResponse
 from django.conf import settings
+import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
 from apipagamentos.models import Assinatura
 from apipagamentos.services.services import ativar_plano_essencial
 
+logger = logging.getLogger(__name__)
 LINK_SEM_PLANO = 'https://api.mercadopago.com/preapproval'
 
 def criar_plano_pagar():
@@ -27,18 +28,19 @@ def criar_plano_pagar():
 
         "back_url": "http://127.0.0.1:8000/dashboard",
         "status": "pending",
-        "notification_url": "https://joey-tinnier-cristopher.ngrok-free.dev/planos/notificacoes_pagamentos/?source_news=webhooks"
+        "notification_url": "https://joey-tinnier-cristopher.ngrok-free.dev/planos/notificacoes_pagamentos/"
     }
 
     response = requests.post(LINK_SEM_PLANO, json=parametros_api, headers=headers)
     return response.json()
 
-@require_POST
 @csrf_exempt
 def notificacoes_pagamentos(request):
     try:
         dados_recebidos_webhook = json.loads(request.body)
         id_assinatura = dados_recebidos_webhook['data']['id']
+
+        logger.info(f'Dados recebidos pelo webhook: {dados_recebidos_webhook}')
 
         validar_pagamento(id_assinatura)
 
@@ -56,11 +58,6 @@ def validar_pagamento(id_assinatura):
     }
 
     response = requests.get(URL_GET_ASSINATURA, headers=headers).json()
-
-    # response = {
-    #     "id": id_assinatura,
-    #     "status": "authorized"
-    # } apenas para teste
 
     if not response or 'status' not in response:
         return False
