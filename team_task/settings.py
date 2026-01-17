@@ -13,7 +13,8 @@ SECRET_KEY = 'django-insecure-@(aggv(c-8&bv@c263fpdk=i-09$vrwqf(3w!z(st_xre0bxa^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['*']
+# tirar * do allowed hosts
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -120,3 +121,5 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 AUTH_USER_MODEL = 'comum.Usuario'
+
+TOKEN_API_MERCADOPAGO = 'Bearer APP_USR-1615086174935673-011514-ddd5cc9de23bda595f3a3ff1383e03ec-3136805720'
