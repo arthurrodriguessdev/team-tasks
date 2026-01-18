@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
+import logging
 from django.conf import settings
-from apipagamentos.apimercadopago import criar_plano_pagar
+from apipagamentos.apimercadopago import criar_plano_pagar, api_cancelar_plano
 from apipagamentos.models import Assinatura
 from organizacao.models import MembroOrganizacao, Organizacao
+
+logger = logging.getLogger(__name__)
 
 def adquirir_plano_essencial(request):
     if not settings.PAGAMENTO_ATIVO:
@@ -30,3 +33,18 @@ def adquirir_plano_essencial(request):
 
     pagina_pagamento = plano['init_point']
     return redirect(pagina_pagamento)
+
+def cancelar_plano_essencial(request):
+    organizacao = MembroOrganizacao.get_organizacao_do_proprietario(request.user)
+
+    if not organizacao or organizacao.plano != 'pago':
+        return HttpResponse('A organização não foi encontrada ou não possui o plano essencial ativo.')
+    
+    try:
+        assinatura = Assinatura.objects.get(organizacao=organizacao, status='authorized')
+        api_cancelar_plano(assinatura.preapproval_id)
+
+    except Exception as error:
+        logger.error(f'Erro ao buscar assinatura: ', exc_info=error)
+    
+    return HttpResponse('Teste')

@@ -44,11 +44,11 @@ def notificacoes_pagamentos(request):
 
         validar_pagamento(id_assinatura)
 
-        return JsonResponse({"foi": "ok"}, status=200)
+        return JsonResponse({}, status=200)
     
     except Exception as error:
         return JsonResponse({'error': str(error)}, status=400)
-
+    
 def validar_pagamento(id_assinatura):
     URL_GET_ASSINATURA = f'https://api.mercadopago.com/preapproval/{id_assinatura}'
 
@@ -78,3 +78,26 @@ def validar_pagamento(id_assinatura):
         return True
     
     return False
+
+def api_cancelar_plano(id_assinatura):
+
+    URL_API_CANCELAR_ASSINATURA = f'https://api.mercadopago.com/preapproval/{id_assinatura}'
+    STATUS_CANCELADO = 'cancelled'
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': settings.TOKEN_API_MERCADOPAGO
+    }
+    
+    body = {
+        'status': STATUS_CANCELADO
+    }
+
+    try:
+        response = requests.put(URL_API_CANCELAR_ASSINATURA, headers=headers, json=body)
+
+    except Exception as error:
+        logger.info(f'Erro: ', {error})
+        return JsonResponse({}, status=400)
+
+    return JsonResponse({}, status=200)
