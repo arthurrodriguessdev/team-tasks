@@ -41,9 +41,8 @@ def login_usuario(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # arthurx18 == 18011801
         usuario = authenticate(request, username=username, password=password)
-
+        
         if usuario is not None:
             login(request, usuario)
             criar_codigo_usuario(usuario)

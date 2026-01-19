@@ -44,21 +44,22 @@ class CriarEquipe(generic.CreateView):
         equipe = form.save(commit=False)
         organizacao = equipe.organizacao.pk
 
-        if pode_criar_equipe(organizacao):
-            equipe.criada_por = self.request.user
-            equipe.responsavel = self.request.user
-            equipe.save()
+        if organizacao.plano == 'gratuito':
+            if pode_criar_equipe(organizacao):
+                equipe.criada_por = self.request.user
+                equipe.responsavel = self.request.user
+                equipe.save()
 
-            MembroEquipe.objects.create(
-                equipe=equipe,
-                membro=self.request.user
-            )
+                MembroEquipe.objects.create(
+                    equipe=equipe,
+                    membro=self.request.user
+                )
 
-            messages.success(self.request, 'Equipe criada com sucesso.')
-            return super().form_valid(form)
-        
-        else:
-            return self.form_invalid(form)
+                messages.success(self.request, 'Equipe criada com sucesso.')
+                return super().form_valid(form)
+            
+            else:
+                return self.form_invalid(form)
     
     def form_invalid(self, form):
         contexto = self.get_context_data(form=form)

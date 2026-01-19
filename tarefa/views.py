@@ -10,6 +10,7 @@ from tarefa.forms import TarefaForm
 from comum.utils import pesquisar_objetos
 from comum.models import Usuario, MembroEquipe
 from equipe.models import Equipe
+from organizacao.models import Organizacao
 
 @login_required
 def criar_tarefa(request):
@@ -19,20 +20,31 @@ def criar_tarefa(request):
         form = TarefaForm(request.POST, request=request)
         equipe_id = request.POST.get('equipe')
 
-        if pode_criar_tarefas(equipe_id):
-            if form.is_valid():
-                form.full_clean()
-                form.save()
+        equipe = get_object_or_404(Equipe, id=equipe_id)
+        organizacao = Organizacao.objects.get(id=equipe.organizacao)
 
-                messages.success(request, 'Tarefa criada com sucesso.')
-                return redirect('listagem_tarefas')
-        else:
-            request.session['mostrar_modal'] = {
-                'titulo': 'Limite do plano atingido',
-                'paragrafo': 'Seu plano atual não permite criar mais tarefas. Para continuar, faça upgrade do seu plano.'
-            }
+        if organizacao.plano == 'gratuito':
+            if pode_criar_tarefas(equipe):
+                if form.is_valid():
+                    form.full_clean()
+                    form.save()
 
-            return redirect('adicionar_tarefa')
+                    messages.success(request, 'Tarefa criada com sucesso.')
+                    return redirect('listagem_tarefas')
+            else:
+                request.session['mostrar_modal'] = {
+                    'titulo': 'Limite do plano atingido',
+                    'paragrafo': 'Seu plano atual não permite criar mais tarefas. Para continuar, faça upgrade do seu plano.'
+                }
+
+                return redirect('adicionar_tarefa')
+            
+        if form.is_valid():
+            form.full_clean()
+            form.save()
+
+            messages.success(request, 'Tarefa criada com sucesso.')
+            return redirect('listagem_tarefas')
 
     form = TarefaForm(request=request)
     contexto = {
@@ -281,9 +293,7 @@ def editar_tarefa(request, pk):
     return render(request, 'editar_tarefa.html', contexto)
 
 # Função bloqueadora, só deixa criar até 15 tarefas POR EQUIPE (no plano gratuito)
-def pode_criar_tarefas(id_equipe):
-    equipe = get_object_or_404(Equipe, pk=id_equipe)
-
+def pode_criar_tarefas(equipe):
     if equipe:
         if Tarefa.get_qtd_tarefas_equipe(equipe) >= 15:
             return False

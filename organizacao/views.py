@@ -51,15 +51,6 @@ def visualizar_organizacao(request):
         messages.error(request, 'Organização não encontrada')
         return redirect('exibir_dashboard')
     
-    # TO DO: Template separado para participantes
-    
-    # lista_membros = []
-    # membros = MembroOrganizacao.get_membros_organizacao(organizacao)
-
-    # for membro in membros:
-    #     lista_membros.append(f'{membro.membro.nome} ({membro.membro.username})')
-
-    # membros = ', '.join(lista_membros)
     dados = {
         'Nome da Organização': organizacao.nome,
         'Plano da Organização': organizacao.plano.capitalize(),
@@ -142,22 +133,23 @@ def convidar_participantes(request, pk):
             contexto['pesquisou'] = 1
 
         if acao == 'convidar' and usuario:
-            if pode_convidar_participantes(organizacao):
-                ConviteOrganizacao.objects.create(
-                    usuario_convidado=usuario,
-                    organizacao=organizacao,
-                    enviado_por=request.user
-                )
+            if organizacao.plano == 'gratuito':
+                if pode_convidar_participantes(organizacao):
+                    ConviteOrganizacao.objects.create(
+                        usuario_convidado=usuario,
+                        organizacao=organizacao,
+                        enviado_por=request.user
+                    )
+                    
+                    contexto['usuario'] = usuario
+                    contexto['enviou_convite'] = 1
+                else:
+                    request.session['modal'] = {
+                        'titulo': 'Limite do plano atingido.',
+                        'paragrafo': 'Seu plano atual não permite convidar mais participantes. Para continuar, faça upgrade do seu plano.'
+                    }
                 
-                contexto['usuario'] = usuario
-                contexto['enviou_convite'] = 1
-            else:
-                request.session['modal'] = {
-                    'titulo': 'Limite do plano atingido.',
-                    'paragrafo': 'Seu plano atual não permite convidar mais participantes. Para continuar, faça upgrade do seu plano.'
-                }
-                
-                return redirect('convidar_participantes', pk=organizacao.pk)
+                    return redirect('convidar_participantes', pk=organizacao.pk)
 
     return render(request, 'convidar_participantes.html', contexto)
 
