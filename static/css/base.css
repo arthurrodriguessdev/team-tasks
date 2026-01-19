@@ -95,6 +95,23 @@
     color: #fff;
 }
 
+/* aviso teste */
+.container-aviso-teste{
+    display: flex;
+    align-items: center;
+    background-color: #ffdd00;
+    margin-left: 240px;
+    justify-content: center;
+    height: 40px;
+    padding-right: 25px;
+}
+
+.aviso-teste{
+    margin-left: 70px;
+    font-size: 18px;
+    text-align: center;
+}
+
 .adicionar-participante-icone{
     font-size: 12px;
     background-color: transparent;
