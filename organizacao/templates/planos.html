@@ -2,6 +2,11 @@
 
 {% block content %}
     {{ block.super }}
+
+    {% if messages %}
+        {% include 'messages.html' %}
+    {% endif %}
+    
     <div class="container-planos-externo">
         <div class="card-plano">
             <div class="conteudo">

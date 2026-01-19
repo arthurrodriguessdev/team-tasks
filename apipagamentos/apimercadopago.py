@@ -94,10 +94,14 @@ def api_cancelar_plano(id_assinatura):
     }
 
     try:
-        response = requests.put(URL_API_CANCELAR_ASSINATURA, headers=headers, json=body)
+        response = requests.put(URL_API_CANCELAR_ASSINATURA, headers=headers, json=body, timeout=10)
 
-    except Exception as error:
-        logger.info(f'Erro: ', {error})
-        return JsonResponse({}, status=400)
+    except requests.exceptions.Timeout:
+        logger.error(f'Timeout ao realizar requisição: {response.text}')
+        return JsonResponse({'erro': 'Timeout com o Mercado Pago'}, status=504)
+    
+    except requests.exceptions.HTTPError:
+        logger.error(f'Erro HTTP: {response.text}')
+        return JsonResponse({'erro': 'Erro ao cancelar assinatura'}, status=response.status_code)
 
-    return JsonResponse({}, status=200)
+    return response

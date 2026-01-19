@@ -21,5 +21,3 @@ class Assinatura(models.Model):
 
     def __str__(self):
         return f'{self.organizacao} - {self.plano} ({self.status})'
-
-# https://www.mercadopago.com.br/subscriptions/checkout/congrats?collection_id=141502200659&collection_status=approved&preference_id=3136805720-22c97105-18f7-4ab6-be88-0ea10d975268&payment_type=credit_card&payment_id=141502200659&external_reference=5ad811fe16b042738a7a1c676d8c6f6d&site_id=MLB&status=approved&
