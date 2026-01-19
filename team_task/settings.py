@@ -70,10 +70,11 @@ WSGI_APPLICATION = 'team_task.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'task_team_dev',
-        'USER': 'postgres',
-        'PASSWORD': '1801',
-        'HOST': 'localhost'
+        'NAME': 'stasker_db',
+        'USER': 'admin',
+        'PASSWORD': 'ZwVE7ZZe5FQuX4JX1rrXtghNkrSn71AF',
+        'HOST': 'dpg-d5n3d06mcj7s73cece90-a',
+        'PORT': '5432'
     }
 }
 
