@@ -28,7 +28,7 @@ def criar_plano_pagar():
 
         "back_url": "http://127.0.0.1:8000/dashboard",
         "status": "pending",
-        "notification_url": "https://joey-tinnier-cristopher.ngrok-free.dev/planos/notificacoes_pagamentos/"
+        "notification_url": "https://stasker.onrender.com/planos/notificacoes_pagamentos/"
     }
 
     response = requests.post(LINK_SEM_PLANO, json=parametros_api, headers=headers)
