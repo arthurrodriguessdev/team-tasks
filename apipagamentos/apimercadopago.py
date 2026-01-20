@@ -10,7 +10,7 @@ from apipagamentos.services.services import ativar_plano_essencial
 logger = logging.getLogger(__name__)
 LINK_SEM_PLANO = 'https://api.mercadopago.com/preapproval'
 
-def criar_plano_pagar():
+def criar_plano_pagar(usuario):
     headers = {
         'Authorization': settings.TOKEN_API_MERCADOPAGO,
         'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ def criar_plano_pagar():
 
     parametros_api = {
         "reason": "Stasker - Plano Essencial",
-        "payer_email": "test_user_1900638117602591183@testuser.com",
+        "payer_email": usuario.email,
         "auto_recurring": {
             "frequency": 1,
             "frequency_type": "months",

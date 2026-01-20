@@ -18,8 +18,7 @@ def adquirir_plano_essencial(request):
     if Assinatura.objects.filter(organizacao=organizacao, status__in=['pending, authorized']).exists():
         return HttpResponse('Já existe uma assinatura em andamento.', status=400)
     
-    plano = criar_plano_pagar()
-    print(plano['init_point'])
+    plano = criar_plano_pagar(request.user)
 
     if not 'init_point' in plano or not 'id' in plano:
         return HttpResponse('Erro ao criar assinatura.', status=400)
