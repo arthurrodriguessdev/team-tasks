@@ -125,5 +125,5 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'comum.Usuario'
 
-TOKEN_API_MERCADOPAGO = 'Bearer APP_USR-1615086174935673-011514-ddd5cc9de23bda595f3a3ff1383e03ec-3136805720'
+TOKEN_API_MERCADOPAGO = 'Bearer APP_USR-a497ced8-e4eb-43fd-82a9-910d2fe44a0f'
 PAGAMENTO_ATIVO = True
