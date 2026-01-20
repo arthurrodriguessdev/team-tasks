@@ -42,7 +42,7 @@ class CriarEquipe(generic.CreateView):
     
     def form_valid(self, form):
         equipe = form.save(commit=False)
-        organizacao = equipe.organizacao.pk
+        organizacao = equipe.organizacao
 
         if organizacao.plano == 'gratuito':
             if pode_criar_equipe(organizacao):
