@@ -9,6 +9,10 @@ function consumir_api_dashboard(){
     return resultado_api;
 }
 
+function insertAfter(item_novo, item_existente){
+    item_existente.parentNode.insertBefore(item_novo, item_existente.nextSibling);
+}
+
 document.addEventListener("DOMContentLoaded", async function (){
     const tarefas_criadas_por_mim = window.document.getElementById('tarefas_criadas_por_mim');
     const tarefas_atribuidas_mim = window.document.getElementById('tarefas_atribuidas_mim');
@@ -29,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async function (){
         texto_informativo.classList.add('sem-itens-dashboard');
 
         texto_informativo.textContent = 'Você ainda não faz parte de nenhuma equipe.';
-        texto_informativo.parentNode.insertBefore(titulo_minhas_equipes, texto_informativo);
+        insertAfter(texto_informativo, titulo_minhas_equipes);
 
     } else{
         for(let i = 0; i < result.minhas_equipes.length; i++){
