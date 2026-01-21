@@ -3,7 +3,6 @@ function consumir_api_dashboard(){
     const resultado_api = fetch('api_dashboard')
     .then(response => response.json())
     .then(data =>{
-        console.log(data)
         return data;
     });
 
@@ -15,18 +14,29 @@ document.addEventListener("DOMContentLoaded", async function (){
     const tarefas_atribuidas_mim = window.document.getElementById('tarefas_atribuidas_mim');
     const lista_equipes = window.document.getElementById('lista_equipes');
     const lista_organizacoes = window.document.getElementById('lista_organizacoes');
+    const titulo_minhas_equipes = window.document.getElementById('minhas_equipes_titulo');
 
     const result = await consumir_api_dashboard();
 
     tarefas_criadas_por_mim.textContent = `${result.qtd_tarefas_criadas_por_mim}`;
     tarefas_atribuidas_mim.textContent = `${result.qtd_tarefas_atribuidas_mim}`;
 
-    for(let i = 0; i < result.minhas_equipes.length; i++){
-        const linha_equipe = document.createElement('li');
+    
+    if(result.minhas_equipes.length <= 0){
+        lista_organizacoes.remove();
 
-        linha_equipe.textContent = result.minhas_equipes[i];
-        linha_equipe.classList.add('item-listagem-dashboard')
-        lista_equipes.appendChild(linha_equipe);
+        const texto_informativo = document.createElement('p');
+        texto_informativo.textContent = 'Você ainda não faz parte de nenhuma equipe.'
+        titulo_minhas_equipes.parentNode.insertBefore(texto_informativo, titulo_minhas_equipes);
+
+    } else{
+        for(let i = 0; i < result.minhas_equipes.length; i++){
+            const linha_equipe = document.createElement('li');
+
+            linha_equipe.textContent = result.minhas_equipes[i];
+            linha_equipe.classList.add('item-listagem-dashboard')
+            lista_equipes.appendChild(linha_equipe);
+        }
     }
 
     for(let i = 0; i < result.minhas_organizacoes.length; i++){
