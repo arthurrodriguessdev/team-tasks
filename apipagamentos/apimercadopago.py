@@ -26,7 +26,7 @@ def criar_plano_pagar(usuario):
             "currency_id": "BRL"
         },
 
-        "back_url": "http://127.0.0.1:8000/dashboard",
+        "back_url": "https://stasker.onrender.com/dashboard",
         "status": "pending",
         "notification_url": "https://stasker.onrender.com/planos/notificacoes_pagamentos/"
     }
