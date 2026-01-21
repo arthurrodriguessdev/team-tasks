@@ -60,6 +60,20 @@ class CriarEquipe(generic.CreateView):
             
             else:
                 return self.form_invalid(form)
+        
+        # Cria a equipe sem verificação se for plano pago 
+        else:
+            equipe.criada_por = self.request.user
+            equipe.responsavel = self.request.user
+            equipe.save()
+
+            MembroEquipe.objects.create(
+                equipe=equipe,
+                membro=self.request.user
+            )
+
+            messages.success(self.request, 'Equipe criada com sucesso.')
+            return super().form_valid(form)
     
     def form_invalid(self, form):
         contexto = self.get_context_data(form=form)
