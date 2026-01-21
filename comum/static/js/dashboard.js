@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async function (){
 
         const texto_informativo = document.createElement('p');
         texto_informativo.classList.add('sem-itens-dashboard');
+        texto_informativo.style.fontSize = "12px";
 
         texto_informativo.textContent = 'Você ainda não faz parte de nenhuma equipe.';
         insertAfter(texto_informativo, titulo_minhas_equipes);
