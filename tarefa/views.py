@@ -21,7 +21,7 @@ def criar_tarefa(request):
         equipe_id = request.POST.get('equipe')
 
         equipe = get_object_or_404(Equipe, id=equipe_id)
-        organizacao = Organizacao.objects.get(id=equipe.organizacao)
+        organizacao = Organizacao.objects.get(id=equipe.organizacao.pk)
 
         if organizacao.plano == 'gratuito':
             if pode_criar_tarefas(equipe):
