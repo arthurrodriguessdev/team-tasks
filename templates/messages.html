@@ -1,14 +1,14 @@
 {% for message in messages %}
     {% if message.tags == "error" %}
-        <div class="alert alert-danger alert-dismissible fade show alert-default" role="alert">
+        <div class="msg-erro">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert"></button> -->
         </div>
 
     {% elif message.tags == "success" %}
-        <div class="alert alert-success alert-dismissible fade show alert-default" role="alert">
+        <div class="msg-sucesso">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert"></button> -->
         </div>
 
     {% else %}
