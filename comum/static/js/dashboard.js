@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", async function (){
         lista_organizacoes.remove();
 
         const texto_informativo = document.createElement('p');
-        texto_informativo.textContent = 'Você ainda não faz parte de nenhuma equipe.'
-        titulo_minhas_equipes.parentNode.insertBefore(texto_informativo, titulo_minhas_equipes);
+        texto_informativo.classList.add('sem-itens-dashboard');
+
+        texto_informativo.textContent = 'Você ainda não faz parte de nenhuma equipe.';
+        texto_informativo.parentNode.insertBefore(titulo_minhas_equipes, texto_informativo);
 
     } else{
         for(let i = 0; i < result.minhas_equipes.length; i++){

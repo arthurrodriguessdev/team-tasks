@@ -720,6 +720,12 @@ td a:hover{
     border-bottom: 1px solid #e5e7eb;
 }
 
+.sem-itens-dashboard{
+    color: #cc0e01;
+    text-align: center;
+    height: 15vh;
+}
+
 .modal-container-externo{
     position: fixed;
     inset: 0;        
