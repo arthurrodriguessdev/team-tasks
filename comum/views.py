@@ -244,8 +244,13 @@ def meu_perfil(request):
     return render(request, 'meu_perfil.html', contexto)
 
 def enviar_email_codigo(request):
-    codigo_email = CodigoEmail.objects.filter(usuario=request.user).first()
     usuario = request.user
+
+    try:
+        codigo_email = CodigoEmail.objects.filter(usuario=request.user).first()
+
+    except:
+        codigo_email = criar_codigo_usuario(usuario)
 
     MENSAGEM_PADRAO = f'Olá {usuario.get_nome}, esse é seu código de verificação de 6 dígitos: {codigo_email.codigo_verificacao}'
     ASSUNTO = 'Verificação de e-mail no sistema Stasker.'
@@ -289,6 +294,3 @@ class EmailVerificationRequired(object):
         
         response = self.function(request)
         return response
-
-def teste_email(request):
-    return render(request, 'inserir_codigo_verificacao.html')

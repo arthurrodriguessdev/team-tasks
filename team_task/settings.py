@@ -1,4 +1,5 @@
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,3 +128,19 @@ AUTH_USER_MODEL = 'comum.Usuario'
 
 TOKEN_API_MERCADOPAGO = 'Bearer APP_USR-3766164736702111-011416-b460b96d3d1c757fa6a0c0ec7aa979c8-1193966901'
 PAGAMENTO_ATIVO = True
+
+# Configurações E-MAILS
+
+if DEBUG == True:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_USE_SSL = False
+EMAIL_HOST = config('EMAIL_HOST')

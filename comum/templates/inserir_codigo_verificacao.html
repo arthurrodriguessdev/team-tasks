@@ -15,18 +15,18 @@
                 {% include 'messages.html' %}
             {% endif %}
 
-            <h3>Código de Verificação</h3>
+            <h3>Verificação de E-mail</h3>
             <p>Para continuar, enviamos um código de verificação de 6 dígitos para o e-mail cadastrado. Informe o código abaixo para concluir o acesso.</p>
             
             <form action="{% url 'enviar_email_codigo' %}" method="POST">
                 {% csrf_token %}
                 
-                <label>Código de Verificação:</label>
+                <label>Insira o código de verificação:</label>
                 <input type="number" name="codigo_verificacao">
 
                 <button type="submit" class="visualizar-editar-botao">Verificar</button>
             </form>
-            <a href="{% url 'enviar_email_codigo' %}">Reenviar código</a>
+            <a href="{% url 'enviar_email_codigo' %}" class="reenviar-codigo">Reenviar código</a>
         </div>
     </div>
 </body>
