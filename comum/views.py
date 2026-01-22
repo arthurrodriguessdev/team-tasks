@@ -1,9 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
 from django.http import HttpResponse
-from email_validator import validate_email, EmailNotValidError    
-import smtplib
-
+from django.core.mail import send_mail
 from django.utils import timezone
 from django.conf import settings
 from django.http import JsonResponse
@@ -245,27 +242,28 @@ def meu_perfil(request):
 
 def enviar_email_codigo(request):
     codigo_email = CodigoEmail.objects.filter(usuario=request.user).first()
-    MENSAGEM_PADRAO = f'Olá, esse é seu código de verificação de 6 dígitos: {codigo_email}'
+    usuario = request.user
 
-    print('aqui')
+    MENSAGEM_PADRAO = f'Olá {usuario.get_nome}, esse é seu código de verificação de 6 dígitos: {codigo_email.codigo_verificacao}'
+    ASSUNTO = 'Verificação de e-mail no sistema Stasker.'
 
     if request.method == 'POST':
         codigo = str(request.POST.get('codigo_verificacao'))
 
-        if codigo == codigo_email:
+        if codigo == str(codigo_email.codigo_verificacao):
             print('verificou')
     
     try:
-        servidor_email = smtplib.SMTP('smtp.gmail.com', 587)
-        servidor_email.starttls()
-        servidor_email.login(settings.LOGIN_EMAIL, settings.PASSWORD_EMAIL)
-        servidor_email.sendmail(settings.LOGIN_EMAIL, request.user.email, MENSAGEM_PADRAO)
+        send_mail(
+            ASSUNTO,
+            MENSAGEM_PADRAO,
+            settings.DEFAULT_FROM_EMAIL,
+            [usuario.email],
+            fail_silently=False
+        )
 
     except Exception as error:
         return HttpResponse(f'Erro: {error}')
-    
-    finally:
-        servidor_email.quit()
 
     return render(request, 'inserir_codigo_verificacao.html')
 
