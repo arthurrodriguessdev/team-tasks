@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django_select2.forms import Select2MultipleWidget, Select2Widget
+from email_validator import validate_email, EmailNotValidError
 from django import forms
 from comum.models import Usuario, MembroEquipe
 from tarefa.models import Tarefa
@@ -30,7 +31,15 @@ class UsuarioCadastroForm(forms.ModelForm):
           
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        email_existente = Usuario.objects.filter(email=email)
+
+        try:
+            email_validar = validate_email(email, check_deliverability=True)
+            email_validado = email_validar.normalized
+
+        except EmailNotValidError  as error:
+            return forms.ValidationError(f'{error}')
+        
+        email_existente = Usuario.objects.filter(email=email_validado)
 
         if email_existente.exists():
             raise forms.ValidationError('O e-mail informado já existe.')

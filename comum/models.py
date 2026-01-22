@@ -67,3 +67,11 @@ class MembroEquipe(models.Model):
         
         id_equipes = cls.objects.filter(membro=usuario).values_list('equipe', flat=True)
         return Equipe.objects.filter(id__in=id_equipes)
+    
+
+class CodigoEmail(models.Model):
+    codigo_verificacao = models.CharField(max_length=6)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='codigo_usuario')
+
+    def __str__(self):
+        return f'{self.usuario.nome} ({self.codigo_verificacao})'

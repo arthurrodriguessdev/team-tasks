@@ -90,6 +90,8 @@
     <!-- navbar base -->
     <div class="navbar">
         <h2 class="saudacao-navbar">Olá, {{ request.user.nome|title }}!</h2>
+
+        <a href="{% url 'teste_email' %}">Testar E-mail</a>
         
         <div class="navbar-icones">
             <a class="logout-icone" href="{% url 'logout_usuario' %}">

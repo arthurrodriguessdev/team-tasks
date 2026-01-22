@@ -1,5 +1,5 @@
 from django.urls import path
-from comum.views import login_usuario, cadastrar_usuario, logout_usuario, vincular_responsaveis, api_dashboard, exibir_dashboard, exibir_onboarding, exibir_codigo_convite_onboarding, convites_onboarding, exibir_dashboard_organizacao, api_organizacao_dashboard, meu_perfil
+from comum.views import login_usuario, cadastrar_usuario, logout_usuario, vincular_responsaveis, api_dashboard, exibir_dashboard, exibir_onboarding, exibir_codigo_convite_onboarding, convites_onboarding, exibir_dashboard_organizacao, api_organizacao_dashboard, meu_perfil, teste_email, enviar_email_codigo
 
 
 urlpatterns = [
@@ -18,5 +18,9 @@ urlpatterns = [
     path('onboarding/aguardando_convite', exibir_codigo_convite_onboarding, name='exibir_codigo_convite_onboarding'),
     path('onboarding/meus_convites', convites_onboarding, name='meus_convites'),
 
-    path('meu_perfil/', meu_perfil, name='meu_perfil')
+    path('meu_perfil/', meu_perfil, name='meu_perfil'),
+    path('veriicacao_email/', enviar_email_codigo, name='enviar_email_codigo'),
+
+    # TO DO APAGAR
+    path('testar_email/', teste_email, name='teste_email')
 ]

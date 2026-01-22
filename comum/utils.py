@@ -3,7 +3,7 @@
 from django.db.models import Q
 import random
 import string
-from comum.models import Usuario
+from comum.models import Usuario, CodigoEmail
 
 def pesquisar_objetos(termo, queryset, campos):
     if not termo:
@@ -31,3 +31,12 @@ def criar_codigo_usuario(usuario):
         usuario.codigo = codigo_usuario
         usuario.save()
         return
+    
+def criar_codigo_verificacao_email():
+    while True:
+        codigo_verificacao = ''.join(random.choices(string.digits, k=6))
+
+        if CodigoEmail.objects.filter(codigo_verificacao=codigo_verificacao).exists():
+            continue
+
+        return codigo_verificacao

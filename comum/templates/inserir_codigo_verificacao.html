@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-exterior-verificar-email">
+        <div class="container-interior-verificar-email">
+            <h3>Código de Verificação</h3>
+            <p>Enviamos um código de 6 dígitos ao e-mail cadastro. Verifique e insira os dígitos abaixo.</p>
+
+            <form action="{% url 'enviar_email_codigo' %}" method="POST">
+                {% csrf_token %}
+                
+                <label>Código de Verificação:</label>
+                <input type="number" name="codigo_verificacao">
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

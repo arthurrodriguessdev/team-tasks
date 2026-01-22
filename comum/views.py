@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
+from django.http import HttpResponse
+from email_validator import validate_email, EmailNotValidError    
+import smtplib
+
 from django.utils import timezone
+from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsaveisForm
-from comum.models import Usuario, MembroEquipe
+from comum.models import Usuario, MembroEquipe, CodigoEmail
 from tarefa.models import Tarefa
-from comum.utils import criar_codigo_usuario
+from comum.utils import criar_codigo_usuario, criar_codigo_verificacao_email
 from organizacao.models import Organizacao, MembroOrganizacao, ConviteOrganizacao
 from equipe.models import Equipe
 
@@ -18,9 +24,26 @@ def cadastrar_usuario(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Usuário criado com sucesso.')
 
-            return redirect('login_usuario')
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            if username and password:
+                usuario = authenticate(request, username=username, password=password)
+
+                try:
+                    login(request, usuario)
+                    
+                except Exception as error:
+                    print(f'Erro: {error}')
+
+            CodigoEmail.objects.create(
+                usuario=request.user,
+                codigo_verificacao=criar_codigo_verificacao_email()
+            )
+
+            messages.success(request, 'Usuário criado com sucesso.')
+            return enviar_email_codigo(request)
         
     else:
         form = UsuarioCadastroForm()
@@ -219,3 +242,32 @@ def meu_perfil(request):
         ]
     }
     return render(request, 'meu_perfil.html', contexto)
+
+def enviar_email_codigo(request):
+    codigo_email = CodigoEmail.objects.filter(usuario=request.user).first()
+    MENSAGEM_PADRAO = f'Olá, esse é seu código de verificação de 6 dígitos: {codigo_email}'
+
+    print('aqui')
+
+    if request.method == 'POST':
+        codigo = str(request.POST.get('codigo_verificacao'))
+
+        if codigo == codigo_email:
+            print('verificou')
+    
+    try:
+        servidor_email = smtplib.SMTP('smtp.gmail.com', 587)
+        servidor_email.starttls()
+        servidor_email.login(settings.LOGIN_EMAIL, settings.PASSWORD_EMAIL)
+        servidor_email.sendmail(settings.LOGIN_EMAIL, request.user.email, MENSAGEM_PADRAO)
+
+    except Exception as error:
+        return HttpResponse(f'Erro: {error}')
+    
+    finally:
+        servidor_email.quit()
+
+    return render(request, 'inserir_codigo_verificacao.html')
+
+def teste_email(request):
+    return render(request, 'inserir_codigo_verificacao.html')
