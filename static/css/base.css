@@ -966,7 +966,6 @@ dialog[open] .modal-container-interno {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-
 }
 
 .container-interior-verificar-email{
@@ -991,3 +990,18 @@ dialog[open] .modal-container-interno {
     text-align: center;
 }
 
+.container-interior-verificar-email label{
+    margin-right: 7px;
+}
+
+.container-interior-verificar-email form input[type="number"]{
+    padding: 5px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.container-interior-verificar-email form input[type="number"]:focus{
+    border-radius: 5px;
+    border: 1px solid #1C4045;
+}

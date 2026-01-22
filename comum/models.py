@@ -22,6 +22,7 @@ class Usuario(AbstractUser):
 
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     codigo = models.CharField(max_length=6, blank=True, null=True, unique=True) #TO DO: Verificar se PODE ficar em branco e nulo mesmo
+    email_verificado = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Usuário'
@@ -45,6 +46,10 @@ class Usuario(AbstractUser):
     @property
     def get_nome(self):
         return self.nome.title()
+    
+    @property
+    def tem_email_verificado(self):
+        return self.email_verificado
     
 
 class MembroEquipe(models.Model):

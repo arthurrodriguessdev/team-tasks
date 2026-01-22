@@ -11,7 +11,10 @@ from comum.utils import pesquisar_objetos
 from comum.models import Usuario, MembroEquipe
 from equipe.models import Equipe
 from organizacao.models import Organizacao
+from comum.views import EmailVerificationRequired
 
+
+@EmailVerificationRequired
 @login_required
 def criar_tarefa(request):
     tem_modal = request.session.pop('mostrar_modal', None)
@@ -71,6 +74,7 @@ def criar_tarefa(request):
 
     return render(request, 'adicionar_tarefa.html', contexto)
 
+@EmailVerificationRequired
 @login_required
 def listar_tarefas(request):
     equipes_usuario = MembroEquipe.get_equipe_usuario(request.user)
@@ -104,6 +108,7 @@ def listar_tarefas(request):
 
     return render(request, 'listagem_tarefas.html', contexto)
 
+@EmailVerificationRequired
 @login_required
 def listar_minhas_tarefas(request):
     tarefas = Tarefa.objects.filter(Q(responsaveis=request.user.pk)).distinct()
@@ -120,6 +125,7 @@ def listar_minhas_tarefas(request):
 
     return render(request, 'listagem_minhas_tarefas.html', contexto)
 
+@EmailVerificationRequired
 @login_required
 def visualizar_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
@@ -185,6 +191,7 @@ def visualizar_tarefa(request, pk):
 
     return render(request, 'visualizar_tarefas.html', contexto)
 
+@EmailVerificationRequired
 @login_required
 def excluir_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
@@ -255,6 +262,7 @@ def excluir_tarefa(request, pk):
 
     return render(request, 'excluir_tarefa.html', contexto)
 
+@EmailVerificationRequired
 @login_required
 def editar_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)

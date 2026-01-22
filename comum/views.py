@@ -32,14 +32,14 @@ def cadastrar_usuario(request):
                     login(request, usuario)
                     
                 except Exception as error:
-                    print(f'Erro: {error}')
+                    return HttpResponse(f'Erro: {error}')
 
             CodigoEmail.objects.create(
                 usuario=request.user,
                 codigo_verificacao=criar_codigo_verificacao_email()
             )
 
-            messages.success(request, 'Usuário criado com sucesso.')
+            messages.success(request, 'Usuário criado com sucesso. Verifique seu e-mail.')
             return enviar_email_codigo(request)
         
     else:
@@ -64,6 +64,9 @@ def login_usuario(request):
         usuario = authenticate(request, username=username, password=password)
         
         if usuario is not None:
+            if not request.user.email_verificado:
+                return redirect('enviar_email_codigo')
+            
             login(request, usuario)
             criar_codigo_usuario(usuario)
             
@@ -251,7 +254,15 @@ def enviar_email_codigo(request):
         codigo = str(request.POST.get('codigo_verificacao'))
 
         if codigo == str(codigo_email.codigo_verificacao):
-            print('verificou')
+            usuario.email_verificado = True
+            usuario.save()
+
+            messages.success(request, 'E-mail verificado com sucesso.')
+            return redirect('login_usuario')
+
+        else:
+            messages.error(request, 'Erro na verificação. Tente novamente ou solicite o reenvio do código.')
+            return redirect('enviar_email_codigo')
     
     try:
         send_mail(
@@ -266,6 +277,18 @@ def enviar_email_codigo(request):
         return HttpResponse(f'Erro: {error}')
 
     return render(request, 'inserir_codigo_verificacao.html')
+
+# decorador responsável por verificar se o e-mail do usuário já está verificado
+class EmailVerificationRequired(object):
+    def __init__(self, function):
+        self.function = function
+
+    def __call__(self, request):
+        if not request.user.tem_email_verificado:
+            return redirect('enviar_email_codigo')
+        
+        response = self.function(request)
+        return response
 
 def teste_email(request):
     return render(request, 'inserir_codigo_verificacao.html')

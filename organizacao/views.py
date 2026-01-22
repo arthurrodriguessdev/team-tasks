@@ -6,8 +6,10 @@ from organizacao.models import MembroOrganizacao, Organizacao, ConviteOrganizaca
 from organizacao.utils import apagar_objeto
 from comum.utils import pesquisar_objetos
 from comum.models import Usuario
+from comum.views import EmailVerificationRequired
 
 # TO DO: Verificar regra se um usuário pode criar mais de uma organização
+@EmailVerificationRequired
 @login_required
 def criar_organizacao(request):
     if request.method == 'POST':
@@ -43,6 +45,7 @@ def criar_organizacao(request):
 
     return render(request, 'criar_organizacao.html', contexto)
 
+@EmailVerificationRequired
 @login_required
 def visualizar_organizacao(request):
     organizacao = MembroOrganizacao.get_organizacao_do_proprietario(request.user)
@@ -99,6 +102,7 @@ def visualizar_organizacao(request):
 
     return render(request, 'visualizar_organizacao.html', contexto)
 
+@EmailVerificationRequired
 def convidar_participantes(request, pk):
     organizacao = get_object_or_404(Organizacao, pk=pk)
     tem_modal = request.session.pop('modal', None)
@@ -153,6 +157,7 @@ def convidar_participantes(request, pk):
 
     return render(request, 'convidar_participantes.html', contexto)
 
+@EmailVerificationRequired
 def aceitar_convite(request, pk):
     convite = get_object_or_404(ConviteOrganizacao, pk=pk)
     MembroOrganizacao.objects.create(
@@ -164,12 +169,14 @@ def aceitar_convite(request, pk):
     apagar_objeto(convite)
     return redirect('exibir_dashboard')
 
+@EmailVerificationRequired
 def recusar_convite(request, pk):
     convite = get_object_or_404(ConviteOrganizacao, pk=pk)
     apagar_objeto(convite)
 
     return redirect('onboarding')
 
+@EmailVerificationRequired
 def visualizar_convite(request, pk):
     convite = get_object_or_404(ConviteOrganizacao, pk=pk)
     
@@ -274,6 +281,7 @@ def pode_convidar_participantes(organizacao):
 
     return True
 
+@EmailVerificationRequired
 def planos_organizacao(request):
     organizacao = MembroOrganizacao.get_organizacao_do_proprietario(request.user)
 

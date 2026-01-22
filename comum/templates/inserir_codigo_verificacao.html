@@ -10,17 +10,23 @@
 <body>
     <div class="container-exterior-verificar-email">
         <div class="container-interior-verificar-email">
-            <h3>Código de Verificação</h3>
-            <p>Enviamos um código de 6 dígitos ao e-mail cadastro. Verifique e insira os dígitos abaixo.</p>
 
+            {% if messages %}
+                {% include 'messages.html' %}
+            {% endif %}
+
+            <h3>Código de Verificação</h3>
+            <p>Para continuar, enviamos um código de verificação de 6 dígitos para o e-mail cadastrado. Informe o código abaixo para concluir o acesso.</p>
+            
             <form action="{% url 'enviar_email_codigo' %}" method="POST">
                 {% csrf_token %}
                 
                 <label>Código de Verificação:</label>
                 <input type="number" name="codigo_verificacao">
 
-                <button type="submit">Enviar</button>
+                <button type="submit" class="visualizar-editar-botao">Verificar</button>
             </form>
+            <a href="{% url 'enviar_email_codigo' %}">Reenviar código</a>
         </div>
     </div>
 </body>
