@@ -131,12 +131,7 @@ PAGAMENTO_ATIVO = True
 
 # Configurações E-MAILS
 
-if DEBUG == True:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
