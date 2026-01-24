@@ -1,5 +1,6 @@
 from django import forms
 from django_select2.forms import Select2Widget, Select2MultipleWidget
+import datetime
 from comum.models import MembroEquipe, Usuario
 from equipe.models import Equipe
 from tarefa.models import Tarefa
@@ -14,11 +15,6 @@ class TarefaForm(forms.ModelForm):
             }
         )
     )
-
-    # em_equipe = forms.BooleanField(
-    #     required=False,
-    #     help_text='Essa opção só deve ser marcada caso a tarefa que esteja sendo cadastrada seja pertencente à uma equipe. OBS: O usuário deve estar em uma equipe.'
-    # )
 
     equipe = forms.ModelChoiceField(
         queryset=Equipe.objects.all(),
@@ -38,7 +34,6 @@ class TarefaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.instance.pk:
-            # self.fields.pop('em_equipe')
             self.fields.pop('equipe')
             
         else:
@@ -46,6 +41,18 @@ class TarefaForm(forms.ModelForm):
             equipes = Equipe.objects.filter(responsavel=self.request.user)
 
             self.fields['equipe'].queryset = equipes
+    
+    def clean_prazo(self):
+        data_atual = datetime.datetime.now().date()
+        prazo = self.cleaned_data.get('prazo')
+
+        if prazo:
+            diferenca_dias = (prazo - data_atual).days
+
+            if diferenca_dias < 0:
+                raise forms.ValidationError('Data de prazo inválida.')
+
+        return prazo
         
     def save(self, commit = True):
         tarefa = super().save(commit=False)
