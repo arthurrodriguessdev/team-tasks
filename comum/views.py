@@ -65,11 +65,11 @@ def login_usuario(request):
         usuario = authenticate(request, username=username, password=password)
         
         if usuario is not None:
-            if not request.user.email_verificado:
-                return redirect('enviar_email_codigo')
-            
             login(request, usuario)
             criar_codigo_usuario(usuario)
+
+            if not request.user.email_verificado:
+                return redirect('enviar_email_codigo')
             
             if not request.user.tem_organizacao:
                 return redirect('onboarding')
