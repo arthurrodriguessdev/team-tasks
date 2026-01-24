@@ -300,9 +300,19 @@ class EmailVerificationRequired(object):
     def __init__(self, function):
         self.function = function
 
-    def __call__(self, request):
+    def __call__(self, request, **kwargs):
+        pk = None
+
+        for chave, valor in kwargs.items():
+            if 'pk' in chave:
+                pk = kwargs['pk']
+
         if not request.user.tem_email_verificado:
             return redirect('enviar_email_codigo')
         
-        response = self.function(request)
+        if not pk is None:
+            response = self.function(request, pk)
+        else:
+            response = self.function(request)
+
         return response
