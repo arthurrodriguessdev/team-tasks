@@ -1,22 +1,188 @@
-/* css para adicionar responsividade mobile */
-
-@media (max-width: 768px){
-    /* tela de login e cadastro */
-    
-    .box-esquerdo{
-        display: none;
+@media (max-width: 768px) {
+    /* geral */
+    .layout-conteudo-principal {
+        margin-left: 160px;
+        padding: 15px;
+        min-height: calc(100vh - 60px);
     }
 
-    .box-direito{
-        flex: 1;
-        height: 100vh;
-        min-width: 100%;
-        padding: 20px;
+    .conteudo-principal {
+        padding: 15px;
+    }
+
+    .acoes-pagina{
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        justify-content: start;
+    }
+
+    /* navbar */
+    .navbar {
+        margin-left: 160px;
+        padding: 0 8px;
+        padding-right: 15px;
+        height: 55px;
+        gap: 5px;
+    }
+
+    .saudacao-navbar {
+        margin-left: 15px;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 120px;
+    }
+
+    .navbar-icones {
+        display: flex;
+        gap: 5px;
+    }
+
+    .logout-icone,
+    .perfil-icone,
+    .adicionar-participante-icone {
+        padding: 5px 8px;
+        font-size: 14px;
+    }
+
+    .logout-icone {
+        border: solid 1px #cc0e01;
+        color: #cc0e01;
+        background-color: transparent;
+    }
+
+    .perfil-icone {
+        border: solid 1px #013e6f;
+        color: #013e6f;
+        background-color: transparent;
+    }
+
+    /* sidebar */
+    .sidebar-box {
+        width: 160px;
+    }
+
+    .sidebar-opcao-primaria {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .sidebar-submenu li a {
+        padding: 8px 30px;
+        font-size: 13px;
+    }
+
+    /* teste aviso - temporario */
+    .container-aviso-teste {
+        margin-left: 160px;
+        padding: 0 8px;
+        height: 35px;
+    }
+
+    .aviso-teste {
+        margin-left: 10px;
+        font-size: 14px;
+    }
+
+    /* formularios default */
+    .form-default form {
+        padding: 30px 20px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .adicionar-botao.form {
+        width: 50%;
+        margin-top: 15px;
+    }
+
+    /* tabelas default */
+    .barra-pesquisa-default {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .barra-pesquisa-default input {
+        width: 100%;
+    }
+
+    .listagem-tabela table {
+        font-size: 13px;
+    }
+
+    .listagem-tabela table th,
+    .listagem-tabela table td {
+        padding: 8px;
+    }
+
+    /* cards */
+    .dashboard-container {
+        padding: 30px 15px;
         gap: 20px;
     }
 
-    .titulo-formulario{
-        font-size: 32px;
+    .card-container-dashboard {
+        min-width: 100%;
+        padding: 25px 20px;
+    }
+
+    .card-container-dashboard p {
+        font-size: 24px;
+    }
+
+    /* modal */
+    .modal-container-interno {
+        width: 95%;
+        padding: 20px 15px;
+    }
+
+    .titulo-modal {
+        font-size: 18px;
+    }
+
+    .paragrafo-modal {
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    /* login e cadastro */
+    .box-esquerdo {
+        display: none;
+    }
+
+    .box-direito {
+        flex: 1;
+        height: 100vh;
+        min-width: 100%;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .titulo-formulario {
+        font-size: 28px;
         text-align: center;
+    }
+
+    /* titulos e labels */
+    .titulo-pagina,
+    .titulo-formulario-default,
+    .titulo-visualizacao,
+    .titulo-confirmacao {
+        font-size: 20px;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+    }
+
+    .label-visualizacao {
+        font-size: 14px;
+    }
+
+    .campo-visualizacao {
+        font-size: 13px;
+        margin-bottom: 20px;
     }
 }
