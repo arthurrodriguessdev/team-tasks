@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.utils import timezone
+import requests
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -244,16 +245,14 @@ def meu_perfil(request):
     return render(request, 'meu_perfil.html', contexto)
 
 def enviar_email_codigo(request):
+    URL_API = 'https://api.brevo.com/v3/smtp/email'
     usuario = request.user
 
     try:
-        codigo_email = CodigoEmail.objects.filter(usuario=request.user).first()
+        codigo_email = CodigoEmail.objects.filter(usuario=usuario).first()
 
     except:
         codigo_email = criar_codigo_usuario(usuario)
-
-    MENSAGEM_PADRAO = f'Olá {usuario.get_nome}, esse é seu código de verificação de 6 dígitos: {codigo_email.codigo_verificacao}'
-    ASSUNTO = 'Verificação de e-mail no sistema Stasker.'
 
     if request.method == 'POST':
         codigo = str(request.POST.get('codigo_verificacao'))
@@ -268,19 +267,32 @@ def enviar_email_codigo(request):
         else:
             messages.error(request, 'Erro na verificação. Tente novamente ou solicite o reenvio do código.')
             return redirect('enviar_email_codigo')
-    
+
+    MENSAGEM_PADRAO = f'Olá {usuario.get_nome}, esse é seu código de verificação de 6 dígitos: {codigo_email.codigo_verificacao}'
+    ASSUNTO = 'Verificação de e-mail no sistema Stasker.'
+
+    headers = {
+        'accept': 'application/json',
+        'api-key': settings.TOKEN_API_BREVO,
+        'content-type': 'application/json'
+    }
+
+    parametros = {
+        "sender":{
+            "name":"Stasker Gerenciamento",
+            "email":"staskergerenciamento@gmail.com"
+        },
+        "to":[{"email": f"{usuario.email}"}],
+        "subject": f"{ASSUNTO}",
+        "htmlContent":f"<html><head></head><body><p>{MENSAGEM_PADRAO}</p></body></html>"
+    }
+
     try:
-        send_mail(
-            ASSUNTO,
-            MENSAGEM_PADRAO,
-            settings.DEFAULT_FROM_EMAIL,
-            [usuario.email],
-            fail_silently=False
-        )
+        response = requests.post(url=URL_API, headers=headers, json=parametros)
 
     except Exception as error:
-        return HttpResponse(f'Erro: {error}')
-
+        return HttpResponse(f'Erro ao enviar o código de verificação: {error}')
+    
     return render(request, 'inserir_codigo_verificacao.html')
 
 # decorador responsável por verificar se o e-mail do usuário já está verificado
