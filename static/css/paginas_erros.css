@@ -17,6 +17,7 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
+    gap: 7px;
 }
 
 .pagina-erro h1{
@@ -24,6 +25,36 @@
     color: #1C4045;
     border: 1px solid #1C4045;
     background-color: transparent;
-    padding: 20px;
-    border-radius: 100px;
+    padding: 30px;
+    border-radius: 120px;
+    font-size: 24px;
+}
+
+.container-erros h2{
+    font-size: 20px;
+}
+
+.container-erros p{
+    font-size: 18px;
+}
+
+.links-redirect{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.links-redirect a{
+    font-style: none;
+    color: rgb(111, 111, 111);
+    transition: all 0.2s ease;
+    margin-top: 35px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.links-redirect a:hover{
+    color: rgb(36, 36, 36);
 }

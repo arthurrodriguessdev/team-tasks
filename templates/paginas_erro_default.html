@@ -15,7 +15,11 @@
             <h2>{% block nome_erro %}{% endblock %}</h2>
             <p>{% block texto_erro %}{% endblock %}</p>
 
-            <a href="{% url 'login_usuario' %}">Voltar ao Site</a>
+            <div class="links-redirect">
+                <a href="{% url 'login_usuario' %}">Voltar ao Site</a>
+                <a href="{% url 'login_usuario' %}">Voltar ao Site</a>
+            </div>
+            
         </div>
     </div>
 </body>
