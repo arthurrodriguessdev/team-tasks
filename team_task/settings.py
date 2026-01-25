@@ -126,18 +126,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'comum.Usuario'
 
-TOKEN_API_MERCADOPAGO = 'Bearer APP_USR-3766164736702111-011416-b460b96d3d1c757fa6a0c0ec7aa979c8-1193966901'
+# Configuração de Pagamentos (Mercado Pago)
+TOKEN_API_MERCADOPAGO = config('TOKEN_API_MERCADOPAGO')
 PAGAMENTO_ATIVO = True
 
 # Configurações E-MAILS
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
-# EMAIL_PORT = config('EMAIL_PORT', cast=int)
-# EMAIL_USE_SSL = False
-# EMAIL_HOST = config('EMAIL_HOST')
-
 TOKEN_API_BREVO = config('TOKEN_API_BREVO')

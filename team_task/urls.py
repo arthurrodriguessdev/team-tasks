@@ -10,6 +10,7 @@ urlpatterns = [
     path('planos/', include('apipagamentos.urls'))
 ]
 
+# Funções customizadas de páginas de erro
 handler403 = 'comum.views.forbidden'
 handler404 = 'comum.views.not_found'
 handler500 = 'comum.views.server_error'
