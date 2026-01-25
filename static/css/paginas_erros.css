@@ -17,7 +17,7 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
-    gap: 7px;
+    gap: 9px;
 }
 
 .pagina-erro h1{
@@ -27,22 +27,24 @@
     background-color: transparent;
     padding: 30px;
     border-radius: 120px;
-    font-size: 24px;
+    font-size: 28px;
 }
 
 .container-erros h2{
-    font-size: 20px;
+    font-size: 22px;
 }
 
 .container-erros p{
-    font-size: 18px;
+    font-size: 16px;
+    max-width: 520px;
+    line-height: 1.6;
 }
 
 .links-redirect{
-    margin-top: 40px;
+    margin-top: 35px;
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 30px;
     justify-content: flex-start;
 }
 

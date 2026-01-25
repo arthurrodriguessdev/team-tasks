@@ -316,6 +316,13 @@ class EmailVerificationRequired(object):
             response = self.function(request)
 
         return response
-    
+
+# Páginas de erros personalizadas
+def forbidden(request, exception):
+    return render(request, 'erros/erro403.html', status=403)
+
 def not_found(request, exception):
-    return render(request, 'erro404.html')
+    return render(request, 'erros/erro404.html', status=404)
+
+def server_error(request):
+    return render(request, 'erros/erro500.html', status=500)
