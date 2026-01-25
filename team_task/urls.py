@@ -9,3 +9,5 @@ urlpatterns = [
     path('organizacao/', include('organizacao.urls')),
     path('planos/', include('apipagamentos.urls'))
 ]
+
+handler404 = 'comum.views.not_found'

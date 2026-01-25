@@ -316,3 +316,6 @@ class EmailVerificationRequired(object):
             response = self.function(request)
 
         return response
+    
+def not_found(request, exception):
+    return render(request, 'erro404.html')

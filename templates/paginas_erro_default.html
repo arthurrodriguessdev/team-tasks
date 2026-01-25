@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/paginas_erros.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="pagina-erro">
+        <h1>{% block erro %}{% endblock %}</h1>
+
+        <div class="container-erros">
+            <h2>{% block nome_erro %}{% endblock %}</h2>
+            <p>{% block texto_erro %}{% endblock %}</p>
+
+            <a href="{% url 'login_usuario' %}">Voltar ao Site</a>
+        </div>
+    </div>
+</body>
+</html>
