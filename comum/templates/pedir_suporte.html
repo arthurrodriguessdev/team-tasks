@@ -1,0 +1,31 @@
+{% extends 'base_site.html' %}
+
+<dialog id="modal_suporte">
+    <div class="modal-container-externo">
+        <div class="modal-container-interno">
+            <h3 class="titulo-modal">Solicitar Suporte</h3>
+            <p class="paragrafo-modal">Preencha os campos abaixo de acordo com sua dúvida.</p>
+
+            <form action="{% url 'suporte_usuario' %}" method="POST">
+                <label>Erro / Dúvida:</label>
+                <input type="text" name="erro_suporte">
+                <label>Onde ocorre:</label>
+                <input type="text" name="local_erro_suporte">
+                
+                <button type="submit">Enviar</button>
+            </form>
+
+            <!-- <div class="modal-botoes">
+                <a href="" class="excluir-botao" id="botao-fechar">Agora não</a>
+                <a href="{% url 'visualizar_planos' %}" class="visualizar-editar-botao"></a>
+            </div> -->
+        </div>
+    </div>
+</dialog>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () =>{
+        const modal_suporte = document.getElementById('modal_suporte');
+        modal_suporte.showModal();
+    })
+</script>

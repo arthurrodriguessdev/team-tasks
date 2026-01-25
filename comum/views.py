@@ -317,6 +317,9 @@ class EmailVerificationRequired(object):
 
         return response
 
+def suporte_usuario(request):
+    return render(request, 'pedir_suporte.html')
+
 # Páginas de erros personalizadas
 def forbidden(request, exception):
     return render(request, 'erros/erro403.html', status=403)
