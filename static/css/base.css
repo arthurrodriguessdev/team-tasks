@@ -1025,3 +1025,50 @@ dialog[open] .modal-container-interno {
 .reenviar-codigo:hover{
     color: rgb(36, 36, 36);
 }
+
+/* modal de suporte ao usuário */
+.form-suporte{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.form-suporte form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding-top: 10px;
+    background-color: #F2F2F2;
+    padding: 10px;
+    border-radius: 7px;
+}
+
+.form-suporte form textarea,
+.form-suporte form input[type="date"],
+.form-suporte form input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #1f2937;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 4px;
+}
+
+.form-suporte form textarea:focus,
+.form-suporte form input[type="text"]:focus {
+    border-color: #1C4045;
+    box-shadow: 0 0 0 0.5px rgba(28, 64, 69, 0.25);
+}
+
+.form-suporte form label{
+    font-size: 14px;
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 400;
+    color: #6B7280;
+}

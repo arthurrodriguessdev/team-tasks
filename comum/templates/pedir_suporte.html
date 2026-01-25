@@ -1,31 +1,41 @@
 {% extends 'base_site.html' %}
 
-<dialog id="modal_suporte">
-    <div class="modal-container-externo">
-        <div class="modal-container-interno">
-            <h3 class="titulo-modal">Solicitar Suporte</h3>
-            <p class="paragrafo-modal">Preencha os campos abaixo de acordo com sua dúvida.</p>
+{% block content %}
+    {{ block.super }}
+    
+    <dialog id="modal_suporte">
+        <div class="modal-container-externo">
+            <div class="modal-container-interno">
+                <h3 class="titulo-modal">Solicitar Suporte</h3>
+                <p class="paragrafo-modal">Preencha os campos abaixo de acordo com sua dúvida.</p>
 
-            <form action="{% url 'suporte_usuario' %}" method="POST">
-                <label>Erro / Dúvida:</label>
-                <input type="text" name="erro_suporte">
-                <label>Onde ocorre:</label>
-                <input type="text" name="local_erro_suporte">
-                
-                <button type="submit">Enviar</button>
-            </form>
+                <div class="form-suporte">
+                    <form action="{% url 'suporte_usuario' %}" method="POST">
+                        <label>Erro / Dúvida:</label>
+                        <input type="text" name="erro_suporte">
 
-            <!-- <div class="modal-botoes">
-                <a href="" class="excluir-botao" id="botao-fechar">Agora não</a>
-                <a href="{% url 'visualizar_planos' %}" class="visualizar-editar-botao"></a>
-            </div> -->
+                        <label>Onde ocorre:</label>
+                        <input type="text" name="local_erro_suporte">
+
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+
+
+                <!-- <div class="modal-botoes">
+                    <a href="" class="excluir-botao" id="botao-fechar">Agora não</a>
+                    <a href="{% url 'visualizar_planos' %}" class="visualizar-editar-botao"></a>
+                </div> -->
+            </div>
         </div>
-    </div>
-</dialog>
+    </dialog>
+{% endblock %}
 
-<script>
-    document.addEventListener("DOMContentLoaded", () =>{
+{% block js_extra %}
+    <script>
         const modal_suporte = document.getElementById('modal_suporte');
-        modal_suporte.showModal();
-    })
-</script>
+        document.addEventListener("DOMContentLoaded", () =>{
+            modal_suporte.showModal();
+        })
+    </script>
+{% endblock %}
