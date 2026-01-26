@@ -1058,7 +1058,7 @@ dialog[open] .modal-container-interno {
 .form-suporte form{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     width: 100%;
     padding-top: 10px;
     background-color: #F2F2F2;
@@ -1067,7 +1067,7 @@ dialog[open] .modal-container-interno {
 }
 
 .form-suporte form textarea,
-.form-suporte form input[type="submit"],
+.form-suporte form button[type="submit"],
 .form-suporte form input[type="date"],
 .form-suporte form input[type="text"] {
     width: 100%;
