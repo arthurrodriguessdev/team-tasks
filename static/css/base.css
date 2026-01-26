@@ -122,10 +122,11 @@
 /* aviso teste */
 .container-aviso-teste{
     display: flex;
+    align-items: center;
     background-color: #fff7ed;
     border-bottom: 2px solid #f97316;
     margin-left: 240px;
-    justify-content: start;
+    justify-content: center;
     height: 45px;
     padding-right: 25px;
 }
