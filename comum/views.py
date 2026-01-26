@@ -318,7 +318,83 @@ class EmailVerificationRequired(object):
         return response
 
 def suporte_usuario(request):
+    usuario = request.user
+
+    if usuario:
+        email_solicitante = usuario.email
+        username_solicitante = usuario.username
+
+    if request.method == 'POST':
+        erro = request.POST.get('erro_suporte')
+        local_erro = request.POST.get('local_erro_suporte')
+
+        try:
+            enviar_email_suporte(
+                email_solicitante,
+                username_solicitante,
+                erro,
+                local_erro
+            )
+
+        except Exception as error:
+            return HttpResponse(f'Ocorreu um erro: {error}')
+
     return render(request, 'pedir_suporte.html')
+
+def enviar_email_suporte(email, username, texto, local):
+    URL_ENVIAR_EMAIL = f'https://mail.zoho.com/api/accounts/{settings.ACCOUNT_ID_ZOHO}/messages'
+    access_token = gerar_token_zoho_email()
+    
+    if access_token:
+        SUBJECT = f'Ocorrência de erros ou dúvidas sobre o sistema.'
+        CONTENT = f'E-mail do usuário {email}. Username do usuário: {username}. Descrição: {texto}. Local: {local}'
+
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f'Zoho-oauthtoken {access_token}'
+        }
+
+        parametros_api = {
+            'fromAddress': settings.EMAIL_SUPORTE_DEFAULT,
+            'toAddress': settings.EMAIL_SUPORTE_DEFAULT,
+            'subject': SUBJECT,
+            'content': CONTENT,
+            'askReceipt' : 'yes'
+        }
+
+        try:
+            response = requests.post(url=URL_ENVIAR_EMAIL, json=parametros_api, headers=headers)
+            print(response.status_code)
+
+            if response.status_code == 200:
+                return redirect('exibir_dashboard')
+
+        except Exception as error:
+            return HttpResponse(f'Ocorreu um erro de requisição: {error}')
+    
+    return access_token
+
+def gerar_token_zoho_email():
+    URL_GERAR_TOKEN = f'https://accounts.zoho.com/oauth/v2/token'
+
+    parametros_api = {
+        'refresh_token': settings.REFRESH_TOKEN_ZOHO,
+        'client_id': settings.CLIENT_ID_ZOHO,
+        'client_secret': settings.CLIENT_SECRET_ZOHO,
+        'grant_type': 'refresh_token'
+    }
+
+    try:
+        response = requests.post(url=URL_GERAR_TOKEN, data=parametros_api).json()
+
+    except Exception as error:
+        return HttpResponse(f'Ocorreu um erro de integração: {error}')
+
+    if response and "access_token" in response:
+        return response['access_token']
+        
+    return HttpResponse('Ocorreu um erro inesperado.', status=response.status_code)
 
 # Páginas de erros personalizadas
 def forbidden(request, exception):

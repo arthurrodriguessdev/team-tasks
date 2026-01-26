@@ -11,6 +11,8 @@
 
                 <div class="form-suporte">
                     <form action="{% url 'suporte_usuario' %}" method="POST">
+                        {% csrf_token %}
+                        
                         <label>Erro / Dúvida:</label>
                         <input type="text" name="erro_suporte">
 

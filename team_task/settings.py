@@ -131,5 +131,13 @@ TOKEN_API_MERCADOPAGO = config('TOKEN_API_MERCADOPAGO')
 PAGAMENTO_ATIVO = True
 
 # Configurações E-MAILS
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# - Brevo (código verificação)
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 TOKEN_API_BREVO = config('TOKEN_API_BREVO')
+
+# - Zoho (Suporte)
+REFRESH_TOKEN_ZOHO = config('REFRESH_TOKEN_ZOHO')
+CLIENT_ID_ZOHO = config('CLIENT_ID_ZOHO')
+CLIENT_SECRET_ZOHO = config('CLIENT_SECRET_ZOHO')
+ACCOUNT_ID_ZOHO = config('ACCOUNT_ID_ZOHO')
+EMAIL_SUPORTE_DEFAULT = config('EMAIL_SUPORTE_DEFAULT')
