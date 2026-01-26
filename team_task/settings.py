@@ -69,16 +69,39 @@ WSGI_APPLICATION = 'team_task.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# Banco produção
+NAME_DB_PROD= config('NAME_DB_PROD')
+USER_DB_PROD= config('USER_DB_PROD')
+PASSWORD_DB_PROD= config('PASSWORD_DB_PROD')
+HOST_DB_PROD= config('HOST_DB_PROD')
+PORT_DB_PROD= config('PORT_DB_PROD')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'stasker_db',
-        'USER': 'admin',
-        'PASSWORD': 'ZwVE7ZZe5FQuX4JX1rrXtghNkrSn71AF',
-        'HOST': 'dpg-d5n3d06mcj7s73cece90-a',
-        'PORT': '5432'
+        'NAME': NAME_DB_PROD,
+        'USER': USER_DB_PROD,
+        'PASSWORD': PASSWORD_DB_PROD,
+        'HOST': HOST_DB_PROD,
+        'PORT': PORT_DB_PROD
     }
 }
+
+# banco de desenvolvimento
+NAME_DB_DEV= config('NAME_DB_DEV')
+USER_DB_DEV= config('USER_DB_DEV')
+PASSWORD_DB_DEV= config('PASSWORD_DB_DEV')
+PORT_DB_DEV= config('PORT_DB_DEV')
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': NAME_DB_DEV,
+#         'USER': USER_DB_DEV,
+#         'PASSWORD': PASSWORD_DB_DEV,
+#         'PORT': PORT_DB_DEV
+#     }
+# }
 
 
 # Password validation

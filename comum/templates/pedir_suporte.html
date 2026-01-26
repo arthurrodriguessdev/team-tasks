@@ -6,7 +6,13 @@
     <dialog id="modal_suporte">
         <div class="modal-container-externo">
             <div class="modal-container-interno">
-                <h3 class="titulo-modal">Solicitar Suporte</h3>
+                <div class="modal-suporte-header">
+                    <h3 class="titulo-modal">Solicitar Suporte</h3>
+                    <a href="{% url 'exibir_dashboard' %}" id="botao_fechar_modal">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+
                 <p class="paragrafo-modal">Preencha os campos abaixo de acordo com sua dúvida.</p>
 
                 <div class="form-suporte">
@@ -22,12 +28,6 @@
                         <button type="submit">Enviar</button>
                     </form>
                 </div>
-
-
-                <!-- <div class="modal-botoes">
-                    <a href="" class="excluir-botao" id="botao-fechar">Agora não</a>
-                    <a href="{% url 'visualizar_planos' %}" class="visualizar-editar-botao"></a>
-                </div> -->
             </div>
         </div>
     </dialog>
@@ -35,8 +35,8 @@
 
 {% block js_extra %}
     <script>
-        const modal_suporte = document.getElementById('modal_suporte');
         document.addEventListener("DOMContentLoaded", () =>{
+            const modal_suporte = document.getElementById('modal_suporte');
             modal_suporte.showModal();
         })
     </script>

@@ -740,6 +740,27 @@ td a:hover{
     min-height: 200px;
 }
 
+/* Adaptações do modal de suporte ao usuário */
+.modal-suporte-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* 'x' de fechar o modal */
+.modal-suporte-header a{
+    text-decoration: none;
+}
+
+.modal-suporte-header a i{
+    color: rgb(111, 111, 111);
+    transition: all 0.2s ease;
+}
+
+.modal-suporte-header a i:hover{
+    color: rgb(36, 36, 36);
+}
+
 .modal-botoes{
     margin-top: 25px;
     gap: 10px;
@@ -1046,6 +1067,7 @@ dialog[open] .modal-container-interno {
 }
 
 .form-suporte form textarea,
+.form-suporte form input[type="submit"],
 .form-suporte form input[type="date"],
 .form-suporte form input[type="text"] {
     width: 100%;
