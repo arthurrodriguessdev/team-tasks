@@ -4,6 +4,10 @@
 {% block content %}
     {{ block.super }}
 
+    {% if messages %}
+        {% include 'messages.html' %}
+    {% endif %}
+
     <div class="dashboard-container">
 
         <div class="card-container-dashboard">

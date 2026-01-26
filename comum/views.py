@@ -329,12 +329,16 @@ def suporte_usuario(request):
         local_erro = request.POST.get('local_erro_suporte')
 
         try:
-            enviar_email_suporte(
+            response = enviar_email_suporte(
                 email_solicitante,
                 username_solicitante,
                 erro,
                 local_erro
             )
+
+            if response.status_code == 200:
+                messages.success(request, 'Sua dúvida foi enviada com sucesso. Nossa equipe irá investigar sua solicitação.')
+                return redirect('exibir_dashboard')
 
         except Exception as error:
             return HttpResponse(f'Ocorreu um erro: {error}')
@@ -347,7 +351,13 @@ def enviar_email_suporte(email, username, texto, local):
     
     if access_token:
         SUBJECT = f'Ocorrência de erros ou dúvidas sobre o sistema.'
-        CONTENT = f'E-mail do usuário {email}. Username do usuário: {username}. Descrição: {texto}. Local: {local}'
+
+        HTML_CONTENT = ''
+        HTML_CONTENT += f'<h2>- Erro / Dúvida:</h2>'
+        HTML_CONTENT += f'<p>{texto}</p></br>'
+        HTML_CONTENT += f'<p>- Local de ocorrência: <strong>{local}</strong></p>'
+        HTML_CONTENT += f'<p>- E-mail do usuário: <strong>{email}</strong></p>'
+        HTML_CONTENT += f'<p>- Username do usuário: <strong>{username}</strong></p>'
 
         headers = {
             'Accept': 'application/json',
@@ -359,21 +369,19 @@ def enviar_email_suporte(email, username, texto, local):
             'fromAddress': settings.EMAIL_SUPORTE_DEFAULT,
             'toAddress': settings.EMAIL_SUPORTE_DEFAULT,
             'subject': SUBJECT,
-            'content': CONTENT,
-            'askReceipt' : 'yes'
+            'content': HTML_CONTENT,
+            'askReceipt' : 'yes',
+            'mailFormat': 'html'
         }
 
         try:
             response = requests.post(url=URL_ENVIAR_EMAIL, json=parametros_api, headers=headers)
-            print(response.status_code)
-
-            if response.status_code == 200:
-                return redirect('exibir_dashboard')
+            return response
 
         except Exception as error:
             return HttpResponse(f'Ocorreu um erro de requisição: {error}')
-    
-    return access_token
+        
+    return HttpResponse(f'Erro de identificação.')
 
 def gerar_token_zoho_email():
     URL_GERAR_TOKEN = f'https://accounts.zoho.com/oauth/v2/token'
