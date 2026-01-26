@@ -900,6 +900,10 @@ dialog[open] .modal-container-interno {
     color: #00ff6a;
 }
 
+.item-plano i.fa-times{
+    color: #cc0e01;
+}
+
 .item-plano{
     color: #f8f9fa;
 }
@@ -1066,8 +1070,25 @@ dialog[open] .modal-container-interno {
     border-radius: 7px;
 }
 
+.form-suporte form button[type="submit"]{
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #013e6f;
+    border: solid 1px #013e6f;
+    border-radius: 6px;
+    outline: none;
+    transition: all 0.2s ease;
+    margin-bottom: 4px;
+}
+
+.form-suporte form button[type="submit"]:hover{
+    background-color: #013e6f;
+    color: #fff;
+    cursor: pointer;
+}
+
 .form-suporte form textarea,
-.form-suporte form button[type="submit"],
 .form-suporte form input[type="date"],
 .form-suporte form input[type="text"] {
     width: 100%;
