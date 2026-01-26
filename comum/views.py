@@ -327,6 +327,10 @@ def suporte_usuario(request):
     if request.method == 'POST':
         erro = request.POST.get('erro_suporte')
         local_erro = request.POST.get('local_erro_suporte')
+    
+        if not erro or not local_erro:
+            messages.error(request, 'Não foi possível enviar o chamado. Preencha a descrição do erro e o local onde ele ocorre.')
+            return redirect('exibir_dashboard')
 
         try:
             response = enviar_email_suporte(
