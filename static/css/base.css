@@ -121,6 +121,29 @@
 
 /* aviso teste */
 .container-aviso-teste{
+    margin-left: 240px;
+    height: 40px;
+    padding-right: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.aviso-teste{
+    max-width: 900px;
+    width: 100%;
+    background-color: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-left: 5px solid #f97316;
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #7c2d12;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* .container-aviso-teste{
     display: flex;
     align-items: center;
     background-color: #ffdd00;
@@ -134,7 +157,8 @@
     margin-left: 70px;
     font-size: 18px;
     text-align: center;
-}
+} */
+
 
 .adicionar-participante-icone{
     font-size: 12px;
