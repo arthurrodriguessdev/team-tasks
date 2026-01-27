@@ -9,13 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@(aggv(c-8&bv@c263fpdk=i-09$vrwqf(3w!z(st_xre0bxa^'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # tirar * do allowed hosts
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'stasker.onrender.com', 'www.stasker.onrender.com']
 
 
 # Application definition
@@ -155,7 +155,6 @@ PAGAMENTO_ATIVO = True
 
 # Configurações E-MAILS
 # - Brevo (código verificação)
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 TOKEN_API_BREVO = config('TOKEN_API_BREVO')
 
 # - Zoho (Suporte)

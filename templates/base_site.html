@@ -12,7 +12,12 @@
     <!-- Carregar o CSS do Select2 do CDN -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     {% block extra_css %}{% endblock %}
-    {% block title %}<title>Document</title>{% endblock %}
+
+    {% if titulo_pagina %}
+        <title>{{ titulo_pagina }}</title>
+    {% else %}
+        <title>Stasker | Gerenciamento</title>
+    {% endif %}
 
 </head>
 <body>

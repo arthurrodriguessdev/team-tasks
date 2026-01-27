@@ -47,7 +47,7 @@ def cadastrar_usuario(request):
         form = UsuarioCadastroForm()
 
     contexto = {
-        'titulo_pagina': 'Team Task | Entrar',
+        'titulo_pagina': 'Stasker | Criar conta',
         'form': form,
         'url_view': 'cadastro_usuario',
         'titulo': 'Team Tasks',
@@ -84,7 +84,7 @@ def login_usuario(request):
         form = UsuarioLoginForm()
 
     contexto = {
-        'titulo_pagina': 'Team Task | Entrar',
+        'titulo_pagina': 'Stasker | Entrar',
         'form': form,
         'url_view': 'login_usuario',
         'titulo': 'Bem-vindo novamente!',
