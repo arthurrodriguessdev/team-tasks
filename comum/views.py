@@ -50,7 +50,7 @@ def cadastrar_usuario(request):
         'titulo_pagina': 'Stasker | Criar conta',
         'form': form,
         'url_view': 'cadastro_usuario',
-        'titulo': 'Team Tasks',
+        'titulo': 'Stasker Gerenciamento',
         'paragrafo': 'Um software feito para facilitar a realização de projetos e entregas de empresas!',
         'titulo_form': 'Cadastro',
     }
