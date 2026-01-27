@@ -157,7 +157,7 @@ def exibir_dashboard(request):
 
 def exibir_onboarding(request):
     contexto = {
-        'titulo': 'Bem vindo ao TaskTeam',
+        'titulo': 'Bem vindo ao Stasker',
         'subtitulo': 'Organize equipes, tarefas e responsabilidades em um só lugar',
         'titulo_container': 'Vamos começar?',
         'subtitulo_container': 'Escolha uma das opções abaixo para começar.'
