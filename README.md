@@ -72,6 +72,13 @@ O **Stasker** está disponível na internet, o acesso pode ser realizado ao clic
 ## Demonstração do Sistema
 <img src="/docs/images/tela_login.png" alt="Tela de login"></img>
 <img src="/docs/images/dashboard_pessoal.png" alt="Dashboard pessoal"></img>
+<img src="/docs/images/visualizar_organizacao.png" alt="Visualização da organização"></img>
+<img src="/docs/images/convidar_participantes.png" alt="Convidar participantes"></img>
+<img src="/docs/images/visualizar_convite.png" alt="Visualizar convite"></img>
+<img src="/docs/images/bloqueador_plano_gratuito.png" alt="Bloqueado de plano"></img>
+<img src="/docs/images/visualizar_planos.png.png" alt="Visualizar planos"></img>
+<img src="/docs/images/suporte_usuario.png" alt="Suporte"></img>
+<img src="/docs/images/exemplo_email.png" alt="E-mai suporte"></img>
 
 ## Licença
 - Uso comercial não permitido
