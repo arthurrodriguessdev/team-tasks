@@ -338,13 +338,16 @@ def suporte_usuario(request):
             return redirect('exibir_dashboard')
 
         try:
-            response = enviar_email_suporte(
-                email_solicitante,
-                username_solicitante,
-                erro,
-                local_erro
-            )
+            SUBJECT = f'Ocorrência de erros ou dúvidas sobre o sistema.'
 
+            HTML_CONTENT = ''
+            HTML_CONTENT += f'<h2>- Erro / Dúvida:</h2>'
+            HTML_CONTENT += f'<p>{erro}</p></br>'
+            HTML_CONTENT += f'<p>- Local de ocorrência: <strong>{local_erro}</strong></p>'
+            HTML_CONTENT += f'<p>- E-mail do usuário: <strong>{email_solicitante}</strong></p>'
+            HTML_CONTENT += f'<p>- Username do usuário: <strong>{username_solicitante}</strong></p>'
+
+            response = enviar_email(settings.EMAIL_SUPORTE_DEFAULT, SUBJECT, HTML_CONTENT)
             if response.status_code == 200:
                 messages.success(request, 'Sua dúvida foi enviada com sucesso. Nossa equipe irá investigar sua solicitação.')
                 return redirect('exibir_dashboard')
@@ -353,43 +356,6 @@ def suporte_usuario(request):
             return HttpResponse(f'Ocorreu um erro: {error}')
 
     return render(request, 'pedir_suporte.html')
-
-def enviar_email_suporte(email, username, texto, local):
-    access_token = gerar_token_zoho_email()
-    
-    if access_token:
-        SUBJECT = f'Ocorrência de erros ou dúvidas sobre o sistema.'
-
-        HTML_CONTENT = ''
-        HTML_CONTENT += f'<h2>- Erro / Dúvida:</h2>'
-        HTML_CONTENT += f'<p>{texto}</p></br>'
-        HTML_CONTENT += f'<p>- Local de ocorrência: <strong>{local}</strong></p>'
-        HTML_CONTENT += f'<p>- E-mail do usuário: <strong>{email}</strong></p>'
-        HTML_CONTENT += f'<p>- Username do usuário: <strong>{username}</strong></p>'
-
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': f'Zoho-oauthtoken {access_token}'
-        }
-
-        parametros_api = {
-            'fromAddress': settings.EMAIL_SUPORTE_DEFAULT,
-            'toAddress': settings.EMAIL_SUPORTE_DEFAULT,
-            'subject': SUBJECT,
-            'content': HTML_CONTENT,
-            'askReceipt' : 'yes',
-            'mailFormat': 'html'
-        }
-
-        try:
-            response = requests.post(url=URL_ENVIAR_EMAIL, json=parametros_api, headers=headers)
-            return response
-
-        except Exception as error:
-            return HttpResponse(f'Ocorreu um erro de requisição: {error}')
-        
-    return HttpResponse(f'Erro de identificação.')
 
 def gerar_token_zoho_email():
     parametros_api = {
