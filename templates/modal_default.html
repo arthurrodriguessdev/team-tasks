@@ -5,8 +5,17 @@
                 <p class="paragrafo-modal">{{ paragrafo_modal }}</p>
 
                 <div class="modal-botoes">
-                    <a href="" class="excluir-botao" id="botao-fechar">Agora não</a>
-                    <a href="{% url 'visualizar_planos' %}" class="visualizar-editar-botao">Ver planos</a>
+                    {% if titulo_botao_danger %}
+                        <a href="" class="excluir-botao" id="botao-fechar">{{ titulo_botao_danger }}</a>
+                    {% else %}
+                        <a href="" class="excluir-botao" id="botao-fechar">Agora não</a>
+                    {% endif %}
+
+                    {% if titulo_botao_view %}
+                        <a href="{% if url_view  %}{% url url_view %}{% endif %}" class="visualizar-editar-botao">{{ titulo_botao_view }}</a>
+                    {% else %}
+                        <a href="{% url 'visualizar_planos' %}" class="visualizar-editar-botao">Ver planos</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

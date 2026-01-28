@@ -135,11 +135,13 @@
                                 <!-- link que necessita de id de objeto -->
                                 {% if botao.id_item %}
                                     <a href="{% url botao.url botao.id_item %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
+                                {% elif botao.id %}
+                                    <a href="{% url botao.url %}" class="{{ botao.classe }}" id="{{ botao.id }}">{{ botao.nome }}</a>
                                 {% else %}
-
                                 <!-- link que NÃO necessita de id de objeto -->
                                 <a href="{% url botao.url %}" class="{{ botao.classe }}">{{ botao.nome }}</a>
                                 {% endif %}
+                                
                             {% endif %}
                         {% endfor %}
                     {% endblock %}

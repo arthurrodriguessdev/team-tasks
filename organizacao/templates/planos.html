@@ -7,6 +7,8 @@
         {% include 'messages.html' %}
     {% endif %}
     
+    {% include 'modal_default.html' %}
+    
     <div class="container-planos-externo">
         <div class="card-plano">
             <div class="conteudo">
@@ -58,4 +60,22 @@
             </div>
         </div>
     </div>
+    {% block js_extra %}
+        <script>
+            const botao_ajuda = document.getElementById('ajuda_planos');
+            const modal = document.getElementById('equipe_erro');
+            const botao_fechar = document.getElementById('botao-fechar');
+
+            if(botao_ajuda){
+                botao_ajuda.addEventListener("click", (e)=>{
+                    e.preventDefault();
+                    modal.showModal();
+                })
+            }
+
+            if(botao_fechar){
+                modal.close();
+            }
+        </script>
+    {% endblock %}
 {% endblock %}

@@ -287,11 +287,19 @@ def planos_organizacao(request):
 
     contexto = {
         'titulo': 'Planos e Preços',
+        'titulo_modal': 'Precisa de ajuda para escolher?',
+        'paragrafo_modal': 'Se você tiver qualquer dúvida sobre os planos, valores ou funcionalidades, estamos aqui para ajudar. Nossa equipe pode orientar você a '
+        'escolher a melhor opção para a sua empresa.',
+
+        'titulo_botao_danger': 'Fechar',
+        'titulo_botao_view': 'Falar com Suporte',
+        'url_view': 'suporte_usuario',
         'botoes': [
             {
                 'nome': 'Ajuda',
                 'classe': 'visualizar-editar-botao',
-                'url': 'exibir_dashboard'
+                'url': 'exibir_dashboard',
+                'id': 'ajuda_planos'
             }
         ]
     }
