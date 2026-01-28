@@ -82,6 +82,6 @@ class CodigoEmail(models.Model):
         return f'{self.usuario.nome} ({self.codigo_verificacao})'
 
 class TokenAlterarSenha(models.Model):
-    token_codigo = models.CharField(max_length=8)
+    token_codigo = models.CharField(max_length=8, unique=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='token')
     validade = models.DateTimeField(blank=True, null=True)

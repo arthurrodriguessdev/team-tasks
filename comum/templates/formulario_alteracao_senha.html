@@ -5,13 +5,9 @@
     <p>Escolha uma nova senha para continuar acessando sua conta com segurança. Lembre-se sempre de guardá-la em um lugar seguro.</p>
     
     <div class="container-form-nova-senha">
-        <form action="{% url 'redefinicao_senha' token %}" method="POST">
+        <form action="{% url 'redefinicao_senha' token id_user %}" method="POST">
             {% csrf_token %}
-            
-            <label>Senha:</label>
-            <input type="password" name="nova_senha">
-            <label>Confirmação de senha:</label>
-            <input type="password" name="confirmacao_nova_senha">
+            {{ form.as_p }}
 
             <button type="submit" class="adicionar-botao">Salvar</button>
         </form>

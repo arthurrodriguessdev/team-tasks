@@ -119,5 +119,11 @@ class VincularResponsaveisForm(forms.ModelForm):
             self.fields['responsaveis'].queryset = Usuario.objects.none()
 
 
-...
+class RecuperacaoSenhaForm(UsuarioCadastroForm):
+    class Meta:
+        model = Usuario
+        fields = ('password', 'password_confirmacao')
+    
+    def clean_password(self):
+        return super().clean_password()
         

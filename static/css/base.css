@@ -1126,19 +1126,32 @@ dialog[open] .modal-container-interno {
 }
 
 /* formulario recuperação de senha */
+.container-form-nova-senha{
+    display: flex;
+}
+
+.container-form-nova-senha form p{
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    gap: 6px;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
 .container-form-nova-senha form{
     display: flex;
     flex-direction: column;
-    width: 40vh;
     gap: 10px;
+    width: 100%;
 }
 
-.container-form-nova-senha form button,
-.container-form-nova-senha form input{
+.container-form-nova-senha form p input{
     background-color: #FAFAFA;
     border-radius: 7px;
     width: 300px;
     padding: 8px;
     border: solid 1px #C9C9C9;
     transition: all 0.3s ease;
+    width: 100%;
 }

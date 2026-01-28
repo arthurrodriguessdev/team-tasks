@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsaveisForm
+from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsaveisForm, RecuperacaoSenhaForm
 from comum.models import Usuario, MembroEquipe, CodigoEmail, TokenAlterarSenha
 from tarefa.models import Tarefa
 from comum.utils import criar_codigo_usuario, criar_codigo_verificacao_email, gerar_token_alterar_senha
@@ -410,7 +410,6 @@ def gerar_token_zoho_email():
         
     return HttpResponse('Ocorreu um erro inesperado.', status=response.status_code)
 
-@EmailVerificationRequired
 def alterar_senha(request):
     if request.method == 'POST':
         email = request.POST.get('email_trocar_senha')
@@ -436,9 +435,9 @@ def alterar_senha(request):
                validade=validade
             )
 
-            token = TokenAlterarSenha.objects.filter(usuario=usuario).first()
+            token = TokenAlterarSenha.objects.get(usuario=usuario)
 
-            URL_ALTERAR_SENHA = request.build_absolute_uri(reverse('redefinicao_senha', args=[token.token_codigo]))
+            URL_ALTERAR_SENHA = request.build_absolute_uri(reverse('redefinicao_senha', args=[token.token_codigo, usuario.pk]))
             
             ASSUNTO = 'Recuperação de senha'
             HTML_CONTENT = ''
@@ -446,8 +445,9 @@ def alterar_senha(request):
             HTML_CONTENT += f'<p>Acesse o link abaixo e realize a recuperação de senha da sua conta</p><br>'
             HTML_CONTENT += f'<a href="{URL_ALTERAR_SENHA}">{URL_ALTERAR_SENHA}</a>'
 
-            response = enviar_email(usuario.email, ASSUNTO, HTML_CONTENT)
+            response = enviar_email(email, ASSUNTO, HTML_CONTENT)
             if response.status_code != 200:
+                token.delete()
                 messages.error(request, 'A requisição de e-mail não foi atendida. Tente novamente mais tarde.')
             
             messages.success(request, 'Foi enviado um link de recuperação de senha para seu e-mail. (válido por 10 minutos).')
@@ -462,25 +462,41 @@ def alterar_senha(request):
 def cadastrar_nova_senha(request, *args, **kwargs):
     try:
         token = kwargs['token']
-        registro_token = TokenAlterarSenha.objects.filter(token_codigo=token).first()
-
-        if registro_token is None or registro_token.validade > timezone.now():
+        id_user = kwargs['id_usuario']
+        
+        usuario = Usuario.objects.get(pk=id_user)
+        registro_token = TokenAlterarSenha.objects.get(token_codigo=token, usuario=usuario)
+        
+        if registro_token is None or registro_token.validade < timezone.now():
+            registro_token.delete()
             messages.error(request, 'A validade do token expirou, realize a solicitação novamente.')
             return redirect('alterar_senha')
 
     except Exception as error:
         print(f'Erro: {error}')
+        registro_token.delete()
         return HttpResponse('Ocorreu um erro inesperado. Tente novamente mais tarde.')
     
     if request.method == 'POST':
-        nova_senha = request.POST.get('nova_senha')
-        confirmacao_senha = request.POST.get('nova_senha_confirmacao')
+        form = RecuperacaoSenhaForm(request.POST, instance=usuario)
 
-        messages.success(request, 'Senha recuperada com sucesso. Realize login novamente.')
-        return redirect('login_usuario')
+        if form.is_valid():
+            usuario.set_password(form.cleaned_data['password'])
+            usuario.save()
+
+            tokens = usuario.token.all()
+            tokens.delete()
+            messages.success(request, 'Senha recuperada com sucesso. Realize login novamente.')
+            return redirect('login_usuario')
+        
+        messages.error(request, 'O formulário enviado está inválido.')
+        return redirect('redefinicao_senha', token, id_user)
     
+    form = RecuperacaoSenhaForm(instance=usuario)
     contexto = {
-        'token': token
+        'token': token,
+        'form': form,
+        'id_user': id_user
     }
 
     return render(request, 'formulario_alteracao_senha.html', contexto)

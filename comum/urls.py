@@ -23,5 +23,5 @@ urlpatterns = [
 
     path('suporte/', suporte_usuario, name='suporte_usuario'),
     path('alterar_senha/', alterar_senha, name='alterar_senha'),
-    path('credenciais/<str:token>/redefinicao_senha/', cadastrar_nova_senha,name='redefinicao_senha')
+    path('credenciais/<str:token>/redefinicao_senha/<int:id_usuario>', cadastrar_nova_senha,name='redefinicao_senha')
 ]
