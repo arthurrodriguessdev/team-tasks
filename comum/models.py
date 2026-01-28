@@ -80,3 +80,8 @@ class CodigoEmail(models.Model):
 
     def __str__(self):
         return f'{self.usuario.nome} ({self.codigo_verificacao})'
+
+class TokenAlterarSenha(models.Model):
+    token_codigo = models.CharField(max_length=8)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='token')
+    validade = models.DateTimeField(blank=True, null=True)

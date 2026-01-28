@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.utils import timezone
+import datetime
+from django.urls import reverse
 import requests
 from django.conf import settings
 from django.http import JsonResponse
@@ -9,11 +11,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from comum.forms import UsuarioCadastroForm, UsuarioLoginForm, VincularResponsaveisForm
-from comum.models import Usuario, MembroEquipe, CodigoEmail
+from comum.models import Usuario, MembroEquipe, CodigoEmail, TokenAlterarSenha
 from tarefa.models import Tarefa
-from comum.utils import criar_codigo_usuario, criar_codigo_verificacao_email
+from comum.utils import criar_codigo_usuario, criar_codigo_verificacao_email, gerar_token_alterar_senha
 from organizacao.models import Organizacao, MembroOrganizacao, ConviteOrganizacao
 from equipe.models import Equipe
+
+URL_ENVIAR_EMAIL = f'https://mail.zoho.com/api/accounts/{settings.ACCOUNT_ID_ZOHO}/messages'
+URL_GERAR_TOKEN = f'https://accounts.zoho.com/oauth/v2/token'
 
 
 def cadastrar_usuario(request):
@@ -90,7 +95,7 @@ def login_usuario(request):
         'titulo': 'Bem-vindo novamente!',
         'paragrafo': 'Caso seja sua primeira vez por aqui, clique na opção de criar conta ao lado.',
         'titulo_form': 'Login',
-        'url_link': 'login_usuario',
+        'url_link': 'alterar_senha',
         'link_adicional': 'Esqueci minha senha',
         'texto_divisor': 'ou',
     }
@@ -350,7 +355,6 @@ def suporte_usuario(request):
     return render(request, 'pedir_suporte.html')
 
 def enviar_email_suporte(email, username, texto, local):
-    URL_ENVIAR_EMAIL = f'https://mail.zoho.com/api/accounts/{settings.ACCOUNT_ID_ZOHO}/messages'
     access_token = gerar_token_zoho_email()
     
     if access_token:
@@ -388,8 +392,6 @@ def enviar_email_suporte(email, username, texto, local):
     return HttpResponse(f'Erro de identificação.')
 
 def gerar_token_zoho_email():
-    URL_GERAR_TOKEN = f'https://accounts.zoho.com/oauth/v2/token'
-
     parametros_api = {
         'refresh_token': settings.REFRESH_TOKEN_ZOHO,
         'client_id': settings.CLIENT_ID_ZOHO,
@@ -407,6 +409,109 @@ def gerar_token_zoho_email():
         return response['access_token']
         
     return HttpResponse('Ocorreu um erro inesperado.', status=response.status_code)
+
+@EmailVerificationRequired
+def alterar_senha(request):
+    if request.method == 'POST':
+        email = request.POST.get('email_trocar_senha')
+
+        if email:
+            usuario = Usuario.objects.filter(email=email).first()
+
+            if usuario is None:
+                messages.error(request, 'Não encontramos nenhuma conta com esse e-mail.')
+                return redirect('alterar_senha')
+            
+            token_alterar_senha = gerar_token_alterar_senha()
+
+            if token_alterar_senha is None:
+                messages.error(request, 'Ocorreu algum erro. Tente novamente mais tarde.')
+                return redirect('alterar_senha')
+            
+            # criando token (válido por 10 min)
+            validade = timezone.now() + datetime.timedelta(minutes=10)
+            TokenAlterarSenha.objects.create(
+               token_codigo=token_alterar_senha,
+               usuario=usuario,
+               validade=validade
+            )
+
+            token = TokenAlterarSenha.objects.filter(usuario=usuario).first()
+
+            URL_ALTERAR_SENHA = request.build_absolute_uri(reverse('redefinicao_senha', args=[token.token_codigo]))
+            
+            ASSUNTO = 'Recuperação de senha'
+            HTML_CONTENT = ''
+            HTML_CONTENT += f'<h2>- Bem-vindo de volta!</h2>'
+            HTML_CONTENT += f'<p>Acesse o link abaixo e realize a recuperação de senha da sua conta</p><br>'
+            HTML_CONTENT += f'<a href="{URL_ALTERAR_SENHA}">{URL_ALTERAR_SENHA}</a>'
+
+            response = enviar_email(usuario.email, ASSUNTO, HTML_CONTENT)
+            if response.status_code != 200:
+                messages.error(request, 'A requisição de e-mail não foi atendida. Tente novamente mais tarde.')
+            
+            messages.success(request, 'Foi enviado um link de recuperação de senha para seu e-mail. (válido por 10 minutos).')
+            return redirect('login_usuario')
+            
+        else:
+            messages.error(request, 'O e-mail informado não é válido.')
+            return redirect('alterar_senha')
+
+    return render(request, 'verificacao_alterar_senha.html')
+
+def cadastrar_nova_senha(request, *args, **kwargs):
+    try:
+        token = kwargs['token']
+        registro_token = TokenAlterarSenha.objects.filter(token_codigo=token).first()
+
+        if registro_token is None or registro_token.validade > timezone.now():
+            messages.error(request, 'A validade do token expirou, realize a solicitação novamente.')
+            return redirect('alterar_senha')
+
+    except Exception as error:
+        print(f'Erro: {error}')
+        return HttpResponse('Ocorreu um erro inesperado. Tente novamente mais tarde.')
+    
+    if request.method == 'POST':
+        nova_senha = request.POST.get('nova_senha')
+        confirmacao_senha = request.POST.get('nova_senha_confirmacao')
+
+        messages.success(request, 'Senha recuperada com sucesso. Realize login novamente.')
+        return redirect('login_usuario')
+    
+    contexto = {
+        'token': token
+    }
+
+    return render(request, 'formulario_alteracao_senha.html', contexto)
+
+def enviar_email(to_email, assunto, conteudo_html):
+    access_token = gerar_token_zoho_email()
+
+    if access_token:
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f'Zoho-oauthtoken {access_token}'
+        }
+
+        parametros_api = {
+            'fromAddress': settings.EMAIL_SUPORTE_DEFAULT,
+            'toAddress': to_email,
+            'subject': assunto,
+            'content': conteudo_html,
+            'askReceipt' : 'yes',
+            'mailFormat': 'html'
+        }
+
+        try:
+            response = requests.post(url=URL_ENVIAR_EMAIL, json=parametros_api, headers=headers)
+            return response
+
+        except Exception as error:
+            return HttpResponse(f'Ocorreu um erro de requisição: {error}')
+        
+    return HttpResponse(f'Erro de identificação.')
 
 # Páginas de erros personalizadas
 def forbidden(request, exception):

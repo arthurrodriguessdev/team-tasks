@@ -1031,6 +1031,8 @@ dialog[open] .modal-container-interno {
     margin-top: 35px;
 }
 
+.container-interior-verificar-email form input[type="password"],
+.container-interior-verificar-email form input[type="email"],
 .container-interior-verificar-email form input[type="number"]{
     padding: 8px;
     border-radius: 3px;
@@ -1039,6 +1041,8 @@ dialog[open] .modal-container-interno {
     border: 1px solid #1C4045;
 }
 
+.container-interior-verificar-email form input[type="password"],
+.container-interior-verificar-email form input[type="email"],
 .container-interior-verificar-email form input[type="number"]:focus{
     border-radius: 5px;
 }
@@ -1119,4 +1123,22 @@ dialog[open] .modal-container-interno {
     margin-bottom: 4px;
     font-weight: 400;
     color: #6B7280;
+}
+
+/* formulario recuperação de senha */
+.container-form-nova-senha form{
+    display: flex;
+    flex-direction: column;
+    width: 40vh;
+    gap: 10px;
+}
+
+.container-form-nova-senha form button,
+.container-form-nova-senha form input{
+    background-color: #FAFAFA;
+    border-radius: 7px;
+    width: 300px;
+    padding: 8px;
+    border: solid 1px #C9C9C9;
+    transition: all 0.3s ease;
 }

@@ -117,4 +117,7 @@ class VincularResponsaveisForm(forms.ModelForm):
 
         else:
             self.fields['responsaveis'].queryset = Usuario.objects.none()
+
+
+...
         

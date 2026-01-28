@@ -1,0 +1,15 @@
+{% extends 'inserir_codigo_verificacao.html' %}
+
+{% block content %}
+    <h3>Esqueceu sua senha?</h3>
+    <p>Informe o e-mail cadastrado, tentaremos enviar o link de recuperação de senha.</p>
+    
+    <form action="{% url 'alterar_senha' %}" method="POST">
+        {% csrf_token %}
+        
+        <label>E-mail</label>
+        <input type="email" name="email_trocar_senha">
+
+        <button type="submit" class="visualizar-editar-botao">Verificar</button>
+    </form>
+{% endblock %}

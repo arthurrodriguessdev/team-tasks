@@ -10,23 +10,25 @@
 <body>
     <div class="container-exterior-verificar-email">
         <div class="container-interior-verificar-email">
-
+        
             {% if messages %}
                 {% include 'messages.html' %}
             {% endif %}
 
-            <h3>Verificação de E-mail</h3>
-            <p>Para continuar, enviamos um código de verificação de 6 dígitos para o e-mail cadastrado. Informe o código abaixo para concluir o acesso.</p>
-            
-            <form action="{% url 'enviar_email_codigo' %}" method="POST">
-                {% csrf_token %}
+            {% block content %}
+                <h3>Verificação de E-mail</h3>
+                <p>Para continuar, enviamos um código de verificação de 6 dígitos para o e-mail cadastrado. Informe o código abaixo para concluir o acesso.</p>
                 
-                <label>Insira o código de verificação:</label>
-                <input type="number" name="codigo_verificacao">
+                <form action="{% url 'enviar_email_codigo' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <label>Insira o código de verificação:</label>
+                    <input type="number" name="codigo_verificacao">
 
-                <button type="submit" class="visualizar-editar-botao">Verificar</button>
-            </form>
-            <a href="{% url 'enviar_email_codigo' %}" class="reenviar-codigo">Reenviar código</a>
+                    <button type="submit" class="visualizar-editar-botao">Verificar</button>
+                </form>
+                <a href="{% url 'enviar_email_codigo' %}" class="reenviar-codigo">Reenviar código</a>
+            {% endblock %}
         </div>
     </div>
 </body>

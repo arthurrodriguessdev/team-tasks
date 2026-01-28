@@ -3,7 +3,7 @@
 from django.db.models import Q
 import random
 import string
-from comum.models import Usuario, CodigoEmail
+from comum.models import Usuario, CodigoEmail, TokenAlterarSenha
 
 def pesquisar_objetos(termo, queryset, campos):
     if not termo:
@@ -40,3 +40,12 @@ def criar_codigo_verificacao_email():
             continue
 
         return codigo_verificacao
+
+def gerar_token_alterar_senha():
+    while True:
+        token_codigo = ''.join(random.choices(string.ascii_letters, k=8))
+
+        if TokenAlterarSenha.objects.filter(token_codigo=token_codigo).exists():
+            continue
+        
+        return token_codigo
