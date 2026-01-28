@@ -70,6 +70,8 @@ O **Stasker** está disponível na internet, o acesso pode ser realizado ao clic
 - Siga as instruções disponíveis na interface
 
 ## Demonstração do Sistema
+<img src="/docs/images/tela_login.png" alt="Tela de login"></img>
+<img src="/docs/images/dashboard_pessoal.png.png" alt="Dashboard pessoal"></img>
 
 ## Licença
 - Uso comercial não permitido
