@@ -12,10 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', cast=bool)
 
-# tirar * do allowed hosts
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'stasker.onrender.com', 'www.stasker.onrender.com']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda x: [host.strip() for host in x.split(',')])
 
 
 # Application definition
@@ -88,10 +87,10 @@ DATABASES = {
 }
 
 # banco de desenvolvimento
-NAME_DB_DEV= config('NAME_DB_DEV')
-USER_DB_DEV= config('USER_DB_DEV')
-PASSWORD_DB_DEV= config('PASSWORD_DB_DEV')
-PORT_DB_DEV= config('PORT_DB_DEV')
+# NAME_DB_DEV= config('NAME_DB_DEV')
+# USER_DB_DEV= config('USER_DB_DEV')
+# PASSWORD_DB_DEV= config('PASSWORD_DB_DEV')
+# PORT_DB_DEV= config('PORT_DB_DEV')
 
 # DATABASES = {
 #     'default': {
