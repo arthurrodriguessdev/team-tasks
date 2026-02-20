@@ -22,7 +22,7 @@ def criar_plano_pagar(usuario):
         "auto_recurring": {
             "frequency": 1,
             "frequency_type": "months",
-            "transaction_amount": 0.50,
+            "transaction_amount": 19.90,
             "currency_id": "BRL"
         },
 

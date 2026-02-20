@@ -46,7 +46,7 @@ def cadastrar_usuario(request):
             )
 
             messages.success(request, 'Usuário criado com sucesso. Verifique seu e-mail.')
-            return enviar_email_codigo(request)
+            return redirect('enviar_email_codigo')
         
     else:
         form = UsuarioCadastroForm()
@@ -251,13 +251,9 @@ def meu_perfil(request):
 
 def enviar_email_codigo(request):
     URL_API = 'https://api.brevo.com/v3/smtp/email'
+
     usuario = request.user
-
-    try:
-        codigo_email = CodigoEmail.objects.filter(usuario=usuario).first()
-
-    except:
-        codigo_email = criar_codigo_usuario(usuario)
+    codigo_email = CodigoEmail.objects.filter(usuario=usuario).first() or criar_codigo_usuario(usuario)
 
     if request.method == 'POST':
         codigo = str(request.POST.get('codigo_verificacao'))
