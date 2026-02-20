@@ -1,5 +1,12 @@
 from pathlib import Path
 from decouple import config
+import os
+from dotenv import load_dotenv
+from urllib.parse import urlparse, parse_qsl
+
+load_dotenv()
+
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,20 +76,15 @@ WSGI_APPLICATION = 'team_task.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 # Banco produção
-NAME_DB_PROD= config('NAME_DB_PROD')
-USER_DB_PROD= config('USER_DB_PROD')
-PASSWORD_DB_PROD= config('PASSWORD_DB_PROD')
-HOST_DB_PROD= config('HOST_DB_PROD')
-PORT_DB_PROD= config('PORT_DB_PROD')
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': NAME_DB_PROD,
-        'USER': USER_DB_PROD,
-        'PASSWORD': PASSWORD_DB_PROD,
-        'HOST': HOST_DB_PROD,
-        'PORT': PORT_DB_PROD
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
     }
 }
 
